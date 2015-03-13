@@ -1,0 +1,68 @@
+#mainContainer{
+	margin-top: 10px;
+	/*background-color: red;*/
+	/*padding: 5px;*/
+}
+
+#companyProfilePicImg{
+	width: 200px;
+	height: 200px;
+	border-width: 1px;
+	border-style: solid;
+	margin-bottom: 10px;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+
+#uploadCompanyLogoButtonDiv{
+	margin: auto;
+	/*background-color: blue;*/
+	text-align: center;
+}
+
+#uploadCompanyLogoButton{
+	margin: auto;
+}
+
+#companySetupProfileForm{
+	margin: 20px auto;
+}
+
+#companyLogoFile{
+	display: none;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: auto;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#companySetupProfileForm_Description{
+	margin-top: 40px;
+}
+
+
+#buttonGroup{
+	text-align: right;
+}
+
+#buttonGroup button{
+	margin: 5px 10px;
+	width: 150px;
+}

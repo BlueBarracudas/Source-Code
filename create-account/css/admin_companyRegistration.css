@@ -1,0 +1,36 @@
+body{
+	/*background-color: blue !important;*/
+	height: 100%;
+	width: 100%;
+}
+
+#buttonGroup{
+	/*background-color: red;*/
+	margin-top: 10px;
+	text-align: center;
+}
+
+#buttonGroup button{
+	margin: 10px 10px;
+	width: 200px;
+}
+
+.formBoxBorder{
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 10px;
+	text-align: center;
+	padding: 20px;
+	/*background-color: red;*/
+}
+
+#mainContainer{
+	/*background-color: red;*/
+	margin-top: 100px;
+
+}
+
+form p{
+	color: red;
+}
+
