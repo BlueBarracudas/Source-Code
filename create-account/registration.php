@@ -7,6 +7,8 @@
 <link rel="shortcut icon" href="">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <style>
     .container {
         width: 60%;
@@ -168,7 +170,7 @@ $('#DOBmonth').change(function() {
         <div class="form-group" id="bdayForm">
                  <label class="control-label col-md-offset-1 col-md-1" for="DOBmonth">Month:</label>
                 <div class="col-md-3">
-                    <select id="DOBmonth" name="DOBmonth" class="form-control" >
+                    <select id="DOBmonth" name="DOBMonth" class="form-control" >
                             <option value="01">January</option>
                             <option value="02">February</option>
                             <option value="03">March</option>
@@ -188,7 +190,7 @@ $('#DOBmonth').change(function() {
         <div class="form-group">
                   <label class="control-label col-md-offset-1 col-md-1" for="DOBday">Day:</label>
                 <div class="col-md-3">
-                    <select id="DOBday" name="DOBday" class="form-control">
+                    <select id="DOBday" name="DOBDay" class="form-control">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -203,7 +205,7 @@ $('#DOBmonth').change(function() {
         <div class="form-group">
                   <label class="control-label col-md-offset-1 col-md-1" for="DOByear">Year:</label>
                 <div class="col-md-3">
-                    <select id="DOByear" name="DOByear" class="form-control">
+                    <select id="DOByear" name="DOBYear" class="form-control">
             <option value="1996">1996</option>
     <option value="1995">1995</option>
     <option value="1994">1994</option>
@@ -302,6 +304,4 @@ $('#DOBmonth').change(function() {
     </form>
 </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </html>
