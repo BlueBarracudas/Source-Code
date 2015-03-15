@@ -141,6 +141,10 @@
 			$last_appId = (string) $last_appId;
 
 			/* Get all form data */
+			if (!empty($_POST["studentid"])) {
+     			$last_appId = test_input($_POST["studentid"]);
+   			}
+
 			if (empty($_POST["fname"])) {
      			$fnErr = "First name is required";
      			$isErr = true;
@@ -200,16 +204,17 @@
    			}
 
    			if (empty($_POST["confirmPassword"])) {
-     			$cpErr = "Confim password is required";
+     			$cpErr = "Confirm password is required";
      			$isErr = true;
    			} else {
-     			$conPass = test_input($_POST["password"]);
+     			$conPass = test_input($_POST["confirmPassword"]);
      				// check if name only contains letters and whitespace
      			if (preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/", $conPass)) {
        				$cpErr = "Password does not meet the requirements"; 
        				$isErr = true;
      			}
-     			else if($conPass !== $password)
+
+     			if(strcmp($conPass, $password) != 0)
      			{
      				$cpErr = "Password does not match";
      				$isErr = true;
