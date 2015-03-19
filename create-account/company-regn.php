@@ -1,9 +1,3 @@
-<?php 
-
-  include 'logic_companyregister.php' 
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,12 +15,6 @@
   <script src="js/jquery-2.1.3.js"></script>
   <script src="js/bootstrap.min.js"></script>
 
-  <style>
-  p{
-    color: red;
-  }
-
-  </style>
 <!-- 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://">
@@ -36,6 +24,8 @@
 </head>
 
 <body>
+
+<?php include 'logic_company-regn.php' ?>
 
 <div id="mainContainer" class="container-fluid">
 

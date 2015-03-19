@@ -11,17 +11,16 @@ body{
 }
 
 #buttonGroup button{
-    margin: 0px 10px;
-    width: 100px;
-	/*width: 200px;*/
+	margin: 10px 10px;
+	width: 200px;
 }
 
 .formBoxBorder{
 	border-width: 2px;
 	border-style: solid;
-/*	border-radius: 10px;*/
+	border-radius: 10px;
 	text-align: center;
-	padding-top: 12px;
+	padding: 20px;
 	/*background-color: red;*/
 }
 
@@ -31,12 +30,7 @@ body{
 
 }
 
-.form-group {
-	text-align: left;
-}
-
-.form-horizontal .control-label{
-/* text-align:right; */
-text-align:left;
+form p{
+	color: red;
 }
 

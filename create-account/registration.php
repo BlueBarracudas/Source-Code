@@ -1,9 +1,3 @@
-<?php 
-
-include 'logic_applicantregister.php' 
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,9 +30,11 @@ include 'logic_applicantregister.php'
         color:red;
         display: inline;
     }
+
     #message{
         color: black;
     }
+
 </style>
 
 <script>
@@ -71,11 +67,17 @@ $('#DOBmonth').change(function() {
     }
     $('#DOBday').html(options);
 });
+
+
 });
 </script>
 
 </head>
 <body>
+
+<?php include 'logic_loginregister.php' ?>
+
+
 
 <div class="container">
     <?php include 'header.php' ?>
@@ -295,9 +297,8 @@ $('#DOBmonth').change(function() {
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-5 col-md-5 btn-group">
+            <div class="col-md-offset-5 col-md-6 btn-group">
                 <input type="submit" class="btn btn-success" value ="Create account"></input>
-                <a href="main_login.php"><input type="button" class="btn btn-danger" value ="Cancel"/></a>
             </div>
         </div>
     </form>

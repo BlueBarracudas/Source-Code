@@ -66,35 +66,3 @@
 	margin: 5px 10px;
 	width: 150px;
 }
-
-.form-horizontal .control-label{
-/* text-align:right; */
-text-align:left;
-}
-
-
-#temp{
-	/*background-color: green;*/
-}
-
-#profilePicCol{
-	margin-top: 30px;
-	/*background-color: red;*/
-	margin-left: 234px;
-}
-
-#companySetupProfileForm{
-	/*background-color: blue;*/
-	margin: 0px;
-	/*padding-right:  20px;*/
-}
-
-.wrapper{
-	/*width: 1140px;*/
-	/*background-color: blue;*/
-	margin: 0 auto;
-}
-
-#uploadCompanyLogoButtonDiv{
-	margin-bottom: 10px;
-}
