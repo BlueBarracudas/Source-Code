@@ -4,8 +4,9 @@ if ( window.addEventListener ) {
 	    if ( e.keyCode == konami[state] ) state++;  
 	    else state = 0;  
 	    if ( state == 10 ) {
-	    	var div = document.getElementById('loginHeader');
-	    	div.innerHTML += ' as Admin';
+	    	//var div = document.getElementById('loginHeader');
+	    	//div.innerHTML += ' as Admin';
+            window.location="admin_sign_in.php";
 	    } 
 	    }, true);  
 	} 
