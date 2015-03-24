@@ -1,4 +1,20 @@
 <?php 
+  session_start();
+
+  include 'header.php';
+  include 'MVC/controller.php';
+
+  loadAll();  
+
+  if(isset($_SESSION["account_id"]))
+  {
+      $ac = getLoggedInAccount($_SESSION["account_id"]);
+      $admin_name = $ac->get_email();
+  } else {
+    echo "You are not logged in.";
+    header('Refresh: 3; URL=admin-login.php');
+    exit;
+  }  
 
   include 'logic_companyregister.php' 
 
@@ -7,7 +23,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Job IT | Company Registration</title>
+  <title>JobIT | Company Registration</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -27,6 +43,7 @@
   }
 
   </style>
+  
 <!-- 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://">
@@ -42,9 +59,12 @@
     <div class="container" id="">
 
         <div class="row" id="row1">
-        
-        <h1 align="center">JobIT | Company registration</h1>
+
+        <h4 align="right">  Admin: <?php echo $admin_name; ?> </h4>
+        <p alignt ="right"><a href="logout.php"><input type="button" value = "Logout"></a></p>
+        <h1 align="center">Company registration</h1>
         <h3 align="center">  <?php echo $reply; ?> </h3>
+
 
                 <form class=" col-sm-12 form-horizontal" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                   <div class="col-sm-offset-3  col-sm-6 formBoxBorder">

@@ -5,6 +5,7 @@
 		$accounts = array();
 		$applicants = array();
 		$companies = array();
+		$applicant_profiles = array();
 
 		function test_input($data) {
    			$data = trim($data);
@@ -102,7 +103,7 @@
 
 			for($i = 0; $i<count($accounts); $i++)
 			{
-				$temp_accid = $accounts[$i]->getaccid();
+				$temp_accid = $accounts[$i]->get_accid();
 
 				if(strcmp($temp_accid, $account_id) == 0)
 				{
@@ -169,6 +170,38 @@
 			$connect->close();
 		}
 
+		function loadApplicantProfile()
+		{
+			global $applicant_profiles;
+			$applicant_profiles = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM applicantprofile";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{	
+				while($row = $result->fetch_assoc())
+				{
+					$temp_prof = new applicantProfile();
+					$temp_prof->set_applicantid($row['applicant_id']);
+					$temp_prof->set_skills($row['skills']);
+					$temp_prof->set_school($row['school']);
+					$temp_prof->set_college($row['applicant_id']);
+					$temp_prof->set_course($row['course']);
+					$temp_prof->set_certexams($row['certExams']);
+					$temp_prof->set_title($row['jobtitle']);
+					$temp_prof->set_workexp($row['workExp']);
+
+					$applicant_profiles[count($applicant_profiles)] = $temp_prof;
+				}
+			} else echo "0 results.";
+
+			$connect->close();
+
+		}
+
 		function loadCompanies()
 		{
 			global $companies;
@@ -189,6 +222,9 @@
 					$temp_comp->set_name($row['name']);
 					$temp_comp->set_description($row['description']);
 					$temp_comp->set_type($row['type']);
+					$temp_comp->set_address($row['address']);
+					$temp_comp->set_contactno($row['contact_no']);
+					$temp_comp->set_companyimg($row['company_img']);
 
 					$companies[count($companies)] = $temp_comp;
 				}
@@ -305,6 +341,34 @@
 
     		$connect->close();
 
+		}
+
+		function createApplicantProfile($apid, $sk, $sc, $col, $cou, $cer, $jt, $we)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "INSERT INTO applicantprofile(applicant_id, skills, school, college, course, certExams, jobtitle, workExp) 
+			VALUES ('$apid', '$sk', '$sc', '$col', '$cou', '$cer', '$jt', '$we');";
+
+			if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    		} else loadApplicants();
+
+    		$connect->close();
+
+		}
+
+		function updateCompanyProfile($acc_id, $name, $desc, $add, $cn, $img)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "UPDATE company SET name='". $name ."', description='" . $desc . "', address='" . $add . "', contact_no='" . $cn . "', company_img='" . $img . "' WHERE account_id='" . $acc_id . "'"; 
+			
+			if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    		} else loadCompanies();
 		}
 
 

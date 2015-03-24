@@ -1,81 +1,61 @@
 <?php
-
+  
   session_start();
-
   include 'header.php';
-  include '/MVC/controller.php';
+  include 'MVC/controller.php';
 
-    loadAll();
+  loadAll();
 
-    $loggedin = false;
+  $loggedin = false;
 
-    $reply = "Sign in.";
+  $reply = "Admin Sign in.";
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
       
-      $loggedin = false;
+        $loggedin = false;
 
-          if (!empty($_POST["email"])) {
+        if (!empty($_POST["email"])) {
             $email = test_input($_POST["email"]); 
             $loggedin = true; 
-          } else if($loggedin == false){
+        } else if($loggedin == false){
             $reply = "Username or Password field is empty.";
-          }
-
-          if (!empty($_POST["password"])) {
-            $password = test_input($_POST["password"]);
-          }
-
-        if($loggedin == true){
-
-          if(($account = verify($email, $password)) != null)
-          {
-            $_SESSION["account_id"] = $account->get_accid();
-
-            if($account->get_acctype == 0)
-            {
-              header("Location: home.php");
-            } else if ($account->get_acctype == 2)
-            {
-              header("Location: company-home.php");
-            }
-
-
-          }
-          else if($loggedin == false)
-          {
-            $reply = "";
-          }
-          else
-          {
-            $reply = "Username does not exist or password is wrong";
-          }
         }
-  
+
+        if (!empty($_POST["password"])) {
+            $password = test_input($_POST["password"]);
+        }
+
+        if($loggedin == true)
+        {
+             if(($account = verify($email, $password)) != null)
+             {
+                if($account->get_acctype() == 1)
+                {
+                   $_SESSION["account_id"] = $account->get_accid();
+                   header("Location: companyregister.php");
+                } else $reply = "Account does not exist or is not an admin";
+             }
+
+             else if($loggedin == false)
+             {
+                $reply = "";
+             }
+    
+        }
+
     }
 
     if(isset($_SESSION["account_id"]))
     {
-      $account = getLoggedInAccount($_SESSION["account_id"]);
-            
-            if($account->get_acctype() == 0)
-            {
-              header("Location: home.php");
-            } else if ($account->get_acctype() == 2)
-
-            {
-              header("Location: company-home.php");
-            }
-
+      header("Location: companyregister.php");
     }
-  
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title> JobIT | Sign In </title>
+	<title> JobIT Sign In </title>
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -146,7 +126,7 @@
                                           
                                            <div class="row">
                                              <div class="col-sm-12 loginElements">
-                                                  <label id="dontHaveAnAccountYet" name="dontHaveAnAccountYet" class=" control-label">Don't have an account yet?</label> <a href="registration.php">Register</a>
+                                                  <label id="dontHaveAnAccountYet" name="dontHaveAnAccountYet" class=" control-label">Don't have an account yet?</label> <a href="Register/registration.php">Register</a>
                                             </div>
                                            </div>
 
@@ -176,7 +156,6 @@
 
 
 </body>
-</html>
 
 
 

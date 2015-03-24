@@ -39,7 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('100001','experts.prime@yahoo.com','experts!',1),('100002','ptrck.esquillo@gmail.com','1234',0),('100003','david_sanchez@dlsu.edu.ph','david!',0),('100004','joshua.guillarte@gmail.com','joshua!',0),('100005','info@smart.ph','smartisbetterthanglobe!',2),('100006','info@globe.ph','globe!',2);
+INSERT INTO `account` VALUES ('100001','experts.prime@yahoo.com','experts!',1),('100002','ptrck.esquillo@gmail.com','1234',0),('100003','david_sanchez@dlsu.edu.ph','david!',0),('100004','joshua.guillarte@gmail.com','joshua!',0),('100005','info@smart.ph','smart!',2),('100006','info@globe.ph','globe!',2),('100007','paolo_ylag@dlsu.edu.ph','ylag!',0),('100008','deltaman@gmail.com','deltaman!',2),('100009','occs@dlsu.edu.ph','occs!',2);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,8 +99,38 @@ CREATE TABLE `applicant` (
 
 LOCK TABLES `applicant` WRITE;
 /*!40000 ALTER TABLE `applicant` DISABLE KEYS */;
-INSERT INTO `applicant` VALUES ('100001','100002','Patrick Lance','Ramos','Esquillo','1997-07-10','09152824229','Single','M','','','12345'),('100002','100003','David','S.','Sanchez','1996-01-01','09148245123','Single','M','','','12343'),('100003','100004','Joshua','','Guillarte','1996-10-28','09178449901','Single','M','Antipolo, Rizal','Filipino','12345');
+INSERT INTO `applicant` VALUES ('100001','100002','Patrick Lance','Ramos','Esquillo','1997-07-10','09152824229','Single','M','','','12345'),('100002','100003','David','S.','Sanchez','1996-01-01','09148245123','Single','M','','','12343'),('100003','100004','Joshua','','Guillarte','1996-10-28','09178449901','Single','M','Antipolo, Rizal','Filipino','12345'),('100004','100007','Paolo','Yulo','Ylag','1996-07-05','09157740923','Single','M','BGC, Taguig','Filipino','12345');
 /*!40000 ALTER TABLE `applicant` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `applicantprofile`
+--
+
+DROP TABLE IF EXISTS `applicantprofile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `applicantprofile` (
+  `applicant_id` varchar(16) NOT NULL,
+  `skills` varchar(45) NOT NULL,
+  `school` varchar(45) NOT NULL,
+  `college` varchar(45) NOT NULL,
+  `course` varchar(45) NOT NULL,
+  `certExams` varchar(45) NOT NULL,
+  `jobtitle` varchar(45) NOT NULL,
+  `workExp` varchar(45) NOT NULL,
+  PRIMARY KEY (`applicant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `applicantprofile`
+--
+
+LOCK TABLES `applicantprofile` WRITE;
+/*!40000 ALTER TABLE `applicantprofile` DISABLE KEYS */;
+INSERT INTO `applicantprofile` VALUES ('100001','Knowledgable in PHP, Java, C','La Salle Greenhills','De La Salle University Manila','Computer Science','CCNA','Lead Developer','4');
+/*!40000 ALTER TABLE `applicantprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -141,9 +171,12 @@ DROP TABLE IF EXISTS `company`;
 CREATE TABLE `company` (
   `company_id` varchar(16) NOT NULL,
   `account_id` varchar(16) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
   `description` varchar(150) DEFAULT NULL,
   `type` varchar(50) NOT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `contact_no` varchar(45) DEFAULT NULL,
+  `company_img` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`company_id`),
   UNIQUE KEY `Company_ID_UNIQUE` (`company_id`),
   UNIQUE KEY `Account_ID_UNIQUE` (`account_id`)
@@ -156,7 +189,7 @@ CREATE TABLE `company` (
 
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
-INSERT INTO `company` VALUES ('10001','100005','Smart Telecommunications Ltd.','Smart is better than globe.','Telecommunications'),('10002','100006','','','Telecommunications');
+INSERT INTO `company` VALUES ('10001','100005','Smart Telecommunications Ltd.','Smart is better than globe.','Telecommunications',NULL,NULL,NULL),('10002','100006','','','Telecommunications',NULL,NULL,NULL),('10003','100008','Delta Management Services','Managerial Services on Events and many more','Software Solutions','Tanay, Rizal','6542639','default.jpg'),('10004','100009','','','Software Solutions',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,4 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-20  0:10:00
+-- Dump completed on 2015-03-24 22:19:42

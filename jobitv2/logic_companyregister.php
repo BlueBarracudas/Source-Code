@@ -1,8 +1,6 @@
 
 	<?php
 
-			include '/MVC/controller.php';
-
 			$ctErr = $emailErr = $pwErr = "";
 			$email = $username = "";
 			$last_companyId = "";
@@ -31,7 +29,7 @@
        				$emailErr = "Invalid email format";
        				$isErr = true; 
      			}
-     			if(emailExist($accounts, $email) == true){
+     			if(emailExist($email) == true){
      				$emErr = "Email already exists";
      				$isErr = true;
      			}
@@ -65,8 +63,8 @@
 			createAccount($last_accId, $email, $password, '2');
 			createCompany($last_companyId, $last_accId, "", "", $company_type);
 			
-			$reply = "Hello, Welcome to Experts' Job IT.";
-			header('Refresh: 3; URL=main_login.php');	 
+			$reply = $email . " has been registered.";
+
 			}
 
 			if($isErr == true) 

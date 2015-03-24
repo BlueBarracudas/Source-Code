@@ -99,7 +99,7 @@
 			        <li class="dropdown">
 	          		<a id="dropdownComponent" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo "". $ap->get_firstname() . " " . $ap->get_lastname() .""; ?> <span class="caret"></span></a>
 		          	<ul class="dropdown-menu" role="menu">
-		            <li id="settings"><a href="#">Account Settings</a></li>
+		            <li id="settings"><a href="applicant-setup.php">Account Settings</a></li>
 		            <li><a href="logout.php">Sign Out</a></li>
 	        		</ul>
 	          	</ul>
