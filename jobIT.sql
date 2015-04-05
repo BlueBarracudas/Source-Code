@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `jobit`.`applicant` (
   `contact_number` VARCHAR(150) NOT NULL,
   `marital_status` VARCHAR(45) NOT NULL,
   `sex` CHAR(1) NOT NULL,
+  `notification_type` INT NOT NULL,
   PRIMARY KEY (`applicant_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -85,18 +86,20 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `jobit`.`appointment`
+-- Table `jobit`.`application`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `jobit`.`appointment` (
-  `appointment_id` VARCHAR(16) NOT NULL,
-  `company_id` VARCHAR(16) NOT NULL,
+CREATE TABLE IF NOT EXISTS `jobit`.`application` (
+  `application_id` VARCHAR(16) NOT NULL,
   `applicant_id` VARCHAR(16) NOT NULL,
+  `job_id` VARCHAR(16) NOT NULL,
   `date` DATE NOT NULL,
   `time` TIME NOT NULL,
   `place` VARCHAR(150) NOT NULL,
   `notes` VARCHAR(150) NULL DEFAULT NULL,
-  PRIMARY KEY (`appointment_id`),
-  UNIQUE INDEX `Appointment_ID_UNIQUE` (`appointment_id` ASC))
+  `decision` INT NULL,
+  `decision_message` VARCHAR(150) NULL DEFAULT NULL,
+  PRIMARY KEY (`application_id`),
+  UNIQUE INDEX `Appointment_ID_UNIQUE` (`application_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -126,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `jobit`.`company` (
   `description` VARCHAR(150) NULL DEFAULT NULL,
   `company_img` VARCHAR(45) NULL DEFAULT NULL,
   `type` VARCHAR(50) NOT NULL,
+  `notification_type` INT NULL,
   PRIMARY KEY (`company_id`),
   UNIQUE INDEX `Company_ID_UNIQUE` (`company_id` ASC),
   UNIQUE INDEX `Account_ID_UNIQUE` (`account_id` ASC))
