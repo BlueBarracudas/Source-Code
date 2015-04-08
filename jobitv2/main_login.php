@@ -10,10 +10,9 @@
     $loggedin = false;
 
     $reply = "Sign in.";
-
+echo "Lance! what is this fuckery?";
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-      
       $loggedin = false;
 
           if (!empty($_POST["email"])) {
