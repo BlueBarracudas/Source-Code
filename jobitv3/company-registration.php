@@ -2,9 +2,10 @@
 	
 	session_start();
 
+	include 'MVC/controller.php';
+	loadAll();
 
-
-  /*if(isset($_SESSION["account_id"]))
+  if(isset($_SESSION["account_id"]))
   {
       $ac = getLoggedInAccount($_SESSION["account_id"]);
       $admin_name = $ac->get_email();
@@ -12,7 +13,7 @@
     echo "You are not logged in.";
     header('Refresh: 3; URL=admin-login.php');
     exit;
-  }*/
+  }
 
   include 'logic/logic_companyregistration.php'; 
 
@@ -114,30 +115,8 @@
 </head>
 <body>
     <div class ="mainContainer">
-        <div class ="row">
-	<nav class="navbar navbar-fixed-top navbar-custom">
-	  	<div class="container">
-		    <div class="navbar-header">
-		    	<a class="navbar-brand" href="#"><img alt="JobIT" src="images/logo.png" height="26px" width="76px;"></a>
-		    </div>
-		    <div>
-		      <ul class="nav navbar-nav">
-		        <li id="home" class="active"><a href="#" class="navigation">Home</a></li>
-		        <li id="profile"><a href="#" class="navigation">Register Company</a></li>
-
-		      </ul>                
-		      <ul class="nav navbar-nav navbar-right">
-			        <li class="dropdown">
-	          		<a id="dropdownComponent" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin Name  <span class="caret"></span></a>
-		          	<ul class="dropdown-menu" role="menu">
-		            <li id="settings"><a href="#">Account Settings</a></li>
-		            <li><a href="#">Sign Out</a></li>
-	        		</ul>
-	          	</ul>
-		    </div>
-		    
-	  	</div>
-            </nav></div>
+    	
+        <?php include 'headers/header-admin.php'; ?>
         
         <div class = "row">
         

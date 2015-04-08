@@ -34,6 +34,7 @@
 			loadAccounts();
 			loadCompanies();
 			loadApplicants();
+			loadApplicantProfile();
 		}
 
 		function verify($email, $password)
@@ -183,14 +184,16 @@
 				while($row = $result->fetch_assoc())
 				{
 					$temp_prof = new applicantProfile();
+					$temp_prof->set_profileid($row['applicant_profile_id']);
 					$temp_prof->set_applicantid($row['applicant_id']);
 					$temp_prof->set_skills($row['skills']);
-					$temp_prof->set_school($row['school']);
-					$temp_prof->set_college($row['applicant_id']);
+					$temp_prof->set_school($row['HS_name']);
+					$temp_prof->set_college($row['college_name']);
 					$temp_prof->set_course($row['course']);
-					$temp_prof->set_certexams($row['certExams']);
+					$temp_prof->set_certexams($row['certificates']);
 					$temp_prof->set_title($row['jobtitle']);
-					$temp_prof->set_workexp($row['workExp']);
+					$temp_prof->set_workexp($row['work_experience']);
+					$temp_prof->set_resume($row['resume_pdf']);
 
 					$applicant_profiles[count($applicant_profiles)] = $temp_prof;
 				}
@@ -294,6 +297,26 @@
 			$connect->close();
 		}
 
+		function getLastApplicantProfileId()
+		{
+			$id = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT MAX(applicant_profile_id) as result FROM applicantprofile";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				$row = $result->fetch_assoc();
+				$id = $row['result'];
+			}
+
+			return $id;
+
+			$connect->close();
+		}
+
 		function createAccount($id, $em, $pw, $type)
 		{
 			$connect= new DBConnection();
@@ -327,7 +350,6 @@
 
 		function createCompany($cid, $aid)
 		{
-			echo "got here cc";
 			$connect= new DBConnection();
 			$connect = $connect->getInstance();
 
@@ -340,19 +362,38 @@
     		$connect->close();
 		}
 
-		function createApplicantProfile($apid, $sk, $sc, $col, $cou, $cer, $jt, $we, $file)
+		function createApplicantProfile($prid, $apid, $sk, $sc, $col, $cou, $cer, $jt, $we, $file)
 		{
 			$connect= new DBConnection();
 			$connect = $connect->getInstance();
 
-			$sql = "INSERT INTO applicantprofile(applicant_id, skills, school, college, course, certExams, jobtitle, workExp, resumefile) 
-			VALUES ('$apid', '$sk', '$sc', '$col', '$cou', '$cer', '$jt', '$we', '$file');";
+			$sql = "INSERT INTO applicantprofile(applicant_profile_id, applicant_id, skills, HS_name, college_name, course, certificates, jobtitle, work_experience, resume_pdf) 
+			VALUES ('$prid', '$apid', '$sk', '$sc', '$col', '$cou', '$cer', '$jt', '$we', '$file');";
 
-			if ($connect->query($sql) !== TRUE) {
-    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
-    		} else loadApplicants();
+				if ($connect->query($sql) !== TRUE) {
+    				echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    			} else loadApplicants();
+
 
     		$connect->close();
+
+		}
+
+		function applicantProfileExists($apid)
+		{
+			global $applicant_profiles;
+
+			for($i = 0; $i<count($applicant_profiles); $i++)
+			{
+				$temp_ap = $applicant_profiles[$i];
+
+				if($apid == $temp_ap->get_applicantid())
+				{
+					return true;
+				}
+			}
+
+			return false;
 
 		}
 

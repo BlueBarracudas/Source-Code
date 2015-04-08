@@ -1,5 +1,5 @@
-As usual, import db first before trying to QA :) Thanks!
 edited the company table in the database, set default value of type into NULL
+edited the applicant profile table in the database, added resume_pdf, and jobtitle field
 edited controller.php
 	functions:
 	1. createCompany
@@ -8,3 +8,6 @@ edited controller.php
 	4. loadCompany
 	5. loadAccount
 	6. loadApplicant
+	7. createApplicantProfile
+	8. loadApplicantProfile
+	
