@@ -1,9 +1,6 @@
 
 	<?php
 
-			include "/MVC/controller.php";
-			loadAll();
-
 			$cpErr = $emailErr = $pwErr = "";
 			$email = $username = "";
 			$last_companyId = "";

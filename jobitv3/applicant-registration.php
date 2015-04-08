@@ -1,4 +1,6 @@
 <?php
+    
+    
 
     include 'logic/logic_applicantregistration.php';
 
@@ -121,8 +123,8 @@ $('#DOBmonth').change(function() {
         <div class="form-group">
             <label class="control-label col-md-5" for="studentid">Student ID (For Experts Academy Students):</label>
             <div class="col-md-3">
-                <input type="text" class="form-control" id="studentid" name="fname">
-                <div class="error_container" id="studentId_errorMessageContainer"><label class="error_message" id="studentId_errorMessage" name="studentId_errorMessage">Error Message</label></div>
+                <input type="text" class="form-control" id="studentid" name="fname" disabled>
+                <div class="error_container" id="studentId_errorMessageContainer"><label class="error_message" id="studentId_errorMessage" name="studentId_errorMessage"></label></div>
             </div>
         </div>
         <div class="col-md-12">
@@ -229,7 +231,7 @@ $('#DOBmonth').change(function() {
 
             <label class="control-label col-md-2" for="address">Address:<span style="color:red">*</span></label>
             <div class="col-md-3">
-               <textarea class="form-control" rows="2" id="address" name="address" value="<?php echo $address;?>"></textarea>
+               <textarea class="form-control" rows="2" id="address" name="address"> <?php echo $address;?></textarea>
                 
                 <div class="error_container" id="address_errorMessageContainer"><label class="error_message" id="address_errorMessage" name="address_errorMessage"><?php echo $addErr; ?></label></div>
             </div>
@@ -322,7 +324,7 @@ $('#DOBmonth').change(function() {
         <div class="form-group">
             <div class="col-md-offset-5 ">
    
-                <button type="button" class="btn btn-default">Cancel</button>      
+                <a href="main-login.php"><button type="button" class="btn btn-default">Cancel</button></a>     
       
                 
                 <input type="submit" id="submitBtn" class="btn btn-success" value="Create account"></input>
