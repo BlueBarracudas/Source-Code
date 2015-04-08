@@ -1,0 +1,10 @@
+As usual, import db first before trying to QA :) Thanks!
+edited the company table in the database, set default value of type into NULL
+edited controller.php
+	functions:
+	1. createCompany
+	2. createApplicant
+	3. createAccount
+	4. loadCompany
+	5. loadAccount
+	6. loadApplicant

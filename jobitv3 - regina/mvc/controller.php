@@ -333,11 +333,13 @@
 
 			$sql = "INSERT INTO company(company_id, account_id) 
 			VALUES ('$cid', '$aid')";
-                echo $sql;
+
 			if ($connect->query($sql) !== TRUE) {
     			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
     		} else loadCompanies();
+
     		$connect->close();
+
 		}
 
 		function createApplicantProfile($apid, $sk, $sc, $col, $cou, $cer, $jt, $we, $file)

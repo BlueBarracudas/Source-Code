@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `jobit`.`company` (
   `contact_no` VARCHAR(45) NULL DEFAULT NULL,
   `description` VARCHAR(150) NULL DEFAULT NULL,
   `company_img` VARCHAR(45) NULL DEFAULT NULL,
-  `type` VARCHAR(50) NOT NULL,
+  `type` VARCHAR(50) NULL DEFAULT NULL,
   `notification_type` INT NULL,
   PRIMARY KEY (`company_id`),
   UNIQUE INDEX `Company_ID_UNIQUE` (`company_id` ASC),
