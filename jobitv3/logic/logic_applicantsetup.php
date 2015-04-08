@@ -28,8 +28,8 @@
 				$isErr = true;
 			}*/
 
-			if(empty($_POST["skills"])){
-				$skErr = "Skills is required";
+			if(empty($_POST["skills"][0])){
+				$skErr = "Need at least one skill";
 				$isErr = true;
 			} else {
 				$cnt = 0;
@@ -48,10 +48,16 @@
 
      				$cnt++;
      			}
+
+     			if($cnt == 0)
+     			{
+     				$skErr = "Skills is required";
+					$isErr = true;
+     			}
 			}
 
-			if(empty($_POST["jobtitle"])){
-				$jtErr = "Job title is required";
+			if(empty($_POST["jobtitle"][0])){
+				$jtErr = "Need at least one job title";
 				$isErr = true;
 			} else {
 				$cnt = 0;
@@ -69,6 +75,12 @@
      				}
 
      				$cnt++;
+     			}
+
+     			if($cnt == 0)
+     			{
+     				$jtErr = "Job title is required";
+					$isErr = true;
      			}
 			}
 
@@ -105,8 +117,8 @@
      			}
 			}
 
-			if(empty($_POST["certification"])){
-				$ceErr = "Cert exams is required";
+			if(empty($_POST["certification"][0])){
+				$ceErr = "Need at least one certification";
 				$isErr = true;
 			} else {
 				$cnt = 0;
@@ -125,9 +137,15 @@
 
      				$cnt++;
      			}
+
+     			if($cnt == 0)
+     			{
+     				$ceErr = "Certifications is required";
+					$isErr = true;
+     			}
 			}
 
-			if(empty($_POST["workExp"])){
+			if(empty($_POST["workExp"][0])){
 				$weErr = "Work exp is required";
 				$isErr = true;
 			} else {
@@ -146,6 +164,12 @@
      				}
 
      				$cnt++;
+     			}
+
+     			if($cnt == 0)
+     			{
+     				$weErr = "Work exp is required";
+					$isErr = true;
      			}
 			}
 			
@@ -166,7 +190,7 @@
 				//}
 
 
-			} else $reply = "Something went wrong.";
+			} else $reply = "Profile setup not successful.";
 		}
 			
 ?>
