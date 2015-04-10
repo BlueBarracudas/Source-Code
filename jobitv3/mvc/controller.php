@@ -161,6 +161,8 @@
 					$temp_app->set_birthday($row['birthday']);
 					$temp_app->set_maritalstatus($row['marital_status']);
 					$temp_app->set_contactno($row['contact_number']);
+					$temp_app->set_notiftype($row['notification_type']);
+					$temp_app->set_city($row['city']);
 
 					$applicants[count($applicants)] = $temp_app;
 				}
@@ -338,8 +340,8 @@
 			$connect= new DBConnection();
 			$connect = $connect->getInstance();
 
-			$sql = "INSERT INTO applicant(applicant_id, account_id, first_name, middle_name, last_name, birthday, contact_number, marital_status, sex, address) 
-			VALUES ('$apid', '$acid', '$fn', '$mn', '$ln', '$bd', '$cn', '$ms', '$se', '$add')";
+			$sql = "INSERT INTO applicant(applicant_id, account_id, first_name, middle_name, last_name, birthday, contact_number, marital_status, sex, address, city, notification_type) 
+			VALUES ('$apid', '$acid', '$fn', '$mn', '$ln', '$bd', '$cn', '$ms', '$se', '$add', 'Manila', '1')";
 			
 			if ($connect->query($sql) !== TRUE) {
     			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
@@ -355,11 +357,13 @@
 
 			$sql = "INSERT INTO company(company_id, account_id) 
 			VALUES ('$cid', '$aid')";
-                echo $sql;
+
 			if ($connect->query($sql) !== TRUE) {
     			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
     		} else loadCompanies();
+
     		$connect->close();
+
 		}
 
 		function createApplicantProfile($prid, $apid, $sk, $sc, $col, $cou, $cer, $jt, $we, $file)

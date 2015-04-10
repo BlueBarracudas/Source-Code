@@ -39,7 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('10001','testing@domain.com','1234',1),('10002','ptrck.esquillo@gmail.com','1234',0),('10003','occs@dlsu.edu.ph','occs4lyf',2),('10004','jared_pangilinan@dlsu.edu.ph','jed123',0);
+INSERT INTO `account` VALUES ('1','ptrck.esquillo@gmail.com','1234',0),('2','testing@domain.com','1234',1),('3','occs@dlsu.edu.ph','1234',2);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `administrator` (
 
 LOCK TABLES `administrator` WRITE;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
-INSERT INTO `administrator` VALUES ('10001','10001',1,0);
+INSERT INTO `administrator` VALUES ('10001','1',1,1);
 /*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,10 +84,12 @@ CREATE TABLE `applicant` (
   `middle_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) NOT NULL,
   `birthday` date NOT NULL,
-  `address` varchar(300) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `city` varchar(150) NOT NULL,
   `contact_number` varchar(150) NOT NULL,
   `marital_status` varchar(45) NOT NULL,
   `sex` char(1) NOT NULL,
+  `notification_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`applicant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -98,7 +100,7 @@ CREATE TABLE `applicant` (
 
 LOCK TABLES `applicant` WRITE;
 /*!40000 ALTER TABLE `applicant` DISABLE KEYS */;
-INSERT INTO `applicant` VALUES ('10001','10002','Lance Patrick','Ramos','Esquillo','1996-07-10','Manila East Rd., Brgy Tandang Kutyo Tanay, Rizal','09152824229','single','M'),('10002','10004','Jared','Luke','Pangilinan','1995-11-09','San Juan City','09157740923','single','M');
+INSERT INTO `applicant` VALUES ('1','1','Lance Patrick','Ramos','Esquillo','1996-07-10','Tanay, Rizal','Manila','09152824229','single','M',1);
 /*!40000 ALTER TABLE `applicant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,9 +116,8 @@ CREATE TABLE `applicantprofile` (
   `applicant_id` varchar(16) NOT NULL,
   `HS_name` varchar(45) NOT NULL,
   `college_name` varchar(45) NOT NULL,
-  `jobtitle` varchar(150) NOT NULL,
   `course` varchar(45) NOT NULL,
-  `skills` varchar(150) NOT NULL,
+  `skills` varchar(45) NOT NULL,
   `work_experience` varchar(45) DEFAULT NULL,
   `certificates` varchar(45) DEFAULT NULL,
   `resume_pdf` varchar(45) DEFAULT NULL,
@@ -131,37 +132,38 @@ CREATE TABLE `applicantprofile` (
 
 LOCK TABLES `applicantprofile` WRITE;
 /*!40000 ALTER TABLE `applicantprofile` DISABLE KEYS */;
-INSERT INTO `applicantprofile` VALUES ('10001','10001','La Salle College Antipolo','De La Salle University Manila','Lead Developer, Tester','Computer Science','Knowledgable in PHP, Java, HTML, Mobile Development','5, 3','CCNA, CCNP','10001_resume.pdf'),('10002','10002','La Salle Greenhills','De La Salle University Manila','Developer, Analyst','Computer Science','Knowedgable in Java, PHP, HTML, CSS','3, 1','CCIE, CCNP','10002_resume.pdf');
 /*!40000 ALTER TABLE `applicantprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `appointment`
+-- Table structure for table `application`
 --
 
-DROP TABLE IF EXISTS `appointment`;
+DROP TABLE IF EXISTS `application`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `appointment` (
-  `appointment_id` varchar(16) NOT NULL,
-  `company_id` varchar(16) NOT NULL,
+CREATE TABLE `application` (
+  `application_id` varchar(16) NOT NULL,
   `applicant_id` varchar(16) NOT NULL,
+  `job_id` varchar(16) NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
   `place` varchar(150) NOT NULL,
   `notes` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`appointment_id`),
-  UNIQUE KEY `Appointment_ID_UNIQUE` (`appointment_id`)
+  `decision` int(11) DEFAULT NULL,
+  `decision_message` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`application_id`),
+  UNIQUE KEY `Appointment_ID_UNIQUE` (`application_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `appointment`
+-- Dumping data for table `application`
 --
 
-LOCK TABLES `appointment` WRITE;
-/*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
+LOCK TABLES `application` WRITE;
+/*!40000 ALTER TABLE `application` DISABLE KEYS */;
+/*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -172,12 +174,14 @@ DROP TABLE IF EXISTS `certificate`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `certificate` (
-  `certificate_id` varchar(16) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `abbrev` varchar(45) NOT NULL,
+  `certificate_id` int(11) NOT NULL AUTO_INCREMENT,
+  `certificate_name` varchar(150) NOT NULL,
+  `applicant_id` int(11) NOT NULL,
+  `competency` int(11) NOT NULL,
+  `is_valid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`certificate_id`),
   UNIQUE KEY `certificate_id_UNIQUE` (`certificate_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,6 +209,7 @@ CREATE TABLE `company` (
   `description` varchar(150) DEFAULT NULL,
   `company_img` varchar(45) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
+  `notification_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`company_id`),
   UNIQUE KEY `Company_ID_UNIQUE` (`company_id`),
   UNIQUE KEY `Account_ID_UNIQUE` (`account_id`)
@@ -217,7 +222,7 @@ CREATE TABLE `company` (
 
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
-INSERT INTO `company` VALUES ('10001','10003',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `company` VALUES ('1','3','OCCS DLSU','Malate, Manila','1234','OCCS THE BEST THERE IS','default.jpg',NULL,NULL);
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,11 +294,12 @@ DROP TABLE IF EXISTS `skill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `skill` (
-  `skill_id` varchar(16) NOT NULL,
+  `skill_id` int(11) NOT NULL AUTO_INCREMENT,
+  `applicant_id` varchar(16) NOT NULL,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`skill_id`),
   UNIQUE KEY `skill_id_UNIQUE` (`skill_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,13 +319,14 @@ DROP TABLE IF EXISTS `work_experience`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `work_experience` (
-  `work_experience_id` varchar(16) NOT NULL,
+  `work_experience_id` int(11) NOT NULL AUTO_INCREMENT,
   `applicant_id` varchar(16) NOT NULL,
   `work_title` varchar(100) NOT NULL,
   `years` varchar(45) NOT NULL,
+  `company_name` varchar(150) NOT NULL,
   PRIMARY KEY (`work_experience_id`),
   UNIQUE KEY `work_experience_id_UNIQUE` (`work_experience_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -340,4 +347,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-08 13:58:58
+-- Dump completed on 2015-04-10 22:37:37

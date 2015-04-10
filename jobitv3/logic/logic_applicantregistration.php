@@ -155,7 +155,7 @@
     		createApplicant($last_appId, $last_accId, $first_name, $middle_name, $last_name, $birthday, $contact_no, $marital_status, $sex, $address);
 
 			   $reply = "<br>Hi " . $first_name . " " . $last_name . "! Thank you for registering in Experts' JobIT";
-			   header('Refresh: 3; URL=main-login.php');	
+			   //header('Refresh: 3; URL=main-login.php');	
 
    			}
 

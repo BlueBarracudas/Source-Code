@@ -9,7 +9,7 @@ if(isset($_SESSION["account_id"]))
   {
     
     $ap = getLoggedInApplicant($_SESSION["account_id"]);
-    //include 'logic_applicantsetup.php';
+    include 'logic/logic_companysetup.php';
 
   }
 
@@ -53,7 +53,7 @@ if(isset($_SESSION["account_id"]))
     
   <div class="panel panel-default">
 <div class="panel-heading">
-                                  <h3 class="panel-title" id="SetupHeader">Set-up Profile</h3>
+                                  <h3 class="panel-title" id="SetupHeader">Set-up Profile <?php echo $reply; ?></h3>
     
        </div>
 
@@ -67,7 +67,7 @@ if(isset($_SESSION["account_id"]))
         <div class="row" id="temp">
 
             <div class="col-sm-offset-1 col-sm-3 temp2" id="profilePicCol">
-
+              <form class="col-sm-12   form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data" method ="post">
                 <div class="row">
                   <img id="companyProfilePicImg" class="img-responsive img-rounded" src="images/logohere.png">
                
@@ -94,20 +94,20 @@ if(isset($_SESSION["account_id"]))
 
                   <div class="col-sm-7" id="companySetupProfileForm">
            
-                     <form class="col-sm-12   form-horizontal">
+
 
                                  <div class="form-group">
 
                                     <label for="companyNameInput" class="col-sm-5 control-label">Company Name:<span style="color:red">*</span></label>
                                      <div class="col-sm-7">
-                                              <input type="text" class="form-control" id="companyNameInput" placeholder="">
+                                              <input type="text" class="form-control" id="companyNameInput" placeholder="" name="name">
                                   
                                    
                                      
                                      </div>
                                      
 <div class = "companySetupError">                                    
-                                                              <div class="error_container" id="companyName_errorMessageContainer"><label class="error_message" id="companyName_errorMessage" name="companyName_errorMessage">Error Message</label></div>
+                                                              <div class="error_container" id="companyName_errorMessageContainer"><label class="error_message" id="companyName_errorMessage" name="companyName_errorMessage"><?php echo $nErr; ?></label></div>
                                      </div>    
                          
                          </div>
@@ -118,7 +118,7 @@ if(isset($_SESSION["account_id"]))
 
                                     <label for="companyContactNumberInput" class="col-sm-5 control-label">Contact Number:<span style="color:red">*</span></label>
                                      <div class="col-sm-7">
-                                              <input type="text" class="form-control" id="companyContactNumberInput" placeholder="">
+                                              <input type="text" class="form-control" id="companyContactNumberInput" placeholder="" name="contactno">
                                          
                                          
  
@@ -126,7 +126,7 @@ if(isset($_SESSION["account_id"]))
 
                        
                 <div class = "companySetupError">                        
-                                         <div class="error_container" id="contactNumber_errorMessageContainer"><label class="error_message" id="contactNumber_errorMessage" name="contactNumber_errorMessage">Error Message</label></div>
+                                         <div class="error_container" id="contactNumber_errorMessageContainer"><label class="error_message" id="contactNumber_errorMessage" name="contactNumber_errorMessage"><?php echo $cnErr; ?></label></div>
                                          
                                    </div>
                          
@@ -137,14 +137,14 @@ if(isset($_SESSION["account_id"]))
 
                                     <label for="companyAddressInputInput" class=" col-sm-5 control-label">Address:<span style="color:red">*</span></label>
                                      <div class="col-sm-7">
-                                         <textarea class="form-control" id="companyAddressInputInput"  rows="3" id="companyDescriptionInput"></textarea>
+                                         <textarea class="form-control" id="companyAddressInputInput"  rows="3" id="companyDescriptionInput" name="address"></textarea>
             
                                          
                                     </div>
 
                              <div class = "companySetupError">                              
                            
-     <div class="error_container" id="companyAdress_errorMessageContainer"><label class="error_message" id="companyAdress_errorMessage" name="companyAdress_errorMessage">Error Message</label></div>
+     <div class="error_container" id="companyAdress_errorMessageContainer"><label class="error_message" id="companyAdress_errorMessage" name="companyAdress_errorMessage"><?php echo $adErr; ?></label></div>
                                          
                              
                              
@@ -159,7 +159,7 @@ if(isset($_SESSION["account_id"]))
 
                             
                           
-                    </form>
+                
 
                   </div>
          
@@ -175,8 +175,17 @@ if(isset($_SESSION["account_id"]))
              
             <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
-                  <textarea class="form-control" rows="5" id="companyDescriptionInput"></textarea>
+                  <textarea class="form-control" rows="5" id="companyDescriptionInput" name="description"></textarea>
+                
                 </div></div>
+
+                 <div class = "companySetupError">                              
+                           
+     <div class="error_container" id="companyAdress_errorMessageContainer"><label class="error_message" id="companyAdress_errorMessage" name="companyAdress_errorMessage"><?php echo $descErr; ?></label></div>
+                                         
+                             
+                             
+                             </div>
 
                      
              </div>
@@ -189,6 +198,7 @@ if(isset($_SESSION["account_id"]))
                 </div>
 
            </div>
+         </form>
 
         </div>
 

@@ -64,9 +64,9 @@ class applicant
 			public $marital_status;
 			public $contact_no;
 			public $address;
-			public $nationality;
-			public $certificate_id;
+			public $city;
 			public $profile;
+			public $notif_type;
 
 			/* SETTERS */
 
@@ -120,9 +120,9 @@ class applicant
 				$this->address = $input;
 			}
 
-			function set_nationality($input)
+			function set_city($input)
 			{
-				$this->nationality = $input;
+				$this->city = $input;
 			}
 
 			function set_certificateid($input)
@@ -133,6 +133,11 @@ class applicant
 			function set_profile($input)
 			{
 				$this->profile = $input;
+			}
+
+			function set_notiftype($input)
+			{
+				$this->notif_type = $input;
 			}
 
 
@@ -193,7 +198,7 @@ class applicant
 				return $this->address;
 			}
 
-			function get_nationality()
+			function get_city()
 			{
 				return $this->nationality;
 			}
@@ -205,6 +210,10 @@ class applicant
 			function get_profile()
 			{
 				return $this->profile();
+			}
+			function get_notiftype()
+			{
+				return $this->notif_type;
 			}
 
 

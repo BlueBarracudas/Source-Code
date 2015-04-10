@@ -103,7 +103,7 @@ function performClick(elemId) {
     
   <div class="panel panel-default">
 <div class="panel-heading">
-                                  <h3 class="panel-title" id="SetupHeader">Set-up Profile <p style="color:black;"> <?php echo $replyl ?> </p> </h3>
+                                  <h3 class="panel-title" id="SetupHeader">Set-up Profile <p style="color:black;"> <?php echo $reply; ?> </p> </h3>
     
        </div>
 
@@ -416,7 +416,7 @@ $( "#workadd" ).click(function(){
     yearerrorlbl.setAttribute("class","error_message");
     yearerrorlbl.setAttribute("id","yearsOfExperience_errorMessage"+numOfJobTitles);
     yearerrorlbl.setAttribute("name","yearsOfExperience"+numOfJobTitles);
-    yearerrorlbl.innerHTML = "";
+    yearerrorlbl.innerHTML = "<?php echo $weErr;?>";
     yearerrormsg.appendChild(yearerrorlbl);
      $("#yearslist").append(br2);
     $("#yearslist").append(yearfield);
