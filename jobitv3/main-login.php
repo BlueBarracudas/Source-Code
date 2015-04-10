@@ -9,6 +9,8 @@
 
     $reply = "Sign in";
 
+    $eErr = $pErr = ""; 
+
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
       
@@ -18,14 +20,14 @@
             $email = test_input($_POST["email"]); 
             $loggedin = true; 
           } else if($loggedin == false){
-            $reply = "Username or Password field is empty.";
+            $eErr = "Email field is empty";
           }
 
           if (!empty($_POST["password"])) {
             $password = test_input($_POST["password"]);
-          }
+          } else $pErr = "Password field is empty";
 
-        if($loggedin == true){
+        if($loggedin == true && !empty($_POST["password"]) && !empty($_POST["email"])){
 
           if(($account = verify($email, $password)) != null)
           {
@@ -118,7 +120,7 @@
                 <form  id="loginForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                       <div class="panel panel-default" id="loginPanel">
                                <div class="panel-heading" id="signInPanelTitle">
-                                  <h3 class="panel-title" id="loginHeader"><?php echo $reply; ?></h3>
+                                  <h3 class="panel-title" id="loginHeader">Sign in</h3>
                               </div>
 
                               <div class="panel-body">
@@ -137,7 +139,7 @@
                                       </div>
 
                                       <div class="row">
-                                      <div class="col-md-offset-3 col-md-9 error_container" id="email_errorMessageContainer"><label class="error_message" id="email_errorMessage" name="email_errorMessage"></label>
+                                      <div class="col-md-offset-3 col-md-9 error_container" id="email_errorMessageContainer"><label class="error_message" id="email_errorMessage" name="email_errorMessage"> <?php echo $eErr; ?> </label>
                                       </div>
                                        </div>
 
@@ -159,7 +161,7 @@
                                         </div>
 
                                          <div class="row">
-                                        <div class="col-md-offset-3 col-md-9 error_container" id="password_errorMessageContainer"><label class="error_message" id="password_errorMessage" name="password_errorMessage"></label>
+                                        <div class="col-md-offset-3 col-md-9 error_container" id="password_errorMessageContainer"><label class="error_message" id="password_errorMessage" name="password_errorMessage"> <?php echo $pErr; ?> </label>
                                         </div>
                                        </div>
 
