@@ -1,25 +1,23 @@
 <?php
-session_start();
 
-include 'MVC/controller.php';
-include 'header.php';
+	session_start();
 
-loadAll();
+	include '/MVC/controller.php';
 
-if(isset($_SESSION["account_id"]))
-  {
-    
-    $ac = getLoggedInAccount($_SESSION["account_id"]);
-    include 'logic_companysetup.php';
-    echo  "<h3 align =\"center\"> Hi " . $ac->get_email() . "!</h3>";
+	loadAll();
 
-  }
+	if(isset($_SESSION["account_id"]))
+	{
+		$ap = getLoggedInApplicant($_SESSION["account_id"]);
 
-  else
-  {
-    echo "You are not logged in.";
-    header('Refresh: 3; URL=main_login.php'); 
-  }
+	}
+
+	else
+	{
+		echo "You are not logged in.";
+		header('Refresh: 3; URL=main_login.php');
+		exit;	
+	}
 
 ?>
 
@@ -37,7 +35,7 @@ if(isset($_SESSION["account_id"]))
 			color: black;
 		}
 		.nav li a:hover {
-		    background-color: rgba(100, 100, 100, 0.5) !important; /*Changing values will make this not work :(*/
+		    background-color: rgba(100, 100, 100, 0.5) !important; /*Changinh values will make this not work :(*/
 			color: white;
 		}
         
@@ -108,50 +106,10 @@ if(isset($_SESSION["account_id"]))
 	</script>
 </head>
 <body>
-	<nav class="navbar navbar-fixed-top navbar-custom">
-	  	<div class="container">
-		    <div class="navbar-header">
-		    	<a class="navbar-brand" href="#"><img alt="JobIT" src="images/logo.png" height="26px" width="76px;"></a>
-		    </div>
-		    <div>
-		      <ul class="nav navbar-nav">
-		        <li id="home" class="active"><a href="#" class="navigation">Home</a></li>
-		        <li id="profile"><a href="#" class="navigation">Company Profile</a></li>
-		        <li id="appointments"><a href="#" class="navigation">Appointments</a></li> 
-                <li id="JobListings"><a href="#" class="navigation">Job Listings</a></li> 
-		      </ul>
-		      <ul class="nav navbar-nav navbar-right">
-			        <li class="dropdown">
-	          		<a id="dropdownComponent" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Company Name  <span class="caret"></span></a>
-		          	<ul class="dropdown-menu" role="menu">
-		            <li id="settings"><a href="#">Account Settings</a></li>
-		            <li><a href="#">Sign Out</a></li>
-	        		</ul>
-	          	</ul>
-		    </div>
-		    
-	  	</div>
-	</nav>
+	<?php include 'headers/header-applicant.php'; ?>
 	<p id="snoop" class="posfixed">
 		<img src="snoop.gif">
 		<br><br>
 	</p>
 </body>
-</html>
-
-	
-<!--	
-	<body>
-
-	<h3> Please input the required information:
-
-	<form id = "edit-profile" method="POST" action="companySetupProfile.php">
-			Description: <input type="text" name = "description" placeholder =""/><br>
-			Address: <input type="text" name = "address" placeholder =""/><br>
-			Contact Number: <input type="text" name = "contactno" placeholder =""/><br>
-
-		<input type="submit" value="Submit">
-	</form>
-	
-	</body>
 </html>

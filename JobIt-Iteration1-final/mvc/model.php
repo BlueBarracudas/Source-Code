@@ -29,11 +29,6 @@ class account
 				$this->account_type = $input;
 			}
 
-			function set_isactive($input)
-			{
-				$this->is_active = $input;
-			}
-
 			/* GETTERS */
 			function get_accid()
 			{
@@ -55,10 +50,6 @@ class account
 				return $this->account_type;
 			}
 
-			function get_isactive()
-			{
-				return $this->is_active;
-			}
 		}
 
 class applicant
@@ -76,13 +67,8 @@ class applicant
 			public $nationality;
 			public $certificate_id;
 			public $profile;
-			public $resume;
 
 			/* SETTERS */
-			function set_resume($input)
-			{
-				$this->resume = $input;
-			}
 
 			function set_appid($input)
 			{
@@ -319,6 +305,7 @@ class company
 
 class applicantProfile
 		{
+			public $profile_id;
 			public $applicant_id;
 			public $skills;
 			public $school;
@@ -327,6 +314,17 @@ class applicantProfile
 			public $certExams;
 			public $title;
 			public $workExp;
+			public $resume;
+
+			function set_resume($input)
+			{
+				$this->resume = $input;
+			}
+
+			function set_profileid($input)
+			{
+				$this->profile_id = $input;
+			}
 
 			function set_applicantid($input)
 			{
@@ -368,6 +366,11 @@ class applicantProfile
 				$this->title = $input; 
 			}
 
+			function get_profileid()
+			{
+				return $this->profile_id;
+			}
+
 			function get_applicantid()
 			{
 				return $this->applicant_id;
@@ -407,6 +410,11 @@ class applicantProfile
 			{
 				return $this->title;
 			}
+
+			function get_resume()
+			{
+				return $this->resume;
+			}
 		
 		}
 
@@ -422,7 +430,7 @@ class DBConnection
 	{
 			$this->servername = "localhost";
 			$this->dbuser = "root";
-			$this->password = "1234";
+			$this->password = "soawesome";
 			$this->dbName = "jobit";
 			$this->conn = new mysqli($this->servername, $this->dbuser, $this->password, $this->dbName);
 	}

@@ -1,5 +1,4 @@
 <?php
-
 	$reply = "";
 
 	if($_SERVER["REQUEST_METHOD"] == "POST")
@@ -60,6 +59,7 @@
    			{
    				updateCompanyProfile($_SESSION["account_id"], $name, $description, $address, $contactno, "default.jpg");
    				$reply = "Successful in setting up profile!";
+                header('Refresh: 3; URL=company-home.php');
    			} else {
    				$reply = "Something went wrong";
    			}

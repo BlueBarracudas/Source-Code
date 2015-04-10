@@ -8,7 +8,7 @@
   }
 
  .error_container{
-  display: inline;
+  display: none;
  }	
 
 .companySetupError{

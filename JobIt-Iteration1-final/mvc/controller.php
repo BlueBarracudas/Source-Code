@@ -34,6 +34,7 @@
 			loadAccounts();
 			loadCompanies();
 			loadApplicants();
+			loadApplicantProfile();
 		}
 
 		function verify($email, $password)
@@ -183,14 +184,16 @@
 				while($row = $result->fetch_assoc())
 				{
 					$temp_prof = new applicantProfile();
+					$temp_prof->set_profileid($row['applicant_profile_id']);
 					$temp_prof->set_applicantid($row['applicant_id']);
 					$temp_prof->set_skills($row['skills']);
-					$temp_prof->set_school($row['school']);
-					$temp_prof->set_college($row['applicant_id']);
+					$temp_prof->set_school($row['HS_name']);
+					$temp_prof->set_college($row['college_name']);
 					$temp_prof->set_course($row['course']);
-					$temp_prof->set_certexams($row['certExams']);
-					$temp_prof->set_title($row['jobtitle']);
-					$temp_prof->set_workexp($row['workExp']);
+					$temp_prof->set_certexams($row['certificates']);
+					//$temp_prof->set_title($row['jobtitle']);
+					$temp_prof->set_workexp($row['work_experience']);
+					$temp_prof->set_resume($row['resume_pdf']);
 
 					$applicant_profiles[count($applicant_profiles)] = $temp_prof;
 				}
@@ -294,6 +297,26 @@
 			$connect->close();
 		}
 
+		function getLastApplicantProfileId()
+		{
+			$id = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT MAX(applicant_profile_id) as result FROM applicantprofile";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				$row = $result->fetch_assoc();
+				$id = $row['result'];
+			}
+
+			return $id;
+
+			$connect->close();
+		}
+
 		function createAccount($id, $em, $pw, $type)
 		{
 			$connect= new DBConnection();
@@ -327,34 +350,121 @@
 
 		function createCompany($cid, $aid)
 		{
-			echo "got here cc";
 			$connect= new DBConnection();
 			$connect = $connect->getInstance();
 
 			$sql = "INSERT INTO company(company_id, account_id) 
 			VALUES ('$cid', '$aid')";
-
+                echo $sql;
 			if ($connect->query($sql) !== TRUE) {
     			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
     		} else loadCompanies();
+    		$connect->close();
+		}
+
+		function createApplicantProfile($prid, $apid, $sk, $sc, $col, $cou, $cer, $we, $file)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+             if(isset($_POST['skills']))
+            {
+                $arr = array();
+                $arr = $_POST['skills'];
+                $cnt=count($arr);
+
+              for($i=0;$i<$cnt;$i++)
+              {
+                 $query="INSERT INTO `jobit`.`skill`(`applicant_id`,`name`) VALUES('$apid','$arr[$i]');";
+                 $result = mysqli_query($connect, $query);
+
+                // if successful 
+                    if($result){
+                       // echo "skill success";
+                    }
+              }
+            }
+             if(isset($_POST['jobtitle']) && isset($_POST['workExp']))
+            {
+                $arr1 = array();
+                $arr1 = $_POST['jobtitle'];
+                $arr2 = array();
+                $arr2 = $_POST['workExp'];
+                $cnt=count($arr1);
+
+              for($i=0;$i<$cnt;$i++)
+              {
+                 $query="INSERT INTO `jobit`.`work_experience`(`applicant_id`,`work_title`,`years`)VALUES('$apid','$arr1[$i]','$arr2[$i]');";
+                 $result = mysqli_query($connect, $query);
+
+                // if successful 
+                    if($result){
+                       // echo "work success";
+                    }
+              }
+            }
+            if(isset($_POST['certification']))
+            {
+                $arr = array();
+                $arr = $_POST['certification'];
+                $cnt=count($arr);
+
+              for($i=0;$i<$cnt;$i++)
+              {
+                 $query="INSERT INTO `jobit`.`certificate`(`applicant_id`,`name`)VALUES('$apid','$arr[$i]');";
+                 $result = mysqli_query($connect, $query);
+
+                // if successful 
+                    if($result){
+                       // echo "cert success";
+                    }
+              }
+            }
+
+    $skillresult = mysqli_query($connect, "SELECT * FROM skill WHERE applicant_id = '$apid'");
+    $skills = "";
+    while($row = mysqli_fetch_assoc($skillresult))
+    {
+        $skills.= $row["skill_id"].",";
+    }
+                
+    $weresult = mysqli_query($connect, "SELECT * FROM work_experience WHERE applicant_id = '$apid'");
+    $we= "";
+    while($row = mysqli_fetch_assoc($weresult))
+    {
+        $we.= $row["work_experience_id"].",";
+    }
+    $certresult = mysqli_query($connect, "SELECT * FROM certificate WHERE applicant_id = '$apid'");
+    $cert= "";
+    while($row = mysqli_fetch_assoc($certresult))
+    {
+        $cert.= $row["certificate_id"].",";
+    }
+			$sql = "INSERT INTO `jobit`.`applicantprofile`(`applicant_profile_id`,`applicant_id`,`HS_name`,`college_name`,`course`,`skills`,`work_experience`,`certificates`,`resume_pdf`)VALUES('$prid','$apid','$sk','$col', '$cou','$skills','$we','$cert','$file');";
+
+				if ($connect->query($sql) !== TRUE) {
+    				echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    			} else loadApplicants();
+
 
     		$connect->close();
 
 		}
 
-		function createApplicantProfile($apid, $sk, $sc, $col, $cou, $cer, $jt, $we, $file)
+		function applicantProfileExists($apid)
 		{
-			$connect= new DBConnection();
-			$connect = $connect->getInstance();
+			global $applicant_profiles;
 
-			$sql = "INSERT INTO applicantprofile(applicant_id, skills, school, college, course, certExams, jobtitle, workExp, resumefile) 
-			VALUES ('$apid', '$sk', '$sc', '$col', '$cou', '$cer', '$jt', '$we', '$file');";
+			for($i = 0; $i<count($applicant_profiles); $i++)
+			{
+				$temp_ap = $applicant_profiles[$i];
 
-			if ($connect->query($sql) !== TRUE) {
-    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
-    		} else loadApplicants();
+				if($apid == $temp_ap->get_applicantid())
+				{
+					return true;
+				}
+			}
 
-    		$connect->close();
+			return false;
 
 		}
 

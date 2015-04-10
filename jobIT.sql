@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `jobit`.`applicant` (
   `contact_number` VARCHAR(150) NOT NULL,
   `marital_status` VARCHAR(45) NOT NULL,
   `sex` CHAR(1) NOT NULL,
-  `notification_type` INT NOT NULL,
+  `notification_type` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`applicant_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `jobit`.`application` (
   `time` TIME NOT NULL,
   `place` VARCHAR(150) NOT NULL,
   `notes` VARCHAR(150) NULL DEFAULT NULL,
-  `decision` INT NULL,
+  `decision` INT(11) NULL DEFAULT NULL,
   `decision_message` VARCHAR(150) NULL DEFAULT NULL,
   PRIMARY KEY (`application_id`),
   UNIQUE INDEX `Appointment_ID_UNIQUE` (`application_id` ASC))
@@ -108,9 +108,10 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `jobit`.`certificate`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `jobit`.`certificate` (
-  `certificate_id` VARCHAR(16) NOT NULL,
-  `name` VARCHAR(100) NULL DEFAULT NULL,
-  `abbrev` VARCHAR(45) NOT NULL,
+  `certificate_id` INT NOT NULL AUTO_INCREMENT,
+  `applicant_id` VARCHAR(16) NOT NULL,
+  `name` VARCHAR(100) NULL,
+  /*`abbrev` VARCHAR(45) NULL,*/
   PRIMARY KEY (`certificate_id`),
   UNIQUE INDEX `certificate_id_UNIQUE` (`certificate_id` ASC))
 ENGINE = InnoDB
@@ -129,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `jobit`.`company` (
   `description` VARCHAR(150) NULL DEFAULT NULL,
   `company_img` VARCHAR(45) NULL DEFAULT NULL,
   `type` VARCHAR(50) NULL DEFAULT NULL,
-  `notification_type` INT NULL,
+  `notification_type` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`company_id`),
   UNIQUE INDEX `Company_ID_UNIQUE` (`company_id` ASC),
   UNIQUE INDEX `Account_ID_UNIQUE` (`account_id` ASC))
@@ -177,7 +178,8 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `jobit`.`skill`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `jobit`.`skill` (
-  `skill_id` VARCHAR(16) NOT NULL,
+  `skill_id` INT NOT NULL AUTO_INCREMENT,
+  `applicant_id` VARCHAR(16) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`skill_id`),
   UNIQUE INDEX `skill_id_UNIQUE` (`skill_id` ASC))
@@ -189,7 +191,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `jobit`.`work_experience`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `jobit`.`work_experience` (
-  `work_experience_id` VARCHAR(16) NOT NULL,
+  `work_experience_id` INT NOT NULL AUTO_INCREMENT,
   `applicant_id` VARCHAR(16) NOT NULL,
   `work_title` VARCHAR(100) NOT NULL,
   `years` VARCHAR(45) NOT NULL,

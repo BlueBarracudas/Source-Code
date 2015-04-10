@@ -74,7 +74,6 @@
 
 			createAccount($last_accId, $email, $password, '2');
 			createCompany($last_companyId, $last_accId);
-			
 			$reply = $email . " has been registered.";
 
 			}

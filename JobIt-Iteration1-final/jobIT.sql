@@ -39,7 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('10001','testing@domain.com','1234',1),('10002','ptrck.esquillo@gmail.com','1234',0),('10003','occs@dlsu.edu.ph','occs4lyf',2);
+INSERT INTO `account` VALUES ('10001','testing@domain.com','1234',1),('10002','ptrck.esquillo@gmail.com','1234',0),('10003','occs@dlsu.edu.ph','occs4lyf',2),('10004','jared_pangilinan@dlsu.edu.ph','jed123',0);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,6 +66,7 @@ CREATE TABLE `administrator` (
 
 LOCK TABLES `administrator` WRITE;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
+INSERT INTO `administrator` VALUES ('10001','10001',1,0);
 /*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +98,7 @@ CREATE TABLE `applicant` (
 
 LOCK TABLES `applicant` WRITE;
 /*!40000 ALTER TABLE `applicant` DISABLE KEYS */;
-INSERT INTO `applicant` VALUES ('10001','10002','Lance Patrick','Ramos','Esquillo','1940-01-01','Manila East Rd., Brgy Tandang Kutyo Tanay, Rizal','09152824229','single','M');
+INSERT INTO `applicant` VALUES ('10001','10002','Lance Patrick','Ramos','Esquillo','1996-07-10','Manila East Rd., Brgy Tandang Kutyo Tanay, Rizal','09152824229','single','M'),('10002','10004','Jared','Luke','Pangilinan','1995-11-09','San Juan City','09157740923','single','M');
 /*!40000 ALTER TABLE `applicant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,8 +114,9 @@ CREATE TABLE `applicantprofile` (
   `applicant_id` varchar(16) NOT NULL,
   `HS_name` varchar(45) NOT NULL,
   `college_name` varchar(45) NOT NULL,
+  `jobtitle` varchar(150) NOT NULL,
   `course` varchar(45) NOT NULL,
-  `skills` varchar(45) NOT NULL,
+  `skills` varchar(150) NOT NULL,
   `work_experience` varchar(45) DEFAULT NULL,
   `certificates` varchar(45) DEFAULT NULL,
   `resume_pdf` varchar(45) DEFAULT NULL,
@@ -129,6 +131,7 @@ CREATE TABLE `applicantprofile` (
 
 LOCK TABLES `applicantprofile` WRITE;
 /*!40000 ALTER TABLE `applicantprofile` DISABLE KEYS */;
+INSERT INTO `applicantprofile` VALUES ('10001','10001','La Salle College Antipolo','De La Salle University Manila','Lead Developer, Tester','Computer Science','Knowledgable in PHP, Java, HTML, Mobile Development','5, 3','CCNA, CCNP','10001_resume.pdf'),('10002','10002','La Salle Greenhills','De La Salle University Manila','Developer, Analyst','Computer Science','Knowedgable in Java, PHP, HTML, CSS','3, 1','CCIE, CCNP','10002_resume.pdf');
 /*!40000 ALTER TABLE `applicantprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,4 +340,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-07 21:41:27
+-- Dump completed on 2015-04-08 13:58:58
