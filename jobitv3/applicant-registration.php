@@ -302,7 +302,7 @@ $('#DOBmonth').change(function() {
         <div class="form-group">
             <label class="control-label col-md-2" for="pwd">Password:<span style="color:red">*</span></label>
             <div class="col-md-3">
-                <input type="password" class="form-control" id="pwd" name="password">
+                <input type="password" class="form-control" id="pwd" name="password" placeholder="6-15 characters">
                 
                 <div class="error_container" id="password_errorMessageContainer"><label class="error_message" id="password_errorMessage" name="password_errorMessage"><?php echo $pwErr; ?></label></div>
                 

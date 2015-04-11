@@ -81,6 +81,16 @@
    			} else {
      			$password = test_input($_POST["password"]);
      				// check if name only contains letters and whitespace
+                if(strlen($password) < 6 || strlen($password) >15)
+                {
+                    $pwErr = "Password should be 6-15 characters"; 
+       				$isErr = true;
+                }  
+                if(preg_match("/\s/",$password))
+                {
+                    $pwErr = "Password should not contain spaces"; 
+       				$isErr = true;
+                }  
      			if (preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/", $password)) {
        				$pwErr = "Password does not meet the requirements"; 
        				$isErr = true;
@@ -93,10 +103,6 @@
    			} else {
      			$conPass = test_input($_POST["confirmPassword"]);
      				// check if name only contains letters and whitespace
-     			if (preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/", $conPass)) {
-       				$cpErr = "Password does not meet the requirements"; 
-       				$isErr = true;
-     			}
      			if(strcmp($conPass, $password) != 0)
      			{
      				$cpErr = "Password does not match";
