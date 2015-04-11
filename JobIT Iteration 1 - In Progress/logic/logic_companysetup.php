@@ -46,12 +46,11 @@
 
 			if (empty($_POST["description"])) {
      			$descErr = "Description is required";
-     			$isErr = true;
    			} else {
      			$description = test_input($_POST["description"]);
      				// check if name only contains letters and whitespace
      			if (!preg_match("/^[a-zA-Z0-9,.!? ]*$/", $description)) {
-       				$nErr = "Only letters, numbers, white spaces, and commas are allowed"; 
+       				$descErr = "Only letters, numbers, white spaces, and commas are allowed"; 
        				$isErr = true;
      			}
    			}

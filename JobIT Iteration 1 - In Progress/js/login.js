@@ -5,11 +5,24 @@ if ( window.addEventListener ) {
 	    else state = 0;  
 	    if ( state == 10 ) {
 	    	var div = document.getElementById('loginHeader');
-	    	div.innerHTML += ' as Admin';
+	    	signInAdmin();
 	    } 
 	    }, true);  
 	} 
 
+function signInAdmin()
+{
+	alert("Admin login");
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function (){
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("loginHeader").innerHTML = xmlhttp.responseText;
+            }
+        }
+
+        xmlhttp.open("GET", "logic/logic_login.php?q=" + 1, true);
+        xmlhttp.send();
+}
 
 $(document).ready(function(){
 
