@@ -15,7 +15,8 @@
 
 
 #header_errorMessage{
-	display: none;
+	/*display: none;*/
+	padding: 0px 20px;
 }
 
  

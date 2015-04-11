@@ -60,6 +60,10 @@ if(isset($_SESSION["account_id"]))
            <h3 class="panel-title" id="SetupHeader">Set-up Profile <?php echo $reply; ?></h3>
         </div>
 
+         <div class="row">
+            <label class="error_message col-md-6" id="header_errorMessage" name="header_errorMessage">ERROR HERE</label>
+    </div>
+
         <div class="panel-body">
           
           <form class="form-horizontal company-setup-profile">

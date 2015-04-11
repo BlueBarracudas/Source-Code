@@ -130,6 +130,10 @@
                                   <h3 class="panel-title" id="companyReginstrationPanelHeader">Company Registration <p class="reply"> <?php echo $reply ?> <p> </h3>
                                </div>
 
+                                <div class="row">
+            <label class="error_message col-md-6" id="header_errorMessage" name="header_errorMessage">ERROR HERE</label>
+   						 </div>
+
                                <div class="panel-body">
                                   <form class=" col-md-12 form-horizontal" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 

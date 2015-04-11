@@ -109,6 +109,10 @@ function performClick(elemId) {
     
        </div>
 
+        <div class="row">
+            <label class="error_message col-md-6" id="header_errorMessage" name="header_errorMessage">ERROR HERE</label>
+    </div>
+
                               <div class="panel-body">
  
  <div id="body">
