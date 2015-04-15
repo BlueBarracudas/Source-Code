@@ -427,6 +427,376 @@ class applicantProfile
 		
 		}
 
+class certificate
+{
+	private $certificate_id;
+	private $certificate_name;
+	private $applicant_id;
+	private $competency;
+	private $is_valid;
+
+	function get_certificateid()
+	{
+		return $this->certificate_id;
+	}
+
+	function get_certificatename()
+	{
+		return $this->certificate_name;
+	}
+
+	function get_applicantid()
+	{
+		return $this->applicant_id;
+	}
+
+	function get_competency()
+	{
+		return $this->competency;
+	}
+
+	function get_isvalid()
+	{
+		return $this->is_valid;
+	}
+
+	/* setters */
+
+	function set_certicateid($input)
+	{
+		$this->certificate_id = $input;
+	}
+
+	function set_certicatename($input)
+	{
+		$this->certificate_name = $input;
+	}
+
+	function set_applicantid($input)
+	{
+		$this->applicant_id = $input;
+	}
+
+	function set_competency($input)
+	{
+		$this->competency = $input;
+	}
+
+	function set_isvalid($input)
+	{
+		$this->is_valid = $input;
+	}
+
+
+}
+
+class workexperience{
+
+	private $workexperience_id;
+	private $applicant_id;
+	private $work_title;
+	private $years;
+	private $company_name;
+
+	function get_workexperienceid()
+	{
+		return $this->workexperience_id;
+	}
+
+	function get_applicantid()
+	{
+		return $this->applicant_id;
+	}
+
+	function get_worktitle()
+	{
+		return $this->applicant_id;
+	}
+
+	function get_years()
+	{
+		return $this->years;
+	}
+
+	function get_companyname()
+	{
+		return $this->company_name;
+	}
+
+	/*Setters*/
+
+	function set_workexperienceid($input)
+	{
+		$this->workexperience_id = $input;
+	}
+
+	function set_applicantid($input)
+	{
+		$this->applicant_id = $input;
+	}
+
+	function set_worktitle($input)
+	{
+		$this->work_title = $input;
+	}
+
+	function set_years($input)
+	{
+		$this->years = $input;
+	}
+
+	function set_companyname($input)
+	{
+		$this->company_name = $input;
+	}
+
+
+}
+
+class skill{
+
+	private $skill_id;
+	private $applicant_id;
+	private $name;
+
+	function get_skillid()
+	{
+		return $this->skill_id;
+	}
+
+	function get_applicantid()
+	{
+		return $this->applicant_id;
+	}
+
+	function get_name()
+	{
+		return $this->name;
+	}
+
+	/* set */
+
+	function set_skillid($input)
+	{
+		$this->skill_id = $input;
+	}
+
+	function set_applicantid($input)
+	{
+		$this->applicant_id = $input;
+	}
+
+	function set_name($input)
+	{
+		$this->name = $input;
+	}
+
+
+}
+
+class joblisting{
+
+	private $job_id;
+	private $company_id;
+	private $title;
+	private $description;
+	private $location;
+	private $work_experience;
+	private $salary;
+	private $work_hours;
+	private $slots_available;
+	private $skill_tag;
+	private $course_tag;
+	private $joblist_pdf;
+
+	function get_jobid()
+	{
+		return $this->job_id;
+	}
+
+	function get_companyid()
+	{
+		return $this->company_id;
+	}
+
+	function get_title()
+	{
+		return $this->title;
+	}
+
+	function get_description()
+	{
+		return $this->description;
+	}
+
+	function get_location()
+	{
+		return $this->location;
+	}
+
+	function get_workexperience()
+	{
+		return $this->work_experience;
+	}
+
+	function get_salary()
+	{
+		return $this->salary;
+	}
+
+	function get_workhours()
+	{
+		return $this->work_hours;
+	}
+
+	function get_slotsavailable()
+	{
+		return $this->slots_available;
+	}
+
+	function get_skilltag()
+	{
+		return $this->skill_tag;
+	}
+
+	function get_coursetag()
+	{
+		return $this->course_tag;
+	}
+
+	function get_pdf()
+	{
+		return $this->joblist_pdf;
+	}
+
+	/*Setters*/
+
+	function set_jobid($input)
+	{
+		$this->job_id = $input;
+	}
+
+	function set_companyid($input)
+	{
+		$this->company_id = $input;
+	}
+
+	function set_title($input)
+	{
+		$this->title = $input;
+	}
+
+	function set_description($input)
+	{
+		$this->description = $input;
+	}
+
+	function set_location($input)
+	{
+		$this->location = $input;
+	}
+
+	function set_workexperience($input)
+	{
+		$this->work_experience = $input;
+	}
+
+	function set_salary($input)
+	{
+		$this->salary = $input;
+	}
+
+	function set_workhours($input)
+	{
+		$this->work_hours = $input;
+	}
+
+	function set_slotsavailable($input)
+	{
+		$this->slots_available = $input;
+	}
+
+	function set_skilltag($input)
+	{
+		$this->skill_tag = $input;
+	}
+
+	function set_coursetag($input)
+	{
+		$this->course_tag = $input;
+	}
+
+	function set_pdf($input)
+	{
+		$this->joblist_pdf = $input;
+	}
+
+
+}
+
+class feedback{
+
+	private $feedback_id;
+	private $company_id;
+	private $applicant_id;
+	private $notes;
+	private $decision;
+
+	function get_feedbackid()
+	{
+		return $this->feedback_id;
+	}
+
+	function get_companyid()
+	{
+		return $this->company_id;
+	}
+
+	function get_applicantid()
+	{
+		return $this->applicant_id;
+	}
+
+	function get_notes()
+	{
+		return $this->notes;
+	}
+
+	function get_decision()
+	{
+		return $this->decision;
+	}
+
+	/* set */
+
+	function set_feedbackid($input)
+	{
+		$this->feedback_id = $input;
+	}
+
+	function set_companyid($input)
+	{
+		$this->company_id = $input;
+	}
+
+	function set_applicantid($input)
+	{
+		$this->applicant_id = $input;
+	}
+
+	function set_notes($input)
+	{
+		$this->notes = $input;
+	}
+
+	function set_decision($input)
+	{
+		$this->decision = $input;
+	}
+
+
+}
+
 class DBConnection
 {
 	private $servername;
@@ -439,7 +809,7 @@ class DBConnection
 	{
 			$this->servername = "localhost";
 			$this->dbuser = "root";
-			$this->password = "soawesome";
+			$this->password = "1234";
 			$this->dbName = "jobit";
 			$this->conn = new mysqli($this->servername, $this->dbuser, $this->password, $this->dbName);
 	}
