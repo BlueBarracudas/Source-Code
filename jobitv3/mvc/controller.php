@@ -6,6 +6,11 @@
 		$applicants = array();
 		$companies = array();
 		$applicant_profiles = array();
+		$certificates = array();
+		$workexperiences = array();
+		$skills = array();
+		$joblistings = array();
+		$feedbacks = array();
 
 		function test_input($data) {
    			$data = trim($data);
@@ -239,6 +244,157 @@
 
 		}
 
+		function loadJobListings()
+		{
+			global $joblistings;
+			$joblistings = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM joblisting";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_jl = new joblisting();
+					$temp_jl->set_jobid($row['job_id']);
+					$temp_jl->set_companyid($row['company_id']);
+					$temp_jl->set_title($row['title']);
+					$temp_jl->set_description($row['description']);
+					$temp_jl->set_location($row['location']);
+					$temp_jl->set_workexperience($row['work_experience']);
+					$temp_jl->set_salary($row['salary']);
+					$temp_jl->set_workhours($row['work_hours']);
+					$temp_jl->set_slotsavailable($row['slots_available']);
+					$temp_jl->set_skilltag($row['skill_tag']);
+					$temp_jl->set_coursetag($row['course_tag']);
+					$temp_jl->set_pdf($row['joblist_pdf']);
+
+					$joblistings[count($joblistings)] = $temp_jl;
+				}
+			}
+
+			$connect->close();
+		}
+
+		function loadSkills()
+		{
+			global $skills;
+			$skills = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM skill";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_sk = new skill();
+					$temp_sk->set_skillid($row['skill_id']);
+					$temp_sk->set_applicantid($row['applicant_id']);
+					$temp_sk->set_name($row['name']);
+
+					$skills[count($skills)] = $temp_sk;
+				}
+			}
+
+			$connect->close();
+
+		}
+
+		function loadWorkExperience()
+		{
+			global $workexperiences;
+			$workexperiences = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM work_experience";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_we = new workexperience();
+					$temp_we->set_workexperienceid($row['work_experience_id']);
+					$temp_we->set_applicantid($row['applicant_id']);
+					$temp_we->set_worktitle($row['work_title']);
+					$temp_we->set_years($row['years']);
+					$temp_we->set_companyname($row['company_name']);
+
+					$workexperiences[count($workexperiences)] = $temp_we;
+					
+				}
+			}
+
+			$connect->close();
+
+		}
+
+		function loadCertificates()
+		{
+			global $certificates;
+			$certificates = null;
+
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM certificate";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_ce = new certificate();
+					$temp_ce->set_certificateid($row['certificate_id']);
+					$temp_ce->set_certificatename($row['certificate_name']);
+					$temp_ce->set_applicantid($row['applicant_id']);
+					$temp_ce->set_competency($row['competency']);
+					$temp_ce->set_isvalid($row['is_valid']);
+
+					$certificates[count($certificates)] = $temp_ce;
+					
+				}
+			}
+
+			$connect->close();
+		}
+
+		function loadFeedbacks()
+		{
+			global $feedbacks;
+			$feedbacks = null;
+				$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM feedback";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_f = new feedback();
+					$temp_f->set_feedbackid($row['feedback_id']);
+					$temp_f->set_companyid($row['company_id']);
+					$temp_f->set_applicantid($row['applicant_id']);
+					$temp_f->set_notes($row['notes']);
+					$temp_f->set_decision($row['decision']);
+					
+					$feedbacks[count($feedbacks)] = $temp_f;
+					
+				}
+			}
+			$connect->close();
+
+		}
+
 		function getLastAccId()
 		{
 			$id = null;
@@ -349,6 +505,84 @@
 
     		$connect->close();
 		}
+
+		function createJobListing($jid, $cid, $t, $desc, $loc, $we, $sal, $wh, $sa, $st, $ct, $pdf)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "INSERT INTO joblisting(job_id, company_id, title, description, location, work_experience, salary, work_hours, slots_available, skill_tag, course_tag, joblist_pdf) 
+			VALUES ('$jid', '$cid', '$t', '$desc', '$loc', '$we', '$sal', '$wh', '$sa', '$st', '$ct', '$pdf')";
+
+			if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    		} else loadJobListings();
+
+    		$connect->close();
+
+		}
+
+		function createSkill($sid, $aid, $n)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "INSERT INTO skill(skill_id, applicant_id, name) 
+			VALUES ('$sid', '$aid', '$n')";
+
+			if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    		} else loadSkills();
+
+    		$connect->close();
+
+		}
+
+		function createWorkExperience($weid, $aid, $wt, $y, $cn)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "INSERT INTO work_experience(work_experience_id, applicant_id, work_title, years, company_name) 
+			VALUES ('$weid', '$aid', '$wt', '$y', '$cn')";
+
+			if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    		} else loadWorkExperience();
+
+    		$connect->close();
+		}
+
+		function createCertificate($cid, $cn, $aid, $c, $iv)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "INSERT INTO certificate(certificate_id, certificate_name, applicant_id, competency, is_valid) 
+			VALUES ('$cid', '$cn', '$aid', '$c', '$iv')";
+
+			if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    		} else loadCertificates();
+
+    		$connect->close();
+		}
+
+		function createFeedback($fid, $cid, $aid, $n, $d)
+		{
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "INSERT INTO feedback(feedback_id, company_id, applicant_id, notes, decision) 
+			VALUES ('$fid', '$cid', '$aid', '$n', '$d')";
+
+			if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    		} else loadFeedbacks();
+
+    		$connect->close();
+		}
+
 
 		function createCompany($cid, $aid)
 		{
