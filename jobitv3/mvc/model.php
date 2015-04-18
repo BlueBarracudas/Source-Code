@@ -209,7 +209,7 @@ class applicant
 			}
 			function get_profile()
 			{
-				return $this->profile();
+				return $this->profile;
 			}
 			function get_notiftype()
 			{
@@ -462,12 +462,12 @@ class certificate
 
 	/* setters */
 
-	function set_certicateid($input)
+	function set_certificateid($input)
 	{
 		$this->certificate_id = $input;
 	}
 
-	function set_certicatename($input)
+	function set_certificatename($input)
 	{
 		$this->certificate_name = $input;
 	}
@@ -510,7 +510,7 @@ class workexperience{
 
 	function get_worktitle()
 	{
-		return $this->applicant_id;
+		return $this->work_title;
 	}
 
 	function get_years()
@@ -604,6 +604,7 @@ class joblisting{
 	private $work_experience;
 	private $salary;
 	private $work_hours;
+	private $total_slots;
 	private $slots_available;
 	private $skill_tag;
 	private $course_tag;
@@ -647,6 +648,11 @@ class joblisting{
 	function get_workhours()
 	{
 		return $this->work_hours;
+	}
+
+	function get_totalslots()
+	{
+		return $this->total_slots;
 	}
 
 	function get_slotsavailable()
@@ -709,6 +715,11 @@ class joblisting{
 	function set_workhours($input)
 	{
 		$this->work_hours = $input;
+	}
+
+	function set_totalslots($input)
+	{
+		$this->total_slots = $input;
 	}
 
 	function set_slotsavailable($input)

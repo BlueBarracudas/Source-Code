@@ -38,8 +38,11 @@
 		{
 			loadAccounts();
 			loadCompanies();
-			loadApplicants();
+			loadCertificates();
+			loadJobListings();
+			loadWorkExperience();
 			loadApplicantProfile();
+			loadApplicants();
 		}
 
 		function verify($email, $password)
@@ -168,6 +171,7 @@
 					$temp_app->set_contactno($row['contact_number']);
 					$temp_app->set_notiftype($row['notification_type']);
 					$temp_app->set_city($row['city']);
+					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
 
 					$applicants[count($applicants)] = $temp_app;
 				}
@@ -197,9 +201,8 @@
 					$temp_prof->set_school($row['HS_name']);
 					$temp_prof->set_college($row['college_name']);
 					$temp_prof->set_course($row['course']);
-					$temp_prof->set_certexams($row['certificates']);
-					$temp_prof->set_title($row['jobtitle']);
-					$temp_prof->set_workexp($row['work_experience']);
+					$temp_prof->set_certexams(getCertificatesById($row['applicant_id'])	);
+					$temp_prof->set_workexp(getWorkExperienceById($row['applicant_id']));
 					$temp_prof->set_resume($row['resume_pdf']);
 
 					$applicant_profiles[count($applicant_profiles)] = $temp_prof;
@@ -208,6 +211,107 @@
 
 			$connect->close();
 
+		}
+
+		function getApplicantProfileById($id)
+		{
+			global $applicant_profiles;
+
+			for($i = 0; $i<count($applicant_profiles); $i++)
+			{
+				$temp_ap = $applicant_profiles[$i];
+				if($id == $temp_ap->get_applicantid())
+				{
+					return $temp_ap;
+				}
+			}
+
+			return null;
+		}
+
+		function getWorkExperienceById($id)
+		{
+			global $workexperiences;
+			$we = array();
+
+			for($i = 0; $i<count($workexperiences); $i++)
+			{
+				$temp_we = $workexperiences[$i];
+				if($id == $temp_we->get_applicantid())
+				{
+					$we[count($we)] = $temp_we;
+				}
+			}
+
+			return $we;
+		}
+
+		function getCertificatesById($id)
+		{
+			global $certificates;
+			$cert = array();
+
+			for($i = 0; $i<count($certificates); $i++)
+			{
+				$temp_c = $certificates[$i];
+				if($id == $temp_c->get_applicantid())
+				{
+					$cert[count($cert)] = $temp_c;
+				}
+			}
+
+			return $cert;
+		}
+
+		function getJobListingById($id)
+		{
+			global $joblistings;
+
+			for($i = 0; $i<count($joblistings); $i++)
+			{
+				$temp_jl = $joblistings[$i];
+				if($id == $temp_jl->get_jobid())
+				{
+					return $temp_jl;
+				}
+			}
+
+			return null;
+		}
+
+
+
+		function getCompanyById($id)
+		{
+			global $companies;
+
+			for($i = 0; $i<count($companies); $i++)
+			{
+				$temp_c = $companies[$i];
+				if($id == $temp_c->get_companyid())
+				{
+					return $temp_c;
+				}
+			}
+
+			return null;
+		}
+
+		function getCompanyIdByName($name)
+		{
+			global $companies;
+
+			for($i = 0; $i<count($companies); $i++)
+			{
+				$temp_c = $companies[$i];
+				//echo strtolower($temp_c->get_name()) . " " . strtolower($name) . "<br>";
+				if(strpos(strtolower($temp_c->get_name()), strtolower($name)) !== false)
+				{	
+					return $temp_c->get_companyid();
+				}
+			}
+
+			return null;
 		}
 
 		function loadCompanies()
@@ -267,6 +371,7 @@
 					$temp_jl->set_workexperience($row['work_experience']);
 					$temp_jl->set_salary($row['salary']);
 					$temp_jl->set_workhours($row['work_hours']);
+					$temp_jl->set_totalslots($row['total_slots']);
 					$temp_jl->set_slotsavailable($row['slots_available']);
 					$temp_jl->set_skilltag($row['skill_tag']);
 					$temp_jl->set_coursetag($row['course_tag']);
@@ -277,6 +382,174 @@
 			}
 
 			$connect->close();
+		}
+
+		function populateJobListings($results, $key)
+		{
+			$joblistings = $results;
+			//echo "<h2 class=\"emptyMessage\"> Results for ".$key.": </h2>";
+			for($i = 0; $i<count($joblistings); $i++)
+			{
+				$temp = $joblistings[$i];
+				$company = getCompanyById($temp->get_companyid());
+
+				echo "<div class=\"panel panel-default\" id=\"result2\">
+		        <div class=\"panel-heading\">
+		            <h3 class=\"panel-title\">".$company->get_name()." - ". $temp->get_title() ."</h3>
+		        </div>
+
+		        <div class=\"panel-body\">
+		            <div class=\"row\">
+		            	<div class=\"col-md-6\">
+                            <div class=\"row\"><label class=\"col-md-6\">Location: </label> <label class=\"col-md-4 output-label\">".$temp->get_location()."</label> </div>
+                            <div class=\"row\"><label class=\"col-md-6\">Course Required: </label> <label class=\"col-md-4 output-label\">".$temp->get_coursetag()."</label></div>
+                            <div class=\"row\"><label class=\"col-md-6\">Total Slots: </label> <label class=\"col-md-4 output-label\">".$temp->get_totalslots()."</label></div>
+                             <div class=\"row\"><label class=\"col-md-6\">Slots Available: </label> <label class=\"col-md-4 output-label\">".$temp->get_slotsavailable()."</label></div>
+		            	</div>
+		            	<div class=\"col-md-6 resultButtonCol\">
+		            		<div class=\"col-md-6\">
+		            			<a href=\"applicantViewJobListing.php?id=".$temp->get_jobid()."\"><input type=\"button\" class=\"btn btn-default btn-fill\" id=\"viewJobListing2\" name=\"viewJobListing2\" value=\"View Job Listing\"/></a>
+		            		</div>
+		            		<div class=\"col-md-6\">
+		            			<input type=\"button\" class=\"btn btn-success btn-fill\" id=\"apply2\" name=\"apply2\" value=\"Apply\"/>
+		            		</div>
+		            	</div>
+		            </div>
+		        </div>
+
+				</div>";
+
+			}
+		}
+
+		function searchJobListingByKeyWord($key)
+		{
+			$searchResults = array();
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$cid = getCompanyIdByName($key);
+
+			$sql = "SELECT * from joblisting 
+			WHERE slots_available > 0 AND (title LIKE '%".$key."%' 
+			OR location LIKE '%".$key."%' 
+			OR work_experience LIKE '%".$key."%' 
+			OR skill_tag LIKE '%".$key."%' 
+			OR course_tag LIKE '%".$key."%'";
+
+			if($cid != null)
+				$sql .= " OR company_id LIKE '%".$cid."%')";
+			else $sql .= ")";	
+
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_jl = new joblisting();
+					$temp_jl->set_jobid($row['job_id']);
+					$temp_jl->set_companyid($row['company_id']);
+					$temp_jl->set_title($row['title']);
+					$temp_jl->set_description($row['description']);
+					$temp_jl->set_location($row['location']);
+					$temp_jl->set_workexperience($row['work_experience']);
+					$temp_jl->set_salary($row['salary']);
+					$temp_jl->set_workhours($row['work_hours']);
+					$temp_jl->set_totalslots($row['total_slots']);
+					$temp_jl->set_slotsavailable($row['slots_available']);
+					$temp_jl->set_skilltag($row['skill_tag']);
+					$temp_jl->set_coursetag($row['course_tag']);
+					$temp_jl->set_pdf($row['joblist_pdf']);
+
+					$searchResults[count($searchResults)] = $temp_jl;
+				}
+			}
+
+			$connect->close();	
+
+			echo count($searchResults);
+
+			return $searchResults;
+		}
+
+		function filteredSearchJobListing(array $request)
+		{
+			$searchResults = array();
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$by_company = $request["companyInput"];
+			$by_position = $request["jobPositionInput"];
+			$by_college = $request["collegeCourseInput"];
+			$by_skills = $request["skillsInput"];
+			$by_location = $request["locationInput"];
+
+			$sql = "SELECT * from joblisting WHERE slots_available > 0 AND (";
+			$conditions = array();
+
+			if($by_company != "")
+			{
+				$cid = getCompanyIdByName($by_company);
+				if($cid != null)
+					$conditions[] = "company_id LIKE '%".$cid."%'";
+			}
+
+			if($by_position != "")
+			{
+				$conditions[] = "title LIKE '%".$by_position."%'"; 
+			}
+
+			if($by_college != "")
+			{
+				$conditions[] = "course_tag LIKE '%".$by_college."%'"; 
+			}
+
+			if($by_skills != "")
+			{
+				$conditions[] = "skill_tag LIKE '%".$by_skills."%'"; 
+			}
+
+			if($by_location != "")
+			{
+				$conditions[] = "location LIKE '%".$by_location."%'"; 
+			}
+
+			if(count($conditions) > 0) {
+				$sql .= " WHERE " . implode (' OR ', $conditions);
+
+				$sql .= ")";
+
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_jl = new joblisting();
+					$temp_jl->set_jobid($row['job_id']);
+					$temp_jl->set_companyid($row['company_id']);
+					$temp_jl->set_title($row['title']);
+					$temp_jl->set_description($row['description']);
+					$temp_jl->set_location($row['location']);
+					$temp_jl->set_workexperience($row['work_experience']);
+					$temp_jl->set_salary($row['salary']);
+					$temp_jl->set_workhours($row['work_hours']);
+					$temp_jl->set_totalslots($row['total_slots']);
+					$temp_jl->set_slotsavailable($row['slots_available']);
+					$temp_jl->set_skilltag($row['skill_tag']);
+					$temp_jl->set_coursetag($row['course_tag']);
+					$temp_jl->set_pdf($row['joblist_pdf']);
+
+					$searchResults[count($searchResults)] = $temp_jl;
+				}
+			}
+
+			$connect->close();	
+
+			return $searchResults;
+		}
+			return "";
 		}
 
 		function loadSkills()
@@ -303,6 +576,8 @@
 			}
 
 			$connect->close();
+
+
 
 		}
 
