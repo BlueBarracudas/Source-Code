@@ -1,0 +1,15 @@
+joblisting table
+ -added total_slots
+ -added certificate
+ -added work_days
+ -added job_requirement
+
+User Story# 9:
+ - no upload resume yet 
+ - still needs integration
+
+User Story# 10
+ - none yet
+
+User Story #4
+ - none yet
