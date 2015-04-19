@@ -1,0 +1,36 @@
+	#container2{
+/*		display: none;*/
+		 width: 70%;
+
+        border-radius: 5px;
+	}
+	
+	#container2 .panel{
+		width: 50%;
+		margin: 0 auto;
+	}
+
+  #buttons{
+      text-align: center;
+    }      
+      
+  #body{
+  padding-right: 3%;
+  padding-left: 3%;
+  }
+
+  #othercollegeinput{
+    display: none;
+  }
+
+  #othercourseinput{
+    display: none;
+  }
+
+  #otherCertification{
+    display: none;
+  }
+
+  #hschooladd, #collegeadd, #courseadd{
+    visibility: hidden;
+  }

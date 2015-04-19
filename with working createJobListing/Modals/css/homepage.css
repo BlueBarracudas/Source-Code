@@ -1,0 +1,14 @@
+    .container-fluid {
+
+        border: 1px solid gray;
+        border-radius: 5px;
+	width: 70%;
+
+
+
+    }
+    
+    .head {
+        background-color: #ff5200;
+        color: white;
+    }

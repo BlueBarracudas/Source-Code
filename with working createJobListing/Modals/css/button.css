@@ -1,0 +1,59 @@
+.btn{
+		/*margin-top: 8px;
+		margin-bottom: 8px;*/
+		min-width: 50px;
+}
+
+
+
+.btn-success{
+	background-color: rgba(255,82,0, 1);
+	border-color: rgba(255,82,0, 1);
+	background-image: none;
+
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+background-color: rgba(255,82,0, 1);
+	border-color: rgba(255,82,0, 1);
+	background-image: none;
+}
+
+
+.btn-success:hover{
+		   background-image: none;
+		   background-color: rgba(255,82,0, 0.8);
+		   border-color: rgba(255,82,0, 0.8);
+}
+
+.btn-success:focus{
+		   background-image: none;
+		   background-color: rgba(255,82,0, 0.8);
+		   border-color: rgba(255,82,0, 0.8);
+}
+
+.btn-row{
+	text-align: center;
+}
+
+
+

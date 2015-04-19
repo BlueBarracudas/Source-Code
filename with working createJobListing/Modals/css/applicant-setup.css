@@ -1,0 +1,52 @@
+/*.panel{
+	width: 800px;
+}
+
+*/
+/*
+  .container {
+        width: 50%;
+
+        border-radius: 5px;
+    }*/
+
+  .row{
+    padding-left: 2%; 
+  }
+    
+  #buttons{
+      text-align: center;
+    }      
+      
+  #body{
+  padding-right: 3%;
+  padding-left: 3%;
+  }
+
+  #hschooladd, #collegeadd, #courseadd{
+    visibility: hidden;
+  }
+
+.dateachieved-label{
+	margin-top: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.dateachieved-input{
+	margin-top: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+  #othercollegeinput{
+    display: none;
+  }
+
+  #othercourseinput{
+    display: none;
+  }
+
+  #otherCertification{
+    display: none;
+  }

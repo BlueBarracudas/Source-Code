@@ -1,0 +1,14 @@
+ITERATION 2 UI v2 Guide
+
+Navbars
+1. Contains the menu
+2. Notifcation Settings
+3. Change Password
+4. Edit Profile (for applicant and company onlyl sa UI kasama ang mga admin pero disregard niyo na yun)
+
+
+1. Each page has its own .js file for its navbar. If you have to change the links of the navbar you have to do so on the other .js files. for example you changed
+a link in jobitmenuApplicantHomepage.js you have to change it in other jobitmenuApplicant_.js files.
+
+2. Notification Settings. The html code for this can be found in userNotifications.js. You can write your php code here and that's good for all navbars.
+Enclose your code per line with a ' ' + 

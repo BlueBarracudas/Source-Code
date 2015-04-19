@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job List</title>
+<link rel="shortcut icon" href="">
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.css">
+<link rel="stylesheet" href="css/bootstrap.theme.min.css">
+<link rel="stylesheet" href="css/companyViewListings.css">
+<link rel="stylesheet" href="css/button.css">
+<script src="js/jquery-2.1.3.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/companyViewListings.js"></script>
+</head>
+<body>
+
+    <!--Details Popup-->
+    <div id="details-popup" class="modal fade" role="dialog">
+        <div class="modal-dialog" id="details-container">
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title" id="details-popup-header">Job Details</h4>
+                </div>
+                <!--Body-->
+                <div class="model-body">
+                    <!--Position-->
+                    <div class="row  popup-details">
+                        <div class="col-md-2">
+                            <label>Job Position:</label>
+                        </div>
+                        <div class="col-md-10">
+                            <p>{{company.Position}}</p>
+                        </div>
+                    </div>
+                    <!--Details-->
+                    <div class="row  popup-details">
+                        <div class="col-md-2">
+                            <label>Job Details:</label>
+                        </div>
+                        <div class="col-md-10">
+                            <ul id="details-popup-list">
+                                <li>{{job.Detail1}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <!--Buttons-->
+                    <div class="row">
+                        <div class="col-md-12 btn-row">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Edit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    <!--Edit Popup-->
+    <div id="edit-popup" class="modal fade">
+        <div class="modal-dialog" id="edit-container">
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title" id="edit-popup-header">Reschedule</h4>
+                </div>
+                <!--Body-->
+                <form class="form-horizontal" role="form" id="reschedule-form">
+                    <div class="modal-body">
+                            <!--Job Position input-->
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="edit-job-position">Job Postion:</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="edit-job-position" placeholder="Enter Job Position">
+                                    <span class="error-msg">Error Message</span>
+                                </div>
+                            </div>
+                            <!--Job Details input-->
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="edit-job-details">Time:</label>
+                                <div class="col-md-10" id="edit-input-div">
+                                    <input type="text" class="form-control" id="edit-job-details1" placeholder="Enter Job Detail">
+                                    <span class="error-msg">Error Message</span>
+                                </div>
+                            </div>
+                            <div class="row btn-row">
+                                <button type="button" class="btn btn-link" id="add_another_detail_btn" onclick="popup_add_detail_form()">+add Another Job Detail</button>
+                            </div>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <div class="col-md-12 btn-row">
+                                <button type="submit" class="btn btn-success" data-dismiss="modal">Submit</button>
+                                <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>  
+        </div>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</html>

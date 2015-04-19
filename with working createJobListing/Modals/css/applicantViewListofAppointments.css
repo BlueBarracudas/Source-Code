@@ -1,0 +1,74 @@
+.panel-default {
+            border: 1px solid black;
+        }
+    
+        .panel-heading {
+            background-image: none !important;
+            background-color: #ff5200 !important;
+            color: white !important;
+        }
+        
+        #approval-btn-group {
+
+            min-height: 100px;
+            max-height: 200px;
+            border-radius: 0px;
+            padding: 30px 5px;
+        }
+    
+        #approval-btn-group button {
+            width: 175px;
+            margin-bottom: 5px;
+        }
+    
+        #appointment-list {
+            height: 600px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+    
+        .checkbox {
+            margin-top: 30px;
+        }
+    
+        .appointment-details {
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+    
+        .appointment-btns {
+            margin-top: 5px;
+        }
+    
+        .appointment-btns button {
+            width: 100px;
+            margin-bottom: 5px;
+        }
+    
+        .see-more-btn {
+            margin-top: 20px;
+        }
+    
+        .appointment-item {
+            border: 1px solid black;
+        }
+    
+        #details-popup .row {
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+    
+        #details-popup textarea {
+            resize: none;
+        }
+    
+        .error-msg {
+            color: red;
+            visibility: hidden;
+        }
+    
+        .empty-span {
+            color: red;
+            position: relative;
+            left: 40%;
+        }

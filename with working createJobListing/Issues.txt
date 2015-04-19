@@ -1,0 +1,3 @@
+The Modals for viewing a job profile and listing is bad in design. - Deleted the said modals
+Error messages are not hidden nor are in red. - Not fixed
+companyViewListOfAppointments' modal for View Appointment has some format issues - Fixed

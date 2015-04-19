@@ -1,0 +1,91 @@
+.competency-checkbox{
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+.align-center{
+	text-align: center;
+}
+
+.align-left{
+	text-align: left;
+}
+
+.align-right{
+	text-align: right;
+}
+
+.test{
+	background-color: cyan;
+}
+
+.t1{
+	background-color: red;
+}
+
+.t2{
+	background-color: blue;
+}
+
+.t3{
+	background-color: green;
+}
+
+
+.pl-zero{
+	padding-left: 0px;
+}
+
+#mainContainer{
+	/*background-color: red;*/
+	padding-top: 80px;
+
+}
+
+.mainContainer{
+	/*background-color: red;*/
+	padding-top: 80px;
+
+}
+
+.button-row{
+	text-align: center;
+}
+
+.search-result-btn{
+	margin-top: 22px;
+	margin-bottom: 22px;
+}
+
+.output-label{
+	font-weight: normal;
+}
+
+ label, .output-label{
+ 	text-overflow: string;
+ }
+
+ .modal-header{
+  background-color: #ff5200 !important;
+  color: white !important;
+  border-radius: 0px!important;
+}
+
+.profileImg{
+	width: 150px;
+	height: 150px;
+}
+
+a{
+	text-decoration: none !important;
+}
+
+.form-group-spacer{
+	visibility: hidden;
+}
+
+.collapse, .well{
+	background-color: none !important;
+	background-image: none !important;
+}
+

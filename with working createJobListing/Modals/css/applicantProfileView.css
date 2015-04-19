@@ -1,0 +1,28 @@
+    .container-fluid {
+
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+    
+    .head {
+        background-color: #ff5200;
+        color: white;
+    }
+    
+    .error-msg {
+        display: none;
+    }
+	
+	.leftside{
+	width : 60%;
+	}
+	
+	.rightside{
+	width :40%;
+	}
+
+.hide{
+
+display: none;
+
+}

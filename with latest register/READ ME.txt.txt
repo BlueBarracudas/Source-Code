@@ -1,0 +1,7 @@
+Document here the changes you made. Just give a brief description.
+
+4/11/2015 0113H - David
+Edited the UI for applicant-registration.php and applicant-setup.php
+
+4/11/2015 ~0400H - Karl
+Edit functionality if adding Job Titles and Certs

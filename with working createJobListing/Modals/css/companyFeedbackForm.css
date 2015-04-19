@@ -1,0 +1,10 @@
+.panel-heading {
+    background-image: none !important;
+    background-color: #ff5200 !important;
+    color: white !important;
+}
+        
+.error-msg {
+    color: red;
+    visibility: hidden;
+}

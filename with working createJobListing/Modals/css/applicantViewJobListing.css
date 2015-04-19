@@ -1,0 +1,24 @@
+ .container {
+        width: 45%;
+        border: 1px solid gray;
+        border-radius: 5px;
+    }
+    
+    #header {
+        background-color: #ff5200;
+        color: white;
+    }
+    
+    .error-msg {
+        display: none;
+    }
+    
+    .daysgrp{
+    
+    padding-left: 5%;
+    
+    }
+    .button-padding{
+    padding-bottom: 5%;
+    
+    }

@@ -1,0 +1,41 @@
+Iteration 2 UI v2 Issues
+
+applicantEditProfile.html - fixed
+applicantSearch.html - fixed
+applicantViewListOfAppointments.html - fixed
+companyCreateJobListing.html - fixed
+companySearch.html - fixed
+companyViewInterviewedApplicants.html - checked, nothing to change
+companyViewJobListing.html - fixed
+companyViewListOfAppointments.html - fixed
+remove "all" and "selected" - fixed
+applicantViewListOfAppointments.html - fixed
+companyViewJobListings.html - fixed
+companyViewListOfAppointments.html - fixed
+
+lists - delete, cancel, reject must remove div element
+done
+
+
+
+fix nav bars - pending
+done
+
+
+Issues as of 4/18/2015 1319H
+nav bars
+	change link of edit account info in Applicant nav bar
+
+
+
+
+
+
+
+
+NOTES (not issues):
+nav bars need their respective js and css to work
+nav bars
+modals
+
+

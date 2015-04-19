@@ -1,0 +1,64 @@
+.container {
+    width: 70%;
+}
+
+.panel-default {
+            border: 1px solid black;
+        }
+    
+.panel-heading {
+            background-image: none !important;
+            background-color: #ff5200 !important;
+            color: white !important;
+}
+        
+#delete-btn-group {
+    min-height: 100px;
+    max-height: 200px;
+    border-radius: 0px;
+    padding: 30px 5px;
+}
+
+#delete-btn-group button {
+    margin-top: 5px;
+    width: 125px;
+}
+    
+#job-list {
+    height: 600px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+    
+.job-item {
+    border-radius: 0px !important;
+    border: 1px solid black;
+}
+
+.checkbox {
+    margin-top: 45px;
+}
+
+.job-detail {
+    margin-top: 35px;
+}
+
+.job-item button {
+    margin-top: 5px;
+    width: 100px;        
+}
+    
+.empty-span {
+    color: red;
+    position: relative;
+    left: 40%;
+}
+
+.popup-details {
+    margin-left: 10px;
+}
+    
+.error-msg {
+            color: red;
+            visibility: hidden;
+}
