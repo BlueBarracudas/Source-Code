@@ -1,0 +1,58 @@
+.container{
+	/*background-color: blue;*/
+	margin: 0 auto;
+}
+
+
+#row1{
+	border-radius: 0px !important;
+}
+
+/*.panel-heading{
+	background-color: rgb(255,82,0) !important;
+}*/
+
+/*.panel-heading {background-color: red!important}*/
+
+#InnerContainer{
+
+margin: 0 auto;
+text-align:center;
+}
+
+
+
+.center{
+
+text-align:center;
+
+}
+
+
+.panel-default>.panel-heading{
+	background-color: rgb(255,82,0) !important;
+	background-image: none !important; 
+	background-color: rgb(255,82,0) !important;
+}
+
+.panel-default>.panel-heading>.panel-title{
+	color:white;
+	text-align: left;
+
+}
+
+.panel-default{
+	border-color: grey !important;
+       width: 100%;
+
+
+
+ 
+}
+
+#pop{
+	/*background-color: red !important;*/
+
+}
+
+

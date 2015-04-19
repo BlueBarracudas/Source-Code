@@ -1,0 +1,67 @@
+#schedInputGroup{
+	margin-left: 20px;
+}
+
+
+.panel-default>.panel-heading{
+	background-color: rgb(255,82,0) !important;
+	background-image: none !important; 
+	background-color: rgb(255,82,0) !important;
+}
+
+.panel-default>.panel-heading>.panel-title{
+	color:white;
+}
+
+.panel-default{
+	border-color: grey !important;
+}
+
+
+  .mainContainer {
+        width: 50%;
+
+        border-radius: 5px;
+    }*/
+
+  .row{
+    padding-left: 2%; 
+  }
+    
+  #buttons{
+      text-align: center;
+    }      
+      
+  #body{
+  padding-right: 3%;
+  padding-left: 3%;
+  }
+
+  #hschooladd, #collegeadd, #courseadd{
+    visibility: hidden;
+  }
+
+.dateachieved-label{
+	margin-top: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.dateachieved-input{
+	margin-top: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+  #othercollegeinput{
+    display: none;
+  }
+
+  #othercourseinput{
+    display: none;
+  }
+
+  #otherCertification{
+    display: none;
+    padding-top: 10px;
+  }

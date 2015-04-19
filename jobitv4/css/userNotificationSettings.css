@@ -1,0 +1,19 @@
+
+.modal-dialog{
+  height: 50%;
+  width: 30%;
+  position: relative;
+}
+#submit{
+  margin: 0 auto !important;
+  text-align: center;
+  padding-top: 10px;
+}
+.modal-header{
+  background-color: #ff5200 !important;
+  color: white !important;
+  border-radius: 5px 5px 0px 0px !important;
+}
+#mail{
+  padding-left: 10px;
+}
