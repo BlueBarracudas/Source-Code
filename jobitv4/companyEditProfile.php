@@ -8,7 +8,8 @@
 
 	if(isset($_SESSION["account_id"]))
 	{
-		$ap = getLoggedInApplicant($_SESSION["account_id"]);
+		$ap = getLoggedInAccount($_SESSION["account_id"]);
+		$company = getCompanyById($_SESSION["account_id"]);
 
 	}
 

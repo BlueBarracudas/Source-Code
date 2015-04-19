@@ -9,6 +9,7 @@
 		$certificates = array();
 		$workexperiences = array();
 		$skills = array();
+		$applications = array();
 		$joblistings = array();
 		$feedbacks = array();
 		$admins = array();
@@ -41,6 +42,7 @@
 			loadAdmins();
 			loadCompanies();
 			loadCertificates();
+			loadApplications();
 			loadJobListings();
 			loadWorkExperience();
 			loadApplicantProfile();
@@ -337,7 +339,7 @@
 			for($i = 0; $i<count($companies); $i++)
 			{
 				$temp_c = $companies[$i];
-				if($id == $temp_c->get_companyid())
+				if($id == $temp_c->get_accid())
 				{
 					return $temp_c;
 				}
@@ -460,6 +462,290 @@
 			}
 
 			$connect->close();
+		}
+
+		function createJobListingClassByResult($result)
+		{
+
+			$joblistings = array();
+
+			while($row = $result->fetch_assoc())
+			{
+					$temp_jl = new joblisting();
+					$temp_jl->set_jobid($row['job_id']);
+					$temp_jl->set_companyid($row['company_id']);
+					$temp_jl->set_title($row['title']);
+					$temp_jl->set_description($row['description']);
+					$temp_jl->set_location($row['location']);
+					$temp_jl->set_workexperience($row['work_experience']);
+					$temp_jl->set_salary($row['salary']);
+					$temp_jl->set_workhours($row['work_hours']);
+					$temp_jl->set_totalslots($row['total_slots']);
+					$temp_jl->set_slotsavailable($row['slots_available']);
+					$temp_jl->set_skilltag($row['skill_tag']);
+					$temp_jl->set_coursetag($row['course_tag']);
+					$temp_jl->set_pdf($row['joblist_pdf']);
+
+					$joblistings[count($joblistings)] = $temp_jl;
+			}
+
+			return $joblistings;
+		}
+
+		function loadApplications()
+		{
+			global $applications;
+			$applications = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM application";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_apl = new application();
+					$temp_apl->set_applicationid($row['application_id']);
+					$temp_apl->set_applicantid($row['applicant_id']);
+					$temp_apl->set_jobid($row['job_id']);
+					$temp_apl->set_date($row['date']);
+					$temp_apl->set_time($row['time']);
+					$temp_apl->set_place($row['place']);
+					$temp_apl->set_notes($row['notes']);
+					$temp_apl->set_decision($row['decision']);
+					$temp_apl->set_decisionmessage($row['decision_message']);
+
+					$applications[] = $temp_apl;
+				}
+			}
+
+			$connect->close();
+		}
+
+		function loadJobListingByCompany($id)
+		{
+			global $joblistings;
+
+			for($i = 0; $i<count($joblistings); $i++)
+			{
+				$temp = $joblistings[$i];
+
+				if($temp->get_companyid() == $id)
+				{
+				echo "<div class=\"panel panel-default\" id=\"listing1\">
+		        <div class=\"panel-heading\">
+		            <h3 class=\"panel-title\">".$temp->get_title()."</h3>
+		        </div>
+
+		        <div class=\"panel-body\">
+		            <div class=\"row\">
+		            	<div class=\"col-md-6\">
+		            		<div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div>
+                            <div class=\"row\"><label class=\"col-md-5\">College Course Required: </label> <label class=\"col-md-6 output-label\">".$temp->get_coursetag()."</label></div>
+                            
+                                 <div class=\"row\"><label class=\"col-md-5\">Total Slots: </label> <label class=\"col-md-6 output-label\">".$temp->get_totalslots()."</label></div>
+                            
+                                 <div class=\"row\"><label class=\"col-md-5\">Available Slots: </label> <label class=\"col-md-6 output-label\">".$temp->get_slotsavailable()."</label></div>
+                            
+		            		
+		            	</div>
+		            	<div class=\"col-md-6 resultButtonCol button-row\">
+		            		<div class=\"col-md-6\">
+		            			<input type=\"button\" class=\"btn btn-default btn-fill\" id=\"delete1\" name=\"delete1\" onclick=\"deleteDiv(this)\" value=\"Delete\"/>
+		            		</div>
+		            		<div class=\"col-md-6\">
+		            			<input type=\"button\" class=\"btn btn-success btn-fill\" id=\"edit1\" name=\"edit1\" value=\"Edit\"  data-toggle=\"modal\" data-target=\"#edit-popup\"/>
+		            		</div>
+
+		            		<div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+
+		            		<div class=\"col-md-12\">
+		            			<a href=\"companyViewJobListing.php?id=".$temp->get_jobid()."\"><input type=\"button\" class=\"btn btn-default btn-fill\" id=\"view1\" name=\"view1\" value=\"View\" data-toggle=\"modal\" data-target=\"#viewJobListingModal\"/></a>
+		            		</div>
+		            		
+
+		            	</div>
+		            </div>
+		        </div>
+
+			</div>";
+			}
+		}
+
+
+		}
+
+		function createApplicantByResult($result)
+		{
+			$applicants = array();
+
+			while($row = $result->fetch_assoc())
+			{
+					$temp_app = new applicant();
+					$temp_app->set_appid($row['applicant_id']);
+					$temp_app->set_accid($row['account_id']);
+					$temp_app->set_firstname($row['first_name']);
+					$temp_app->set_middlename($row['middle_name']);
+					$temp_app->set_lastname($row['last_name']);
+					$temp_app->set_sex($row['sex']);
+					$temp_app->set_address($row['address']);
+					$temp_app->set_birthday($row['birthday']);
+					$temp_app->set_maritalstatus($row['marital_status']);
+					$temp_app->set_contactno($row['contact_number']);
+					$temp_app->set_notiftype($row['notification_type']);
+					$temp_app->set_city($row['city']);
+					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+
+					$applicants[count($applicants)] = $temp_app;
+			}
+
+			return $applicants;
+			
+			
+		}
+
+		function loadApplicant4JobListing($id)
+		{	
+			$applicants = array();
+			$jobfor = array();
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * from applicant an, application ai where an.applicant_id = ai.applicant_id and ai.job_id =".$id;
+
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+
+				while($row = $result->fetch_assoc())
+				{
+					$temp_app = new applicant();
+					$temp_app->set_appid($row['applicant_id']);
+					$temp_app->set_accid($row['account_id']);
+					$temp_app->set_firstname($row['first_name']);
+					$temp_app->set_middlename($row['middle_name']);
+					$temp_app->set_lastname($row['last_name']);
+					$temp_app->set_sex($row['sex']);
+					$temp_app->set_address($row['address']);
+					$temp_app->set_birthday($row['birthday']);
+					$temp_app->set_maritalstatus($row['marital_status']);
+					$temp_app->set_contactno($row['contact_number']);
+					$temp_app->set_notiftype($row['notification_type']);
+					$temp_app->set_city($row['city']);
+					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+
+					$applicants[count($applicants)] = $temp_app;
+				}
+
+				for($i=0; $i<count($applicants); $i++)
+				{
+					$temp = $applicants[$i];
+					$prof = $temp->get_profile();
+
+					echo "<div class=\"panel panel-default\" id=\"result1\">
+								        <div class=\"panel-heading\">
+								            <h3 class=\"panel-title\">".$temp->get_firstname()." ". $temp->get_lastname()."</h3>
+								        </div>
+
+								        <div class=\"panel-body\">
+								            <div class=\"row\">
+								            	<div class=\"col-md-6\">
+								            		<label class=\"col-md-4\">Location: </label> <label class=\"col-md-8 output-label\">".$temp->get_address()."</label>
+								            		<label class=\"col-md-4\">Course: </label> <label class=\"col-md-8 output-label\">".$prof->get_course()."</label>
+								            		<label class=\"col-md-4\">School: </label> <label class=\"col-md-8 output-label\">".$prof->get_college()."</label>
+								            	</div>
+								            	<div class=\"col-md-6 resultButtonCol\">
+								            		<div class=\"col-md-6\">
+								            			<a href=\"companyViewApplicantProfile.php?id=".$temp->get_appid()."\"><input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewProfile1\" name=\"viewProfile1\" value=\"View Profile\"/></a>
+								            		</div>
+								            		<div class=\"col-md-6\">
+								            			<input type=\"button\" class=\"btn btn-success btn-fill\" id=\"setAppointment1\" name=\"setAppointment1\" data-toggle=\"modal\" data-target=\"#schedule-popup\" value=\"Set Appointment\"/>
+								            		</div>
+								            	</div>
+								            </div>
+								        </div>
+
+									</div>
+									";
+				}
+			}
+		}
+
+		function loadApplicant4Interview($id)
+		{
+			$applicants = array();
+			$jobfor = array();
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * from applicant an, 
+			application al, 
+			joblisting as jl 
+			where an.applicant_id = al.applicant_id 
+			and jl.job_id = al.job_id 
+			and al.company_id = ".$id."
+			and al.is_interviewed = 1;";	
+
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_app = new applicant();
+					$temp_app->set_appid($row['applicant_id']);
+					$temp_app->set_accid($row['account_id']);
+					$temp_app->set_firstname($row['first_name']);
+					$temp_app->set_middlename($row['middle_name']);
+					$temp_app->set_lastname($row['last_name']);
+					$temp_app->set_sex($row['sex']);
+					$temp_app->set_address($row['address']);
+					$temp_app->set_birthday($row['birthday']);
+					$temp_app->set_maritalstatus($row['marital_status']);
+					$temp_app->set_contactno($row['contact_number']);
+					$temp_app->set_notiftype($row['notification_type']);
+					$temp_app->set_city($row['city']);
+					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+					
+					$jobfor[] = $row['title'];
+					$applicants[count($applicants)] = $temp_app;
+				}
+
+				for($i=0; $i<count($applicants); $i++)
+				{
+					$temp = $applicants[$i];
+					$prof = $temp->get_profile();
+
+					echo "<div class=\"panel panel-default\" id=\"result1\">
+								        <div class=\"panel-heading\">
+								            <h3 class=\"panel-title\">".$temp->get_firstname()." ". $temp->get_lastname()." applying for ". $jobfor[$i]."</h3>
+								        </div>
+
+								        <div class=\"panel-body\">
+								            <div class=\"row\">
+								            	<div class=\"col-md-6\">
+								            		<label class=\"col-md-4\">Location: </label> <label class=\"col-md-8 output-label\">".$temp->get_address()."</label>
+								            		<label class=\"col-md-4\">Course: </label> <label class=\"col-md-8 output-label\">".$prof->get_course()."</label>
+								            		<label class=\"col-md-4\">School: </label> <label class=\"col-md-8 output-label\">".$prof->get_college()."</label>
+								            	</div>
+								            	<div class=\"col-md-6 resultButtonCol\">
+								            		<div class=\"col-md-6\">
+								            			<a href=\"#\"><input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewProfile1\" name=\"viewProfile1\" value=\"Reject\"/></a>
+								            		</div>
+								            		<div class=\"col-md-6\">
+								            			<input type=\"button\" class=\"btn btn-success btn-fill\" id=\"setAppointment1\" name=\"setAppointment1\" data-toggle=\"modal\" data-target=\"#schedule-popup\" value=\"Hire\"/>
+								            		</div>
+								            	</div>
+								            </div>
+								        </div>
+
+									</div>
+									";
+				}
+			} else echo "<p align=\"center\" class=\"emptyMessage\"> <b> No interviewed applicants. </b> </p>";
 		}
 
 		function populateJobListings($results, $key)

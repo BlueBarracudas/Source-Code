@@ -5,10 +5,11 @@
 	include '/MVC/controller.php';
 
 	loadAll();
-
+	
 	if(isset($_SESSION["account_id"]))
 	{
-		$ap = getLoggedInApplicant($_SESSION["account_id"]);
+		$ap = getLoggedInAccount($_SESSION["account_id"]);
+		$company = getCompanyById($_SESSION["account_id"]);
 
 	}
 
@@ -86,81 +87,8 @@
                                 <div class="row" id="listContainer">
 
                                     <div class=" col-md-12">
-          <div class="panel panel-default" id="listing1">
-		        <div class="panel-heading">
-		            <h3 class="panel-title">Position here</h3>
-		        </div>
 
-		        <div class="panel-body">
-		            <div class="row">
-		            	<div class="col-md-6">
-		            		<div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-                            <div class="row"><label class="col-md-5">College Course Required: </label> <label class="col-md-6 output-label">College Course here</label></div>
-                            
-                                 <div class="row"><label class="col-md-5">Total Slots: </label> <label class="col-md-6 output-label">slotes here</label></div>
-                            
-                                 <div class="row"><label class="col-md-5">Available Slots: </label> <label class="col-md-6 output-label">slots here</label></div>
-                            
-		            		
-		            	</div>
-		            	<div class="col-md-6 resultButtonCol button-row">
-		            		<div class="col-md-6">
-		            			<input type="button" class="btn btn-default btn-fill " id="delete1" name="delete1" onclick="deleteDiv(this)" value="Delete"/>
-		            		</div>
-		            		<div class="col-md-6">
-		            			<input type="button" class="btn btn-success btn-fill " id="edit1" name="edit1" value="Edit"  data-toggle="modal" data-target="#edit-popup"/>
-		            		</div>
-
-		            		<div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-
-		            		<div class="col-md-12">
-		            			<input type="button" class="btn btn-default btn-fill" id="view1" name="view1" value="View" data-toggle="modal" data-target="#viewJobListingModal"/>
-		            		</div>
-		            		
-
-		            	</div>
-		            </div>
-		        </div>
-
-			</div> <!--  end of <div class="panel panel-default"> -->
-
-			<div class="panel panel-default" id="listing2">
-		        <div class="panel-heading">
-		            <h3 class="panel-title">Position here</h3>
-		        </div>
-
-		        <div class="panel-body">
-		            <div class="row">
-		            	<div class="col-md-6">
-		            		<div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-		            	    <div class="row"><label class="col-md-5">College Course Required: </label> <label class="col-md-6 output-label">College Course here</label></div>
-                            
-                                 <div class="row"><label class="col-md-5">Total Slots: </label> <label class="col-md-6 output-label">slotes here</label></div>
-                            
-                                 <div class="row"><label class="col-md-5">Available Slots: </label> <label class="col-md-6 output-label">slots here</label></div>
-                            
-		            	</div>
-		            	<div class="col-md-6 resultButtonCol button-row">
-		            		<div class="col-md-6">
-		            			<input type="button" class="btn btn-default btn-fill " id="delete2" name="delete2" onclick="deleteDiv(this)" value="Delete"/>
-		            		</div>
-		            		<div class="col-md-6">
-		            			<input type="button" class="btn btn-success btn-fill " id="edit2" name="edit2" value="Edit" data-toggle="modal" data-target="#edit-popup"/>
-		            		</div>
-
-		            		<div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-
-		            		<div class="col-md-12">
-		            			<input type="button" class="btn btn-default btn-fill" id="view2" name="view2" value="View"/>
-		            		</div>
-		            		
-
-		            	</div>
-		            </div>
-		        </div>
-
-			</div> <!--  end of <div class="panel panel-default"> -->
-
+                                    <?php loadJobListingByCompany($company->get_companyid()); ?>
 
                                 </div>
 

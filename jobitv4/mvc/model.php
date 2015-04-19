@@ -874,6 +874,112 @@ class feedback{
 
 }
 
+class application{
+
+	private $application_id;
+	private $applicant_id;
+	private $job_id;
+	private $date;
+	private $time;
+	private $place;
+	private $notes;
+	private $decision;
+	private $decision_message;
+
+	function get_applicationid()
+	{
+		return $this->application_id;
+	}
+
+	function get_applicantid()
+	{
+		return $this->applicant_id;
+	}
+
+	function get_jobid()
+	{
+		return $this->job_id;
+	}
+
+	function get_date()
+	{
+		return $this->date;
+	}
+
+	function get_time()
+	{
+		return $this->time;
+	}
+
+	function get_place()
+	{
+		return $this->place;
+	}
+
+	function get_notes()
+	{
+		return $this->notes;
+	}
+
+	function get_decision()
+	{
+		return $this->decision;
+	}
+
+	function get_decisionmessage()
+	{
+		return $this->decision_message;
+	}
+
+	/* setters */
+
+	function set_applicationid($input)
+	{
+		$this->application_id = $input;
+	}
+
+	function set_applicantid($input)
+	{
+		$this->applicant_id = $input;
+	}
+
+	function set_jobid($input)
+	{
+		$this->job_id = $input;
+	}
+
+	function set_date($input)
+	{
+		$this->date = $input;
+	}
+
+	function set_time($input)
+	{
+		$this->time = $input;
+	}
+
+	function set_place($input)
+	{
+		$this->place = $input;
+	}
+
+	function set_notes($input)
+	{
+		$this->notes = $input;
+	}
+
+	function set_decision($input)
+	{
+		$this->decision = $input;
+	}
+
+	function set_decisionmessage($input)
+	{
+		$this->decision_message = $input;
+	}
+
+}
+
 class DBConnection
 {
 	private $servername;

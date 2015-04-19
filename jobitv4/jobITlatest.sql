@@ -147,13 +147,15 @@ DROP TABLE IF EXISTS `application`;
 CREATE TABLE `application` (
   `application_id` varchar(16) NOT NULL,
   `applicant_id` varchar(16) NOT NULL,
+  `company_id` varchar(16) DEFAULT NULL,
   `job_id` varchar(16) NOT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,
-  `place` varchar(150) NOT NULL,
+  `date` date DEFAULT NULL,
+  `time` time DEFAULT NULL,
+  `place` varchar(150) DEFAULT NULL,
   `notes` varchar(150) DEFAULT NULL,
   `decision` int(11) DEFAULT NULL,
   `decision_message` varchar(150) DEFAULT NULL,
+  `is_interviewed` int(1) DEFAULT '0',
   PRIMARY KEY (`application_id`),
   UNIQUE KEY `Appointment_ID_UNIQUE` (`application_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -165,6 +167,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
+INSERT INTO `application` VALUES ('10001','10002','10003','10003',NULL,NULL,NULL,NULL,NULL,NULL,0),('10002','10001','10003','10003',NULL,NULL,NULL,NULL,NULL,NULL,1),('10003','10001','10001','10001',NULL,NULL,NULL,NULL,NULL,NULL,0),('10004','10003','10003','10003',NULL,NULL,NULL,NULL,NULL,NULL,1),('10005','10002','10002','10002',NULL,NULL,NULL,NULL,NULL,NULL,0),('10006','10003','10002','10002',NULL,NULL,NULL,NULL,NULL,NULL,1);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -404,4 +407,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-19 13:06:12
+-- Dump completed on 2015-04-20  0:51:34

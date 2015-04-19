@@ -8,7 +8,8 @@
 
 	if(isset($_SESSION["account_id"]))
 	{
-		$ap = getLoggedInApplicant($_SESSION["account_id"]);
+		$ap = getLoggedInAccount($_SESSION["account_id"]);
+		$company = getCompanyById($_SESSION["account_id"]);
 
 	}
 
@@ -87,58 +88,9 @@
 						  		<div class="row" id="listContainer">
 
 						  			<div class=" col-md-12">
-						  		<div class="panel panel-default" id="result1">
-							        <div class="panel-heading">
-							            <h3 class="panel-title">Applicant name here</h3>
-							        </div>
 
-							        <div class="panel-body">
-							            <div class="row">
-							            	<div class="col-md-6">
-							            		<label class="col-md-4">Location: </label> <label class="col-md-8 output-label">Location here</label>
-							            		<label class="col-md-4">Course: </label> <label class="col-md-8 output-label">Course here</label>
-							            		<label class="col-md-4">School: </label> <label class="col-md-8 output-label">School here</label>
-							            	</div>
-							            	<div class="col-md-6 resultButtonCol">
-							            		<div class="col-md-6 ">
-							            			<input type="button" class="btn btn-default btn-fill " id="reject1" name="reject1" value="Reject" onclick="deleteDiv(this)"/>
-							            		</div>
-							            		<div class="col-md-6">
-							            			<input type="button" class="btn btn-success btn-fill" id="hire1" name="hire1" value="Hire" onclick="deleteDiv(this)"/>
-							            		</div>
-							            	</div>
-							            </div>
-							        </div>
-
-								</div> <!--  end of <div class="panel panel-default"> -->
-
-
-								<div class="panel panel-default" id="result2">
-							        <div class="panel-heading">
-							            <h3 class="panel-title">Applicant name here</h3>
-							        </div>
-
-							        <div class="panel-body">
-							            <div class="row">
-							            	<div class="col-md-6">
-							            		<label class="col-md-4">Location: </label> <label class="col-md-8 output-label">Location here</label>
-							            		<label class="col-md-4">Course: </label> <label class="col-md-8 output-label">Course here</label>
-							            		<label class="col-md-4">School: </label> <label class="col-md-8 output-label">School here</label>
-							            	</div>
-							            	<div class="col-md-6 resultButtonCol">
-							            		<div class="col-md-6 ">
-							            			<input type="button" class="btn btn-default btn-fill " id="reject2" name="reject2" value="Reject" onclick="deleteDiv(this)"/>
-							            		</div>
-							            		<div class="col-md-6">
-							            			<input type="button" class="btn btn-success btn-fill" id="hire2" name="hire2" value="Hire" onclick="deleteDiv(this)"/>
-							            		</div>
-							            	</div>
-							            </div>
-							        </div>
-
-								</div> <!--  end of <div class="panel panel-default"> -->
-
-
+						  				<?php loadApplicant4Interview($company->get_companyid()); ?>
+						  		
 								</div>
 
 

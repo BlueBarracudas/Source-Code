@@ -36,7 +36,7 @@
 	        		</ul>
 			        <li class="dropdown">
 	          		<a id="dropdownComponent" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                  Company Name  <span class="caret"></span></a>
+                  <?php echo $company->get_name(); ?> <span class="caret"></span></a>
 		          	<ul class="dropdown-menu" role="menu">
 		            <li id="settings"><a href="companyEditProfile.html">Edit Account Info</a></li>
 		             <li><a href="userChangePassword.php">Change Password</a></li>

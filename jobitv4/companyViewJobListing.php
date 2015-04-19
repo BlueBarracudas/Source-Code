@@ -8,7 +8,26 @@
 
 	if(isset($_SESSION["account_id"]))
 	{
-		$ap = getLoggedInApplicant($_SESSION["account_id"]);
+		$ap = getLoggedInAccount($_SESSION["account_id"]);
+		$company = getCompanyById($_SESSION["account_id"]);
+
+		if(isset($_GET['id']))
+		{
+			$joboffer = getJobListingById($_GET['id']);
+			if($joboffer->get_companyid()!=$company->get_companyid())
+			{
+				echo "You're not allowed to view this.";
+				header('Refresh: 2; URL=companyViewJobListings.php');
+				exit;
+				
+			}
+		}
+		else
+		{
+			echo "No joblisting selected.";
+			header('Refresh: 2; URL=companyViewJobListings.php');
+			exit;
+		}
 
 	}
 
@@ -69,7 +88,7 @@
 					<div class="panel panel-default profile-panel">
 
 						<div class="panel-heading">
-				            <h3 class="panel-title">Position here</h3>
+				            <h3 class="panel-title"><?php echo $joboffer->get_title(); ?></h3>
 				        </div>
 
 					
@@ -77,7 +96,7 @@
 						  		
 						  		<div class="row">
 						  			<label class="col-md-4">College Course Required: </label>
-							  				<label class="output-label col-md-8" id="collegeCourseOutput" name="collegeCourseOutput">Applicant's college course here</label>
+							  				<label class="output-label col-md-8" id="collegeCourseOutput" name="collegeCourseOutput"><?php echo $joboffer->get_coursetag(); ?></label>
 						  		</div>
 
 						  		<br>
@@ -93,12 +112,12 @@
 						  			<div class="col-md-12">
 							  			<div class="row">
 							  				<label class="col-md-3">Location: </label>
-							  				<label class="output-label col-md-9" id="locationOutput" name="locationOutput">Location here</label>
+							  				<label class="output-label col-md-9" id="locationOutput" name="locationOutput"><?php echo $joboffer->get_location() ?></label>
 							  			</div>
 
 							  			<div class="row">
 							  				<label class="col-md-3">Work Hours/Day: </label>
-							  				<label class="output-label col-md-9" id="hoursPerDayOutput" name="hoursPerDayOutput">Work Hours/Day here
+							  				<label class="output-label col-md-9" id="hoursPerDayOutput" name="hoursPerDayOutput"><?php echo $joboffer->get_workhours(); ?>
 							  				</label>
 							  			</div>
 
@@ -123,8 +142,7 @@
 
 						  		<div class="row">
 						  			<div class="col-md-12">
-							  			<label class="output-label col-md-12" id="skillOutput1" name="skillOutput1">skill 1 here</label>
-							  			<label class="output-label col-md-12" id="skillOutput2" name="skillOutput2">skill 2 here</label>
+							  			<label class="output-label col-md-12" id="skillOutput1" name="skillOutput1"><?php echo $joboffer->get_skilltag(); ?></label>
 						  			</div>
 						  		</div>
 
@@ -198,8 +216,8 @@
                                                               <div class ="row">
  	<div class="row">
 						  			<div class="col-md-12">
-							  			<label class="col-md-3">Total Slots: </label> <label class="output-label col-md-3" id="totalSlotsOutput" name="totalSlotsOutput">slots here</label>
-                                        <label class="col-md-3">Available Slots: </label> <label class="output-label col-md-3" id="availableSlotsOutput" name="availableSlotsOutput">slots here</label>
+							  			<label class="col-md-3">Total Slots: </label> <label class="output-label col-md-3" id="totalSlotsOutput" name="totalSlotsOutput"><?php echo $joboffer->get_totalslots(); ?></label>
+                                        <label class="col-md-3">Available Slots: </label> <label class="output-label col-md-3" id="availableSlotsOutput" name="availableSlotsOutput"><?php echo $joboffer->get_slotsavailable(); ?></label>
 							 
 						  			</div>
 						  		</div>
@@ -228,59 +246,9 @@
 						  		<div class="row" id="listContainer">
 
 						  			<div class=" col-md-12">
-						  			<div class="panel panel-default" id="result1">
-								        <div class="panel-heading">
-								            <h3 class="panel-title">Applicant name here</h3>
-								        </div>
+						  			<?php loadApplicant4JobListing($_GET['id']); ?>	
 
-								        <div class="panel-body">
-								            <div class="row">
-								            	<div class="col-md-6">
-								            		<label class="col-md-4">Location: </label> <label class="col-md-8 output-label">Location here</label>
-								            		<label class="col-md-4">Course: </label> <label class="col-md-8 output-label">Course here</label>
-								            		<label class="col-md-4">School: </label> <label class="col-md-8 output-label">School here</label>
-								            	</div>
-								            	<div class="col-md-6 resultButtonCol">
-								            		<div class="col-md-6 ">
-								            			<input type="button" class="btn btn-default btn-fill " id="viewProfile1" name="viewProfile1" value="View Profile"/>
-								            		</div>
-								            		<div class="col-md-6">
-								            			<input type="button" class="btn btn-success btn-fill" id="setAppointment1" name="setAppointment1" data-toggle="modal" data-target="#schedule-popup" value="Set Appointment"/>
-								            		</div>
-								            	</div>
-								            </div>
-								        </div>
-
-									</div> <!--  end of <div class="panel panel-default"> -->
-
-
-								<div class="panel panel-default" id="result2">
-								        <div class="panel-heading">
-								            <h3 class="panel-title">Applicant name here</h3>
-								        </div>
-
-								        <div class="panel-body">
-								            <div class="row">
-								            	<div class="col-md-6">
-								            		<label class="col-md-4">Location: </label> <label class="col-md-8 output-label">Location here</label>
-								            		<label class="col-md-4">Course: </label> <label class="col-md-8 output-label">Course here</label>
-								            		<label class="col-md-4">School: </label> <label class="col-md-8 output-label">School here</label>
-								            	</div>
-								            	<div class="col-md-6 resultButtonCol">
-								            		<div class="col-md-6 ">
-								            			<input type="button" class="btn btn-default btn-fill " id="viewProfile2" name="viewProfile2" value="View Profile"/>
-								            		</div>
-								            		<div class="col-md-6">
-								            			<input type="button" class="btn btn-success btn-fill" id="setAppointment2" name="setAppointment2" data-toggle="modal" data-target="#schedule-popup" value="Set Appointment"/>
-								            		</div>
-								            	</div>
-								            </div>
-								        </div>
-
-									</div> <!--  end of <div class="panel panel-default"> -->
-
-
-								</div>
+									</div>
 
 
 
