@@ -185,6 +185,24 @@
 			return $null;
 		}
 
+		function getApplicationById($id)
+		{
+			global $applications;
+
+			for($i = 0; $i<count($applications); $i++)
+			{
+				$temp = $applications[$i];
+
+				if($temp->get_applicationid() == $id)
+				{
+					return $temp;
+				}
+
+			}
+
+			return null;
+		}
+
 		function getEstimateYear($age)
 		{
 
@@ -223,6 +241,7 @@
 					$temp_app->set_notiftype($row['notification_type']);
 					$temp_app->set_city($row['city']);
 					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+					$temp_app->set_account(getLoggedInAccount($row['account_id']));
 
 					$applicants[count($applicants)] = $temp_app;
 				}
@@ -510,6 +529,7 @@
 					$temp_apl->set_applicationid($row['application_id']);
 					$temp_apl->set_applicantid($row['applicant_id']);
 					$temp_apl->set_jobid($row['job_id']);
+					$temp_apl->set_companyid($row['company_id']);
 					$temp_apl->set_date($row['date']);
 					$temp_apl->set_time($row['time']);
 					$temp_apl->set_place($row['place']);
@@ -577,6 +597,175 @@
 
 		}
 
+		function detailsPopupById($id, $aid)
+		{
+			$applicant = getApplicantById($aid);
+			$account = $applicant->get_account();
+			$application = getApplicationById($id);
+
+		return "<div id=\"".$id."_details-popup\" class=\"modal fade\" role=\"dialog\">
+        <div class=\"modal-dialog\" id=\"details-container\">
+            <div class=\"modal-content\">
+                <!--Header-->
+                <div class=\"modal-header panel-heading\">
+                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>
+                    <h3 class=\"modal-title\" id=\"details-popup-header\">Appointment Details</h4>
+                </div>
+                <!--Body-->
+                <div class=\"model-body\">
+                    <!--Company Name-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Applicant Name: </label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$applicant->get_firstname()." ".$applicant->get_lastname()."</p>
+                        </div>
+                    </div>
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Applicant Email:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$account->get_email()."</p>
+                        </div>
+                    </div>
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Applicant Phone Number:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$applicant->get_contactno()."</p>
+                        </div>
+                    </div>
+                    <!--Date-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Date:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$application->get_date()."</p>
+                        </div>
+                    </div>
+                    <!--Time-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Time:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$application->get_time()."</p>
+                        </div>
+                    </div>
+                    <!--Message-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label for=\"detail-msg\">Message:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <textarea class=\"form-control\" disabled cols=\"20\" id=\"resched-msg\">".$application->get_decisionmessage()."</textarea>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer-->
+                <div class=\"modal-footer\">
+                    <!--Buttons-->
+                    <div class=\"row\">
+                        <div class=\"col-md-12 btn-row\">
+                            <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Back </button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>";
+		}
+
+		function loadAppointmentsWithApplicants($id)
+		{
+			global $applications;
+
+			$applicants = array();
+			$jobfor = array();
+			$date = array();
+			$time = array();
+			$aid = array();
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * from applicant an, 
+			application al, 
+			joblisting as jl 
+			where an.applicant_id = al.applicant_id 
+			and jl.job_id = al.job_id 
+			and al.company_id = ".$id."
+			and al.is_interviewed = 0;";	
+
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_app = new applicant();
+					$temp_app->set_appid($row['applicant_id']);
+					$temp_app->set_accid($row['account_id']);
+					$temp_app->set_firstname($row['first_name']);
+					$temp_app->set_middlename($row['middle_name']);
+					$temp_app->set_lastname($row['last_name']);
+					$temp_app->set_sex($row['sex']);
+					$temp_app->set_address($row['address']);
+					$temp_app->set_birthday($row['birthday']);
+					$temp_app->set_maritalstatus($row['marital_status']);
+					$temp_app->set_contactno($row['contact_number']);
+					$temp_app->set_notiftype($row['notification_type']);
+					$temp_app->set_city($row['city']);
+					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+					
+					$jobfor[] = $row['title'];
+					$date[] = $row['date'];
+					$time[] = $row['time'];
+					$aid[] = $row['application_id'];
+					$applicants[count($applicants)] = $temp_app;
+				}
+
+			for($i = 0; $i<count($applicants); $i++)
+			{
+				$temp = $applicants[$i];
+			echo "<div class=\"panel panel-default\" id=\"appointment1\">
+                <div class=\"panel-heading\">
+                    <h3 class=\"panel-title\">".$temp->get_firstname()." ".$temp->get_lastname()."</h3>
+                </div>
+
+                <div class=\"panel-body\">
+                    <div class=\"row\">
+                        <div class=\"col-md-6\">
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+                            <label class=\"col-md-4\">Position: </label> <label class=\"col-md-8 output-label\">".$jobfor[$i]."</label>
+                            <label class=\"col-md-4\">Date and Time: </label> <label class=\"col-md-8 output-label\">Date: ".$date[$i]." Time: ".$time[$i]."</label>
+                        </div>
+                        <div class=\"col-md-6 resultButtonCol button-row\">
+                            <div class=\"col-md-6\">
+                                <input type=\"button\" class=\"btn btn-default btn-fill\" id=\"reject1\" name=\"reject1\" value=\"Reject\" onclick=\"deleteDiv(this)\"/>
+                            </div>
+                            <div class=\"col-md-6\">
+                                <input type=\"button\" class=\"btn btn-success btn-fill\" id=\"reschedule1\" name=\"reschedule1\" value=\"Reschedule\" data-toggle=\"modal\" data-target=\"#reschedule-popup\"/>
+                            </div>
+
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+
+                            <div class=\"col-md-12\">
+                                 <input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewAppointment1\" name=\"viewAppointment1\" onclick=\"viewPopup(".$aid[$i].", ".$temp->get_appid().");\" value=\"View Appointment\" data-toggle=\"modal\" data-target=\"#".$aid[$i]."_details-popup\"/>             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>";
+        	}
+		}
+	}
+
+
 		function createApplicantByResult($result)
 		{
 			$applicants = array();
@@ -613,7 +802,10 @@
 			$connect= new DBConnection();
 			$connect = $connect->getInstance();
 
-			$sql = "SELECT * from applicant an, application ai where an.applicant_id = ai.applicant_id and ai.job_id =".$id;
+			$sql = "SELECT * from applicant an, 
+			application ai 
+			where an.applicant_id = ai.applicant_id 
+			and ai.job_id =".$id." and ai.is_interviewed = 0";
 
 			$result = $connect->query($sql);
 
@@ -678,6 +870,8 @@
 		{
 			$applicants = array();
 			$jobfor = array();
+			$jobid = array();
+			$aid = array();
 			$connect= new DBConnection();
 			$connect = $connect->getInstance();
 
@@ -711,6 +905,8 @@
 					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
 					
 					$jobfor[] = $row['title'];
+					$jobid[] = $row['job_id'];
+					$aid[] = $row['application_id'];
 					$applicants[count($applicants)] = $temp_app;
 				}
 
@@ -719,7 +915,7 @@
 					$temp = $applicants[$i];
 					$prof = $temp->get_profile();
 
-					echo "<div class=\"panel panel-default\" id=\"result1\">
+					echo "<div class=\"panel panel-default\" id=\"".$i."_result\">
 								        <div class=\"panel-heading\">
 								            <h3 class=\"panel-title\">".$temp->get_firstname()." ". $temp->get_lastname()." applying for ". $jobfor[$i]."</h3>
 								        </div>
@@ -733,10 +929,10 @@
 								            	</div>
 								            	<div class=\"col-md-6 resultButtonCol\">
 								            		<div class=\"col-md-6\">
-								            			<a href=\"#\"><input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewProfile1\" name=\"viewProfile1\" value=\"Reject\"/></a>
+								            			<a href=\"#\"><input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewProfile1\" name=\"viewProfile1\" onclick =\"hireReject(".$i.", ".$aid[$i].", ".$temp->get_appid().", ".$jobid[$i].", 0);\" value=\"Reject\"/></a>
 								            		</div>
 								            		<div class=\"col-md-6\">
-								            			<input type=\"button\" class=\"btn btn-success btn-fill\" id=\"setAppointment1\" name=\"setAppointment1\" data-toggle=\"modal\" data-target=\"#schedule-popup\" value=\"Hire\"/>
+								            			<input type=\"button\" class=\"btn btn-success btn-fill\" id=\"setAppointment1\" name=\"setAppointment1\" data-toggle=\"modal\" onclick =\"hireReject(".$i.", ".$aid[$i].", ".$temp->get_appid().", ".$jobid[$i].", 1);\" data-target=\"#schedule-popup\" value=\"Hire\"/>
 								            		</div>
 								            	</div>
 								            </div>
@@ -1265,6 +1461,7 @@
 					$temp_f->set_applicantid($row['applicant_id']);
 					$temp_f->set_notes($row['notes']);
 					$temp_f->set_decision($row['decision']);
+					$temp_f->set_jobid($row['job_id']);
 					
 					$feedbacks[count($feedbacks)] = $temp_f;
 					
@@ -1281,6 +1478,26 @@
 			$connect = $connect->getInstance();
 
 			$sql = "SELECT MAX(account_id) as result FROM account";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				$row = $result->fetch_assoc();
+				$id = $row['result'];
+			}
+
+			return $id;
+
+			$connect->close();
+		}
+
+		function getLastFeedBackId()
+		{
+			$id = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT MAX(feedback_id) as result FROM feedback";
 			$result = $connect->query($sql);
 
 			if($result->num_rows > 0)
@@ -1485,13 +1702,13 @@
     		$connect->close();
 		}
 
-		function createFeedback($fid, $cid, $aid, $n, $d)
+		function createFeedback($fid, $jid, $cid, $aid, $n, $d)
 		{
 			$connect= new DBConnection();
 			$connect = $connect->getInstance();
 
-			$sql = "INSERT INTO feedback(feedback_id, company_id, applicant_id, notes, decision) 
-			VALUES ('$fid', '$cid', '$aid', '$n', '$d')";
+			$sql = "INSERT INTO feedback(feedback_id, job_id, company_id, applicant_id, notes, decision) 
+			VALUES ('$fid', '$jid', '$cid', '$aid', '$n', '$d')";
 
 			if ($connect->query($sql) !== TRUE) {
     			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
@@ -1564,6 +1781,7 @@
     		} else loadCompanies();
 		}
 
+
 function uploadResume($directory, $file_type, $file_name, $file_size, $file)
 {
 	$uploadOk = 1;
@@ -1609,6 +1827,22 @@ function changePassword($account_id, $new_password)
 	if ($connect->query($sql) !== TRUE) {
     			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
     } else echo "Successfully changed password!";
+
+    $connect->close();
+}	
+
+function updateApplication($application_id, $status)
+{
+	$connect= new DBConnection();
+	$connect = $connect->getInstance();
+
+	$sql = "UPDATE application SET is_interviewed='" . $status . "' WHERE application_id='" . $application_id . "'"; 
+
+	if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    } else echo "Successfully changed password!";
+
+    $connect->close();
 }	
 
 function deactivateAccount($account_id)

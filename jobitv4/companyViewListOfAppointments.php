@@ -58,6 +58,22 @@
 <script src="js/companyViewListOfAppointments.js"></script>
 <!-- important initialization js files end -->
 
+<script>
+
+    function viewPopup(anid, appid){
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function(){
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                            document.getElementById("forPopup").innerHTML = xmlhttp.responseText;
+                    }
+                }
+
+                xmlhttp.open("GET", "viewAppointmentPopup.php?&q="+anid+"&aid="+appid, true);
+                xmlhttp.send();
+            }
+
+</script>
+
 
  
 </head>
@@ -88,75 +104,12 @@
                                 <div class="row" id="listContainer">
 
                                     <div class=" col-md-12">
-        <div class="panel panel-default" id="appointment1">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Applicant name here</h3>
-                </div>
+       <?php loadAppointmentsWithApplicants($company->get_companyid()); ?>
 
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-                            <label class="col-md-4">Position: </label> <label class="col-md-8 output-label">Position here</label>
-                            <label class="col-md-4">Date and Time: </label> <label class="col-md-8 output-label">Date and time here</label>
-                        </div>
-                        <div class="col-md-6 resultButtonCol button-row">
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-default btn-fill " id="reject1" name="reject1" value="Reject" onclick="deleteDiv(this)"/>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-success btn-fill" id="reschedule1" name="reschedule1" value="Reschedule" data-toggle="modal" data-target="#reschedule-popup"/>
-                            </div>
-
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-
-                            <div class="col-md-12">
-                                <input type="button" class="btn btn-default btn-fill " id="viewAppointment1" name="viewAppointment1" value="View Appointment" data-toggle="modal" data-target="#details-popup"/>
-                            </div>
-                            
-
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!--  end of <div class="panel panel-default"> -->
-
-            <div class="panel panel-default" id="appointment2">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Applicant name here</h3>
-                </div>
-
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-                            <label class="col-md-4">Position: </label> <label class="col-md-8 output-label">Position here</label>
-                            <label class="col-md-4">Date and Time: </label> <label class="col-md-8 output-label">Date and time here</label>
-                        </div>
-                        <div class="col-md-6 resultButtonCol button-row">
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-default btn-fill " id="reject2" name="reject2" value="Reject" onclick="deleteDiv(this)"/>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-success btn-fill" id="reschedule2" name="reschedule2" value="Reschedule" data-toggle="modal" data-target="#reschedule-popup"/>
-                            </div>
-
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-
-                            <div class="col-md-12">
-                                <input type="button" class="btn btn-default btn-fill " id="viewAppointment2" name="viewAppointment2" value="View Appointment" data-toggle="modal" data-target="#details-popup"/>
-                            </div>
-                            
-
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!--  end of <div class="panel panel-default"> -->
-
-
+        <!--  end of <div class="panel panel-default"> -->
 
                                 </div>
+                            </div>
 
 
 
@@ -206,80 +159,7 @@
 
 
    <!--Appointment Details Pop-up-->
-    <div id="details-popup" class="modal fade" role="dialog">
-        <div class="modal-dialog" id="details-container">
-            <div class="modal-content">
-                <!--Header-->
-                <div class="modal-header panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class="modal-title" id="details-popup-header">Appointment Details</h4>
-                </div>
-                <!--Body-->
-                <div class="model-body">
-                    <!--Company Name-->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>Applicant Name:</label>
-                        </div>
-                        <div class="col-md-8">
-                            <p>{{applicant.Name}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>Applicant Email:</label>
-                        </div>
-                        <div class="col-md-8">
-                            <p>{{applicant.email}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>Applicant Phone Number:</label>
-                        </div>
-                        <div class="col-md-8">
-                            <p>{{applicant.cp#}}</p>
-                        </div>
-                    </div>
-                    <!--Date-->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>Date:</label>
-                        </div>
-                        <div class="col-md-8">
-                            <p>{{appointment.Date}}</p>
-                        </div>
-                    </div>
-                    <!--Time-->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>Time:</label>
-                        </div>
-                        <div class="col-md-8">
-                            <p>{{appointment.times}}</p>
-                        </div>
-                    </div>
-                    <!--Message-->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="detail-msg">Message:</label>
-                        </div>
-                        <div class="col-md-8">
-                            <textarea class="form-control" disabled cols="20" id="resched-msg">{{Reschedule.Msg}}</textarea>
-                        </div>
-                    </div>
-                </div>
-                <!--Footer-->
-                <div class="modal-footer">
-                    <!--Buttons-->
-                    <div class="row">
-                        <div class="col-md-12 btn-row">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Back </button>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-        </div>
+    <div id="forPopup" class="modal fade" role="dialog">
     </div>
         
         

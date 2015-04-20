@@ -58,7 +58,23 @@
 <script src="js/companyViewInterviewedApplicants.js"></script>
 <!-- important initialization js files end -->
 
+<script>
 
+    function hireReject(index, aonid, aid, jid, hr){
+    			alert(index + " " + aid + " " + jid + " " + hr + " " + aonid);
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function(){
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                            var i = index+"_result";
+                    		$( "#"+i ).remove();
+                    }
+                }
+
+                xmlhttp.open("GET", "hireReject.php?&aid="+aid+"&jid="+jid+"&hr="+hr+"&aonid="+aonid, true);
+                xmlhttp.send();
+            }
+
+</script>
  
 </head>
 <body>

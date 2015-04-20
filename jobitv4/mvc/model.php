@@ -121,6 +121,7 @@ class applicant
 			public $address;
 			public $city;
 			public $profile;
+			public $account;
 			public $notif_type;
 
 			/* SETTERS */
@@ -128,6 +129,11 @@ class applicant
 			function set_appid($input)
 			{
 				$this->applicant_id = $input;
+			}
+
+			function set_account($input)
+			{
+				$this->account = $input;
 			}
 
 			function set_accid($input)
@@ -206,6 +212,11 @@ class applicant
 			function get_resume()
 			{
 				return $this->resume;
+			}
+
+			function get_account()
+			{
+				return $this->account;
 			}
 
 			function get_accid()
@@ -816,6 +827,7 @@ class feedback{
 	private $feedback_id;
 	private $company_id;
 	private $applicant_id;
+	private $job_id;
 	private $notes;
 	private $decision;
 
@@ -832,6 +844,11 @@ class feedback{
 	function get_applicantid()
 	{
 		return $this->applicant_id;
+	}
+
+	function get_jobid()
+	{
+		return $this->job_id;
 	}
 
 	function get_notes()
@@ -861,6 +878,11 @@ class feedback{
 		$this->applicant_id = $input;
 	}
 
+	function set_jobid($input)
+	{
+		$this->job_id = $input;
+	}
+
 	function set_notes($input)
 	{
 		$this->notes = $input;
@@ -879,6 +901,7 @@ class application{
 	private $application_id;
 	private $applicant_id;
 	private $job_id;
+	private $company_id;
 	private $date;
 	private $time;
 	private $place;
@@ -899,6 +922,11 @@ class application{
 	function get_jobid()
 	{
 		return $this->job_id;
+	}
+
+	function get_companyid()
+	{
+		return $this->company_id;
 	}
 
 	function get_date()
@@ -946,6 +974,11 @@ class application{
 	function set_jobid($input)
 	{
 		$this->job_id = $input;
+	}
+
+	function set_companyid($input)
+	{
+		$this->company_id = $input;
 	}
 
 	function set_date($input)

@@ -39,7 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('10001','ptrck.esquillo@gmail.com','qwer1234',0),('10002','testing@domain.com','1234',1),('10003','occs@dlsu.edu.ph','1234',2),('10004','info@smart.net','1234',2),('10005','info@recruiterbox.com','1234',2),('10006','admin@experts.com','1234',1),('10007','raymund@experts.com','1234',1),('10008','hr@deltaman.ph','delta',2),('10009','mrsantos@experts.com','santos123',1),('10010','sample@domain.com','1234',1),('10011','regina.balajadia@gmail.com','1234',0),('10012','jared.pangilinan@gmail.com','1234',0);
+INSERT INTO `account` VALUES ('10001','ptrck.esquillo@gmail.com','qwer1234',0),('10002','testing@domain.com','1234',1),('10003','occs@dlsu.edu.ph','1234',2),('10004','info@smart.net','1234',2),('10005','info@recruiterbox.com','1234',2),('10006','admin@experts.com','1234',1),('10007','raymund@experts.com','1234',1),('10008','hr@deltaman.ph','delta',2),('10009','mrsantos@experts.com','santos123',1),('10010','sample@domain.com','1234',1),('10011','jared.pangilinan@gmail.com','1234',0),('10012','regina.balajadia@gmail.com','1234',0);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +167,7 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES ('10001','10002','10003','10003',NULL,NULL,NULL,NULL,NULL,NULL,0),('10002','10001','10003','10003',NULL,NULL,NULL,NULL,NULL,NULL,1),('10003','10001','10001','10001',NULL,NULL,NULL,NULL,NULL,NULL,0),('10004','10003','10003','10003',NULL,NULL,NULL,NULL,NULL,NULL,1),('10005','10002','10002','10002',NULL,NULL,NULL,NULL,NULL,NULL,0),('10006','10003','10002','10002',NULL,NULL,NULL,NULL,NULL,NULL,1);
+INSERT INTO `application` VALUES ('10001','10002','10001','10001','2015-04-22','08:00:00',NULL,NULL,NULL,'hehe',0),('10002','10001','10003','10003','2015-04-11','08:00:00',NULL,NULL,NULL,NULL,1),('10003','10001','10001','10001','2015-04-16','18:00:00',NULL,NULL,NULL,'None yet',0),('10004','10003','10003','10003','2015-04-17','13:00:00',NULL,NULL,NULL,NULL,1),('10005','10002','10002','10002','2015-04-25','08:00:00',NULL,NULL,NULL,NULL,0),('10006','10003','10002','10002','2015-04-07','08:00:00',NULL,NULL,NULL,NULL,1),('10007','10003','10001','10001','2015-04-07','10:00:00',NULL,NULL,NULL,'Sssup',1);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,6 +267,7 @@ DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `feedback` (
   `feedback_id` varchar(16) NOT NULL,
+  `job_id` varchar(16) NOT NULL,
   `company_id` varchar(16) NOT NULL,
   `applicant_id` varchar(16) NOT NULL,
   `notes` varchar(150) DEFAULT NULL,
@@ -281,6 +282,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+INSERT INTO `feedback` VALUES ('1','10001','10001','10003','None',0),('2','10001','10001','10003','None',0);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,4 +409,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-20  0:51:34
+-- Dump completed on 2015-04-20 16:21:51
