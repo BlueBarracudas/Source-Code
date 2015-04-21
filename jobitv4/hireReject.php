@@ -19,8 +19,7 @@
 		$d = $_GET['hr'];
 		$application_id = $_GET['aonid'];
 
-		createFeedback($fid, $jid, $cid, $aid, $n, $d);
-		updateApplication($application_id, 2);
+		updateApplication($application_id, 2, $d);
 
 	}
 

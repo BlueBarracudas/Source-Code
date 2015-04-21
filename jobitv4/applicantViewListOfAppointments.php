@@ -8,7 +8,64 @@
 
     if(isset($_SESSION["account_id"]))
     {
+
+
         $ap = getLoggedInApplicant($_SESSION["account_id"]);
+        $id = $ap->get_appid();
+
+            $applicants = array();
+            $jobfor = array();
+            $date = array();
+            $status = array();
+            $time = array();
+            $aid = array();
+            $cid = array();
+            $message = array();
+            $connect= new DBConnection();
+            $connect = $connect->getInstance();
+
+            $sql = "SELECT * from applicant an, 
+            application al, 
+            joblisting as jl 
+            where al.applicant_id = ".$id."
+            and an.applicant_id = ".$id."
+            and jl.job_id = al.job_id 
+            and al.company_id = jl.company_id
+            and al.is_interviewed = 0 and for_interview != -1 and decision = 0";    
+
+            $result = $connect->query($sql);
+
+            if($result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $temp_app = new applicant();
+                    $temp_app->set_appid($row['applicant_id']);
+                    $temp_app->set_accid($row['account_id']);
+                    $temp_app->set_firstname($row['first_name']);
+                    $temp_app->set_middlename($row['middle_name']);
+                    $temp_app->set_lastname($row['last_name']);
+                    $temp_app->set_sex($row['sex']);
+                    $temp_app->set_address($row['address']);
+                    $temp_app->set_birthday($row['birthday']);
+                    $temp_app->set_maritalstatus($row['marital_status']);
+                    $temp_app->set_contactno($row['contact_number']);
+                    $temp_app->set_notiftype($row['notification_type']);
+                    $temp_app->set_city($row['city']);
+                    $temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+                    
+
+                    $jobfor[] = $row['title'];
+                    $date[] = $row['date'];
+                    $status[] = $row['for_interview'];
+                    $time[] = $row['time'];
+                    $aid[] = $row['application_id'];
+                    $cid[] = $row['company_id'];
+                    $message[] = $row['decision_message'];
+                    $applicants[count($applicants)] = $temp_app;
+                }
+            }
+
 
     }
 
@@ -56,7 +113,29 @@
 <script src="js/jquery-2.1.3.js"></script>
 
 <!-- important initialization js files end -->
+    
+    <script>
 
+            function acceptReject(index, aonid, hr){
+               alert("Successfully Accepted, Refresh page to see changes.");
+
+                var i = index+"_appointment";
+                 $( "#"+i).remove();
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function(){
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                            var i = index+"_appointment";
+                            $( "#"+i ).remove();
+
+                    }
+                }
+
+                xmlhttp.open("GET", "acceptReject.php?&hr="+hr+"&aonid="+aonid, true);
+                xmlhttp.send();
+            }
+
+    </script>
 
  
 </head>
@@ -86,71 +165,65 @@
                                 <div class="row" id="listContainer">
 
                                     <div class=" col-md-12">
-            <div class="panel panel-default" id="appointment1">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Company name here</h3>
-                    </div>
 
-                    <div class="panel-body">
-                        <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-                            <label class="col-md-4">Position: </label> <label class="col-md-8 output-label">Position here</label>
-                            <label class="col-md-4">Date and Time: </label> <label class="col-md-8 output-label">Date and time here</label>
+                                        <?php
+
+            for($i = 0; $i<count($applicants); $i++)
+            {
+                $temp = $applicants[$i];
+                $companyName = getCompanyNameById($cid[$i]);
+
+                if($status[$i] == 0 || $status[$i] == null)
+                    $decision = "Waiting for your acceptance";
+                else if($status[$i] == 1)
+                    $decision = "For interview";
+
+            echo "<div class=\"panel panel-default\" id=\"".$i."_appointment\">
+                        <div class=\"panel-heading\">
+                            <h3 class=\"panel-title\">".$companyName."</h3>
                         </div>
-                        <div class="col-md-6 resultButtonCol button-row">
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-default btn-fill " id="cancel1" name="cancel1" value="Cancel"/>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-success btn-fill " id="viewAppointment1" name="viewAppointment1" value="View Appointment"data-toggle="modal" data-target="#details-popup"/>
+
+                        <div class=\"panel-body\">
+                            <div class=\"row\">
+                                <div class=\"col-md-6\">
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+                             <label class=\"col-md-4\">Status: </label> <label class=\"col-md-8 output-label\">".$decision."</label>
+                            <label class=\"col-md-4\">Position: </label> <label class=\"col-md-8 output-label\">".$jobfor[$i]."</label>
+                            <label class=\"col-md-4\">Date and Time: </label> <label class=\"col-md-8 output-label\">Date: ".$date[$i]." Time: ".$time[$i]."</label>
+                        </div>
+                        <div class=\"col-md-6 resultButtonCol button-row\">
+                            <div class=\"col-md-6\">";
+                            if($status[$i] == 0)
+                                echo "<input type=\"button\" class=\"btn btn-default btn-fill \" id=\"reject2\" onclick =\"acceptReject(".$i.", ".$aid[$i].", -1);\" name=\"reject2\" value=\"Reject\"/>";
+                            else
+                                 echo "<input type=\"button\" class=\"btn btn-default btn-fill \" id=\"reject2\" onclick =\"acceptReject(".$i.", ".$aid[$i].", -1);\" name=\"reject2\" value=\"Cancel\"/>";
+                            echo "</div>
+                            <div class=\"col-md-6\">
+                                <input type=\"button\" class=\"btn btn-success btn-fill\" id=\"viewAppointment2\" name=\"viewAppointment2\" value=\"View Appointment\" data-toggle=\"modal\" data-target=\"#".$i."_details-popup\"/>
                             </div>
 
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
 
-                            <div class="col-md-12">
-                                <input type="button" class="btn btn-default btn-fill" id="reschedule1" name="reschedule1" value="Reschedule"  data-toggle="modal" data-target="#reschedule-popup"/>
-                            </div>
+                            <div class=\"col-md-12\">";
+                            if($status[$i] == 0)
+                                echo"<input type=\"button\" class=\"btn btn-default btn-fill\" id=\"accept2\" name=\"accept2\" value=\"Accept\" onclick =\"acceptReject(".$i.", ".$aid[$i].", 1);\" />";
+                            else
+                                echo"<input type=\"button\" class=\"btn btn-default btn-fill \" id=\"reject2\" value=\"Reschedule\" data-toggle=\"modal\" data-target=\"#reschedule-popup\"/>";
+                            echo"</div>
                             
 
                         </div>
                     </div>
                 </div>
 
-            </div> <!--  end of <div class="panel panel-default"> -->
+            </div>";
+            }
+        
 
-                    <div class="panel panel-default" id="appointment2">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Company name here</h3>
-                        </div>
+                                        ?>
+ <!--  end of <div class="panel panel-default"> -->
 
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-                            <label class="col-md-4">Position: </label> <label class="col-md-8 output-label">Position here</label>
-                            <label class="col-md-4">Date and Time: </label> <label class="col-md-8 output-label">Date and time here</label>
-                        </div>
-                        <div class="col-md-6 resultButtonCol button-row">
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-default btn-fill " id="reject2" name="reject2" value="Reject"/>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="button" class="btn btn-success btn-fill " id="viewAppointment2" name="viewAppointment2" value="View Appointment" data-toggle="modal" data-target="#details-popup"/>
-                            </div>
-
-                            <div class="form-group form-group-spacer"><label class="col-md-12">space</label></div> <!-- used as spacing -->
-
-                            <div class="col-md-12">
-                                <input type="button" class="btn btn-default btn-fill" id="accept2" name="accept2" value="Accept" onclick="acceptOnClick(this)"/>
-                            </div>
-                            
-
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!--  end of <div class="panel panel-default"> -->
+                 <!--  end of <div class="panel panel-default"> -->
 
 
                                 </div>
@@ -201,86 +274,86 @@
 </div>  <!-- end of <div class="container mainContainer"> -->
 
 
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <!--Appointment Details Pop-up-->
-    <div id="details-popup" class="modal fade" role="dialog">
-        <div class="modal-dialog" id="details-container">
-            <div class="modal-content">
+<?php
+    
+    for($i = 0; $i<count($applicants); $i++)
+    {
+        $companyName = getCompanyNameById($cid[$i]);
+
+
+    echo "<div id=\"".$i."_details-popup\" class=\"modal fade\" role=\"dialog\">
+        <div class=\"modal-dialog\" id=\"details-container\">
+            <div class=\"modal-content\">
                 <!--Header-->
-                <div class="modal-header panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class="modal-title" id="details-popup-header">Appointment Details</h4>
+                <div class=\"modal-header panel-heading\">
+                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>
+                    <h3 class=\"modal-title\" id=\"details-popup-header\">Appointment Details</h4>
                 </div>
                 <!--Body-->
-                <div class="model-body">
+                <div class=\"model-body\">
                     <!--Company Name-->
-                    <div class="row">
-                        <div class="col-md-2">
+                    <div class=\"row\">
+                        <div class=\"col-md-2\">
                             <label>Company:</label>
                         </div>
-                        <div class="col-md-10">
-                            <p>{{company.Name}}</p>
+                        <div class=\"col-md-10\">
+                            <p> &nbsp;&nbsp;".$companyName."</p>
                         </div>
                     </div>
                     <!--Position-->
-                     <div class="row">
-                        <div class="col-md-2">
+                     <div class=\"row\">
+                        <div class=\"col-md-2\">
                             <label>Position:</label>
                         </div>
-                        <div class="col-md-10">
-                            <p>{{company.Position}}</p>
+                        <div class=\"col-md-10\">
+                            <p>".$jobfor[$i]."</p>
                         </div>
                     </div>
                     <!--Date-->
-                    <div class="row">
-                        <div class="col-md-2">
+                    <div class=\"row\">
+                        <div class=\"col-md-2\">
                             <label>Date:</label>
                         </div>
-                        <div class="col-md-10">
-                            <p>{{appointment.Date}}</p>
+                        <div class=\"col-md-10\">
+                            <p>".$date[$i]."</p>
                         </div>
                     </div>
                     <!--Time-->
-                    <div class="row">
-                        <div class="col-md-2">
+                    <div class=\"row\">
+                        <div class=\"col-md-2\">
                             <label>Time:</label>
                         </div>
-                        <div class="col-md-10">
-                            <p>{{appointment.times}}</p>
+                        <div class=\"col-md-10\">
+                            <p>".$time[$i]."</p>
                         </div>
                     </div>
                     <!--Message-->
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label for="detail-msg">Message:</label>
+                    <div class=\"row\">
+                        <div class=\"col-md-2\">
+                            <label for=\"detail-msg\">Message:</label>
                         </div>
-                        <div class="col-md-8">
-                            <textarea class="form-control" disabled cols="20" id="resched-msg">{{Reschedule.Msg}}</textarea>
+                        <div class=\"col-md-8\">
+                            <textarea class=\"form-control\" disabled cols=\"20\" id=\"resched-msg\">".$message[$i]."</textarea>
                         </div>
                     </div>
                 </div>
                 <!--Footer-->
-                <div class="modal-footer">
+                <div class=\"modal-footer\">
                     <!--Buttons-->
-                    <div class="row">
-                        <div class="col-md-12 btn-row">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Back </button>
+                    <div class=\"row\">
+                        <div class=\"col-md-12 btn-row\">
+                            <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Back </button>
                         </div>
                     </div>
                 </div>
             </div> 
         </div>
-    </div>
+    </div>";
+    
+    }
+
+  ?>
     
     <!--Reschedule Pop-up-->
     <div id="reschedule-popup" class="modal fade">

@@ -6,13 +6,15 @@
 
 	loadAll();
 
+	unset($_POST);
+
 	if(isset($_SESSION["account_id"]))
 	{
 		$ap = getLoggedInApplicant($_SESSION["account_id"]);
 		if(isset($_GET['id']))
 		{
 			$joboffer = getJobListingById($_GET['id']);
-			$company = getCompanyById($joboffer->get_companyid());
+			$company = getCompanyByCompanyId($joboffer->get_companyid());
 		}
 		else
 		{
@@ -158,11 +160,12 @@
 
 						  		<div class="row">
 						  			<div class="col-md-12">
-							  			<label class="output-label col-md-6" id="jobTitleOutput1" name="jobTitleOutput1">Job Title 1 here</label>
-							  			<label class="output-label col-md-6" id="yearsOfExperienceOutput1" name="yearsOfExperienceOutput1">Years of Experience 1 here</label>
-
-							  			<label class="output-label col-md-6" id="jobTitleOutput2" name="jobTitleOutput2">Job Title 2 here</label>
-							  			<label class="output-label col-md-6" id="yearsOfExperienceOutput2" name="yearsOfExperienceOutput2">Years of Experience 2 here</label>
+						  				<?php
+						  				$we = $joboffer->get_workexperience();
+						  				for($i = 0; $i<count($joboffer->get_workexperience()); $i++) 
+							  			echo "<label class=\"output-label col-md-6\" id=\"jobTitleOutput1\" name=\"jobTitleOutput1\">".$we[$i]->get_worktitle()."</label>
+							  			<label class=\"output-label col-md-6\" id=\"yearsOfExperienceOutput1\" name=\"yearsOfExperienceOutput1\">".$we[$i]->get_years()."</label>";
+							  			?>
 						  			</div>
 						  		</div>
 

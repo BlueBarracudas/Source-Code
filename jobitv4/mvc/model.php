@@ -571,6 +571,7 @@ class workexperience{
 
 	private $workexperience_id;
 	private $applicant_id;
+	private $job_id;
 	private $work_title;
 	private $years;
 	private $company_name;
@@ -583,6 +584,11 @@ class workexperience{
 	function get_applicantid()
 	{
 		return $this->applicant_id;
+	}
+
+	function get_jobid()
+	{
+		return $this->job_id;
 	}
 
 	function get_worktitle()
@@ -610,6 +616,11 @@ class workexperience{
 	function set_applicantid($input)
 	{
 		$this->applicant_id = $input;
+	}
+
+	function set_jobid($input)
+	{
+		$this->job_id = $input;
 	}
 
 	function set_worktitle($input)

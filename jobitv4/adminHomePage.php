@@ -13,7 +13,7 @@
       $admin_name = $ap->get_email();
   } else {
     echo "You are not logged in.";
-    header('Refresh: 3; URL=admin-login.php');
+    header('Refresh: 3; URL=main-login.php');
     exit;
   }  
 

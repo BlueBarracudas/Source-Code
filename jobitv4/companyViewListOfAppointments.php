@@ -10,6 +10,54 @@
     {
         $ap = getLoggedInAccount($_SESSION["account_id"]);
         $company = getCompanyById($_SESSION["account_id"]);
+        $id = $company->get_companyid();
+
+        $applicants = array();
+            $jobfor = array();
+             $status = array();
+            $date = array();
+            $time = array();
+            $aid = array();
+            $connect= new DBConnection();
+            $connect = $connect->getInstance();
+
+            $sql = "SELECT * from applicant an, 
+            application al, 
+            joblisting as jl 
+            where an.applicant_id = al.applicant_id 
+            and jl.job_id = al.job_id 
+            and al.company_id = ".$id."
+            and al.is_interviewed = 0 and al.for_interview != -1";    
+
+            $result = $connect->query($sql);
+
+            if($result->num_rows > 0)
+            {
+                while($row = $result->fetch_assoc())
+                {
+                    $temp_app = new applicant();
+                    $temp_app->set_appid($row['applicant_id']);
+                    $temp_app->set_accid($row['account_id']);
+                    $temp_app->set_firstname($row['first_name']);
+                    $temp_app->set_middlename($row['middle_name']);
+                    $temp_app->set_lastname($row['last_name']);
+                    $temp_app->set_sex($row['sex']);
+                    $temp_app->set_address($row['address']);
+                    $temp_app->set_birthday($row['birthday']);
+                    $temp_app->set_maritalstatus($row['marital_status']);
+                    $temp_app->set_contactno($row['contact_number']);
+                    $temp_app->set_notiftype($row['notification_type']);
+                    $temp_app->set_city($row['city']);
+                    $temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+                    
+                    $jobfor[] = $row['title'];
+                    $date[] = $row['date'];
+                    $time[] = $row['time'];
+                    $aid[] = $row['application_id'];
+                    $status[] = $row['for_interview'];
+                    $applicants[count($applicants)] = $temp_app;
+                }
+            }
 
     }
 
@@ -60,15 +108,22 @@
 
 <script>
 
-    function viewPopup(anid, appid){
+    function acceptReject(index, aonid, hr){
+               alert("Successfully Accepted, Refresh page to see changes.");
+
+                var i = index+"_appointment";
+                 $( "#"+i).remove();
+
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function(){
                     if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                            document.getElementById("forPopup").innerHTML = xmlhttp.responseText;
+                            var i = index+"_appointment";
+                            $( "#"+i ).remove();
+
                     }
                 }
 
-                xmlhttp.open("GET", "viewAppointmentPopup.php?&q="+anid+"&aid="+appid, true);
+                xmlhttp.open("GET", "acceptReject.php?&hr="+hr+"&aonid="+aonid, true);
                 xmlhttp.send();
             }
 
@@ -104,7 +159,49 @@
                                 <div class="row" id="listContainer">
 
                                     <div class=" col-md-12">
-       <?php loadAppointmentsWithApplicants($company->get_companyid()); ?>
+       <?php 
+
+
+            for($i = 0; $i<count($applicants); $i++)
+            {
+                $temp = $applicants[$i];
+                if($status[$i] == 0 || $status[$i] == null)
+                    $decision = "Reply pending";
+                else if($status[$i] == 1)
+                    $decision = "For interview";
+
+            echo "<div class=\"panel panel-default\" id=\"".$i."_appointment\">
+                <div class=\"panel-heading\">
+                    <h3 class=\"panel-title\">".$temp->get_firstname()." ".$temp->get_lastname()."</h3>
+                </div>
+
+                <div class=\"panel-body\">
+                    <div class=\"row\">
+                        <div class=\"col-md-6\">
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+                            <label class=\"col-md-4\">Status: </label> <label class=\"col-md-8 output-label\">".$decision."</label>
+                            <label class=\"col-md-4\">Position: </label> <label class=\"col-md-8 output-label\">".$jobfor[$i]."</label>
+                            <label class=\"col-md-4\">Date and Time: </label> <label class=\"col-md-8 output-label\">Date: ".$date[$i]." Time: ".$time[$i]."</label>
+                        </div>
+                        <div class=\"col-md-6 resultButtonCol button-row\">
+                            <div class=\"col-md-6\">
+                                <input type=\"button\" class=\"btn btn-default btn-fill \" id=\"reject2\" onclick =\"acceptReject(".$i.", ".$aid[$i].", -1);\" name=\"reject2\" value=\"Reject\"/>
+                            </div>
+                            <div class=\"col-md-6\">
+                                <input type=\"button\" class=\"btn btn-success btn-fill\" id=\"reschedule1\" name=\"reschedule1\" value=\"Reschedule\" data-toggle=\"modal\" data-target=\"#reschedule-popup\"/>
+                            </div>
+
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+
+                            <div class=\"col-md-12\">
+                                 <input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewAppointment1\" name=\"viewAppointment1\" value=\"View Appointment\" data-toggle=\"modal\" data-target=\"#".$i."_details-popup\"/>             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>";
+            } ?>
 
         <!--  end of <div class="panel panel-default"> -->
 
@@ -113,8 +210,10 @@
 
 
 
-            <div class="col-md-12">         
+            <div class="col-md-12">     
+            <?php if(count($applicants) <= 0) echo "<p class=\"emptyMessage\" align='center'> No results. </p>"; ?>    
             <hr id="bottomOfResults">
+
             </div>
 
   <!--          <nav class="center">
@@ -159,8 +258,94 @@
 
 
    <!--Appointment Details Pop-up-->
-    <div id="forPopup" class="modal fade" role="dialog">
-    </div>
+    <?php
+
+        loadAll();
+
+        for($i = 0; $i<count($applicants); $i++)
+        {
+            $applicant = $applicants[$i];
+            $account = $applicant->get_account();
+            $application = getApplicationById($applicant->get_appid());
+
+        echo "<div id=\"".$i."_details-popup\" class=\"modal fade\" role=\"dialog\">
+        <div class=\"modal-dialog\" id=\"details-container\">
+            <div class=\"modal-content\">
+                <!--Header-->
+                <div class=\"modal-header panel-heading\">
+                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>
+                    <h3 class=\"modal-title\" id=\"details-popup-header\">Appointment Details</h4>
+                </div>
+                <!--Body-->
+                <div class=\"model-body\">
+                    <!--Company Name-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Applicant Name: </label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$applicant->get_firstname()." ".$applicant->get_lastname()."</p>
+                        </div>
+                    </div>
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Applicant Email:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$account->get_email()."</p>
+                        </div>
+                    </div>
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Applicant Phone Number:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$applicant->get_contactno()."</p>
+                        </div>
+                    </div>
+                    <!--Date-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Date:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$application->get_date()."</p>
+                        </div>
+                    </div>
+                    <!--Time-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label>Time:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <p>".$application->get_time()."</p>
+                        </div>
+                    </div>
+                    <!--Message-->
+                    <div class=\"row\">
+                        <div class=\"col-md-3\">
+                            <label for=\"detail-msg\">Message:</label>
+                        </div>
+                        <div class=\"col-md-8\">
+                            <textarea class=\"form-control\" disabled cols=\"20\" id=\"resched-msg\">".$application->get_decisionmessage()."</textarea>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer-->
+                <div class=\"modal-footer\">
+                    <!--Buttons-->
+                    <div class=\"row\">
+                        <div class=\"col-md-12 btn-row\">
+                            <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Back </button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>";
+    }
+
+    ?>
         
         
         

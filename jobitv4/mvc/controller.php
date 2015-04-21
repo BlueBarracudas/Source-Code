@@ -8,6 +8,7 @@
 		$applicant_profiles = array();
 		$certificates = array();
 		$workexperiences = array();
+		$workexperiencesJL = array();
 		$skills = array();
 		$applications = array();
 		$joblistings = array();
@@ -36,16 +37,33 @@
 			return false;
 		}
 
+		function isActive($id)
+		{
+			global $admins;
+
+			for($i = 0; $i<count($admins); $i++)
+			{
+				$temp = $admins[$i];
+				if($temp->get_accountid() == $id && $temp->get_active() == 1)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		function loadAll()
 		{
-			loadAccounts();
+			loadWorkExperienceJL();
 			loadAdmins();
 			loadCompanies();
 			loadCertificates();
-			loadApplications();
+			loadApplications();		
 			loadJobListings();
 			loadWorkExperience();
 			loadApplicantProfile();
+			loadAccounts();
 			loadApplicants();
 		}
 
@@ -155,7 +173,7 @@
 			for($i = 0; $i<count($applicants); $i++)
 			{
 				$temp_accid = $applicants[$i]->get_accid();
-
+				echo $applicants[$i]->get_account()->get_email();
 				if(strcmp($temp_accid, $account_id) == 0)
 				{
 					$app = $applicants[$i];
@@ -170,19 +188,18 @@
 		{
 			global $applicants;
 
-
 			for($i = 0; $i<count($applicants); $i++)
 			{
 				$temp = $applicants[$i];
 
 				if($temp->get_appid() == $id)
-				{
+				{	
 					return $temp;
 				}
 
 			}
 
-			return $null;
+			return null;
 		}
 
 		function getApplicationById($id)
@@ -211,6 +228,26 @@
 
 			return $yearToday-$age;
 
+		}
+
+		function getWejlById($id)
+		{
+			global $workexperiencesJL;
+			$we = array();
+
+			for($i = 0; $i<count($workexperiencesJL); $i++)
+			{
+				$temp = $workexperiencesJL[$i];
+				//echo $temp->get_worktitle() . " -" . $id . "<br>";
+				if($id == $temp->get_jobid())
+				{
+					$we[] = $temp;	
+				}
+			}
+
+			if(count($we) > 0)
+				return $we;
+			else return null;
 		}
 
 		function loadApplicants()
@@ -242,7 +279,6 @@
 					$temp_app->set_city($row['city']);
 					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
 					$temp_app->set_account(getLoggedInAccount($row['account_id']));
-
 					$applicants[count($applicants)] = $temp_app;
 				}
 			}
@@ -367,6 +403,39 @@
 			return null;
 		}
 
+		function getCompanyNameById($id)
+		{
+			global $companies;
+
+			for($i = 0; $i<count($companies); $i++)
+			{
+				$temp_c = $companies[$i];
+				if($id == $temp_c->get_companyid())
+				{
+
+					return $temp_c->get_name();
+				}
+			}
+
+			return null;
+		}
+
+		function getCompanyByCompanyId($id)
+		{
+			global $companies;
+
+			for($i = 0; $i<count($companies); $i++)
+			{
+				$temp_c = $companies[$i];
+				if($id == $temp_c->get_companyid())
+				{
+					return $temp_c;
+				}
+			}
+
+			return null;
+		}
+
 		function getCompanyIdByName($name)
 		{
 			global $companies;
@@ -467,7 +536,7 @@
 					$temp_jl->set_title($row['title']);
 					$temp_jl->set_description($row['description']);
 					$temp_jl->set_location($row['location']);
-					$temp_jl->set_workexperience($row['work_experience']);
+					$temp_jl->set_workexperience(getWejlById($row['job_id']));
 					$temp_jl->set_salary($row['salary']);
 					$temp_jl->set_workhours($row['work_hours']);
 					$temp_jl->set_totalslots($row['total_slots']);
@@ -678,6 +747,108 @@
             </div> 
         </div>
     </div>";
+		}
+
+		function populateApplicantAppointment($id)
+		{
+
+			$applicants = array();
+			$jobfor = array();
+			$date = array();
+			$status = array();
+			$time = array();
+			$aid = array();
+			$cid = array();
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * from applicant an, 
+			application al, 
+			joblisting as jl 
+			where al.applicant_id = ".$id."
+            and an.applicant_id = ".$id."
+			and jl.job_id = al.job_id 
+            and al.company_id = jl.company_id
+			and al.is_interviewed = 0 and decision = 0";	
+
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_app = new applicant();
+					$temp_app->set_appid($row['applicant_id']);
+					$temp_app->set_accid($row['account_id']);
+					$temp_app->set_firstname($row['first_name']);
+					$temp_app->set_middlename($row['middle_name']);
+					$temp_app->set_lastname($row['last_name']);
+					$temp_app->set_sex($row['sex']);
+					$temp_app->set_address($row['address']);
+					$temp_app->set_birthday($row['birthday']);
+					$temp_app->set_maritalstatus($row['marital_status']);
+					$temp_app->set_contactno($row['contact_number']);
+					$temp_app->set_notiftype($row['notification_type']);
+					$temp_app->set_city($row['city']);
+					$temp_app->set_profile(getApplicantProfileById($row['applicant_id']));
+					
+
+					$jobfor[] = $row['title'];
+					$date[] = $row['date'];
+					$status[] = $row['decision'];
+					$time[] = $row['time'];
+					$aid[] = $row['application_id'];
+					$cid[] = $row['company_id'];
+					$applicants[count($applicants)] = $temp_app;
+				}
+
+				return $applicants;
+
+			/*for($i = 0; $i<count($applicants); $i++)
+			{
+				$temp = $applicants[$i];
+				$companyName = getCompanyNameById($cid[$i]);
+
+				if($status[$i] == -1 || $status[$i] == null)
+					$decision = "Pending";
+				else if($status[$i] == 0)
+					$decision = "For interview";
+
+			echo "<div class=\"panel panel-default\" id=\"appointment2\">
+                        <div class=\"panel-heading\">
+                            <h3 class=\"panel-title\">".$companyName."</h3>
+                        </div>
+
+                        <div class=\"panel-body\">
+                            <div class=\"row\">
+                                <div class=\"col-md-6\">
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+                             <label class=\"col-md-4\">Status: </label> <label class=\"col-md-8 output-label\">".$decision."</label>
+                            <label class=\"col-md-4\">Position: </label> <label class=\"col-md-8 output-label\">".$jobfor[$i]."</label>
+                            <label class=\"col-md-4\">Date and Time: </label> <label class=\"col-md-8 output-label\">Date: ".$date[$i]." Time: ".$time[$i]."</label>
+                        </div>
+                        <div class=\"col-md-6 resultButtonCol button-row\">
+                            <div class=\"col-md-6\">
+                                <input type=\"button\" class=\"btn btn-default btn-fill \" id=\"reject2\" name=\"reject2\" value=\"Reject\"/>
+                            </div>
+                            <div class=\"col-md-6\">
+                                <input type=\"button\" class=\"btn btn-success btn-fill\" id=\"viewAppointment2\" name=\"viewAppointment2\" value=\"View Appointment\" data-toggle=\"modal\" data-target=\"#details-popup\"/>
+                            </div>
+
+                            <div class=\"form-group form-group-spacer\"><label class=\"col-md-12\">space</label></div> <!-- used as spacing -->
+
+                            <div class=\"col-md-12\">
+                                <input type=\"button\" class=\"btn btn-default btn-fill\" id=\"accept2\" name=\"accept2\" value=\"Accept\" onclick=\"acceptOnClick(this)\"/>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>";
+        	}*/
+		}
 		}
 
 		function loadAppointmentsWithApplicants($id)
@@ -929,7 +1100,7 @@
 								            	</div>
 								            	<div class=\"col-md-6 resultButtonCol\">
 								            		<div class=\"col-md-6\">
-								            			<a href=\"#\"><input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewProfile1\" name=\"viewProfile1\" onclick =\"hireReject(".$i.", ".$aid[$i].", ".$temp->get_appid().", ".$jobid[$i].", 0);\" value=\"Reject\"/></a>
+								            			<a href=\"#\"><input type=\"button\" class=\"btn btn-default btn-fill \" id=\"viewProfile1\" name=\"viewProfile1\" onclick =\"hireReject(".$i.", ".$aid[$i].", ".$temp->get_appid().", ".$jobid[$i].", 2);\" value=\"Reject\"/></a>
 								            		</div>
 								            		<div class=\"col-md-6\">
 								            			<input type=\"button\" class=\"btn btn-success btn-fill\" id=\"setAppointment1\" name=\"setAppointment1\" data-toggle=\"modal\" onclick =\"hireReject(".$i.", ".$aid[$i].", ".$temp->get_appid().", ".$jobid[$i].", 1);\" data-target=\"#schedule-popup\" value=\"Hire\"/>
@@ -947,11 +1118,11 @@
 		function populateJobListings($results, $key)
 		{
 			$joblistings = $results;
-			//echo "<h2 class=\"emptyMessage\"> Results for ".$key.": </h2>";
+			//results "<h2 class=\"emptyMessage\"> Results for ".$key.": </h2>";
 			for($i = 0; $i<count($joblistings); $i++)
 			{
 				$temp = $joblistings[$i];
-				$company = getCompanyById($temp->get_companyid());
+				$company = getCompanyByCompanyId($temp->get_companyid());
 
 				echo "<div class=\"panel panel-default\" id=\"result2\">
 		        <div class=\"panel-heading\">
@@ -1190,6 +1361,8 @@
 			{
 				$temp = $admins[$i];
 				$acc = getLoggedInAccount($temp->get_accountid());
+				if($temp->get_type() == 1)
+				{
 				echo "<div class=\"panel panel-default\" id=\"result1\">
 							<div class=\"panel-heading\">
 							      <h3 class=\"panel-title\">".$acc->get_email()."</h3>
@@ -1217,6 +1390,7 @@
 							      </div>
 
 					</div>";
+				}
 				
 
 			}
@@ -1284,6 +1458,7 @@
 			$by_college = $request["collegeCourseInput"];
 			$by_skills = $request["skillsInput"];
 			$by_location = $request["locationInput"];
+			$by_jobtitle = $request["jobTitleInput"];
 
 			$sql = "SELECT * from joblisting WHERE slots_available > 0 AND (";
 			$conditions = array();
@@ -1315,10 +1490,21 @@
 				$conditions[] = "location LIKE '%".$by_location."%'"; 
 			}
 
+			if($by_jobtitle !="")
+			{
+				
+  					$sql = "SELECT * from joblisting as jl, workexpjoblisting as we WHERE slots_available > 0 AND jl.job_id = we.job_id AND (";
+
+				$conditions[] = "we.title like '%".$by_jobtitle."%'";	
+				
+			}
+
 			if(count($conditions) > 0) {
 				$sql .= implode (' AND ', $conditions);
 
 				$sql .= ")";
+
+				echo $sql;
 
 			$result = $connect->query($sql);
 
@@ -1403,6 +1589,36 @@
 					$temp_we->set_companyname($row['company_name']);
 
 					$workexperiences[count($workexperiences)] = $temp_we;
+					
+				}
+			}
+
+			$connect->close();
+
+		}
+
+		function loadWorkExperienceJL()
+		{
+			global $workexperiencesJL;
+			$workexperiencesJL = null;
+			$connect= new DBConnection();
+			$connect = $connect->getInstance();
+
+			$sql = "SELECT * FROM workexpjoblisting";
+			$result = $connect->query($sql);
+
+			if($result->num_rows > 0)
+			{
+				while($row = $result->fetch_assoc())
+				{
+					$temp_we = new workexperience();
+					$temp_we->set_workexperienceid($row['work_experience_id']);
+					$temp_we->set_jobid($row['job_id']);
+					$temp_we->set_worktitle($row['title']);
+					$temp_we->set_years($row['years']);
+
+
+					$workexperiencesJL[count($workexperiencesJL)] = $temp_we;
 					
 				}
 			}
@@ -1831,16 +2047,30 @@ function changePassword($account_id, $new_password)
     $connect->close();
 }	
 
-function updateApplication($application_id, $status)
+function updateApplication($application_id, $status, $d)
 {
 	$connect= new DBConnection();
 	$connect = $connect->getInstance();
 
-	$sql = "UPDATE application SET is_interviewed='" . $status . "' WHERE application_id='" . $application_id . "'"; 
+	$sql = "UPDATE application SET decision =".$d.", is_interviewed='" . $status . "' WHERE application_id='" . $application_id . "'"; 
 
 	if ($connect->query($sql) !== TRUE) {
     			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
     } else echo "Successfully changed password!";
+
+    $connect->close();
+}
+
+function updateApplicationViaApplicant($application_id, $d)
+{
+	$connect= new DBConnection();
+	$connect = $connect->getInstance();
+
+	$sql = "UPDATE application SET for_interview =".$d." WHERE application_id='" . $application_id . "'"; 
+
+	if ($connect->query($sql) !== TRUE) {
+    			echo "ERROR: Could not able to execute $sql. " . mysqli_error($connect);
+    }
 
     $connect->close();
 }	

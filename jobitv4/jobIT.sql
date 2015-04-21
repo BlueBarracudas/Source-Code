@@ -39,7 +39,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('10001','ptrck.esquillo@gmail.com','qwer1234',0),('10002','testing@domain.com','1234',1),('10003','occs@dlsu.edu.ph','1234',2),('10004','info@smart.net','1234',2),('10005','info@recruiterbox.com','1234',2),('10006','admin@experts.com','1234',1),('10007','raymund@experts.com','1234',1),('10008','hr@deltaman.ph','delta',2),('10009','mrsantos@experts.com','santos123',1),('10010','sample@domain.com','1234',1),('10011','jared.pangilinan@gmail.com','1234',0),('10012','regina.balajadia@gmail.com','1234',0);
+INSERT INTO `account` VALUES ('1','ptrck.esquillo@gmail.com','1234',0),('2','testing@domain.com','1234',1),('3','occs@dlsu.edu.ph','1234',2);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `administrator` (
 
 LOCK TABLES `administrator` WRITE;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
-INSERT INTO `administrator` VALUES ('10001','10002',1,1),('10002','10006',1,2),('10003','10007',0,1),('10004','10009',0,1),('10005','10010',0,1);
+INSERT INTO `administrator` VALUES ('10001','1',1,1);
 /*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +100,7 @@ CREATE TABLE `applicant` (
 
 LOCK TABLES `applicant` WRITE;
 /*!40000 ALTER TABLE `applicant` DISABLE KEYS */;
-INSERT INTO `applicant` VALUES ('10001','10001','Lance Patrick','Ramos','Esquillo','1996-07-10','Tanay, Rizal','Manila','09152824229','Single','M',1),('10002','10011','Jared Luke','Santos','Pangilinan','1996-08-03','San Juan City','Manila','09182323451','Single','M',1),('10003','10012','Regina Claire','Cruz','Balajadia','1996-02-05','Taft','Manila','09123616112','Single','F',1);
+INSERT INTO `applicant` VALUES ('1','1','Lance Patrick','Ramos','Esquillo','1996-07-10','Tanay, Rizal','Manila','09152824229','single','M',1);
 /*!40000 ALTER TABLE `applicant` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +121,6 @@ CREATE TABLE `applicantprofile` (
   `work_experience` varchar(45) DEFAULT NULL,
   `certificates` varchar(45) DEFAULT NULL,
   `resume_pdf` varchar(45) DEFAULT NULL,
-  `profile_picture` varchar(45) NOT NULL,
   PRIMARY KEY (`applicant_profile_id`),
   UNIQUE KEY `applicant_profile_id_UNIQUE` (`applicant_profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -133,7 +132,6 @@ CREATE TABLE `applicantprofile` (
 
 LOCK TABLES `applicantprofile` WRITE;
 /*!40000 ALTER TABLE `applicantprofile` DISABLE KEYS */;
-INSERT INTO `applicantprofile` VALUES ('10001','10001','La Salle College Antipolo','De La Salle University','Computer Science','Knowledgable in PHP, Java, CSS, HTML','N/A','CCNA','resume_10001.pdf','apic_10001.jpg'),('10002','10002','La Salle Greenhills','De La Salle University','Computer Engineering','Knowledgable in PHP, Java, CSS, HTML','N/A','CCNA','resume_10002.pdf','apic_10002.jpg'),('10003','10003','UP-IS','De La Salle University','Information Technology','Good at leading a team, great ui engineer','N/A','CCNA','resume_10003.pdf','apic_10003.jpg');
 /*!40000 ALTER TABLE `applicantprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,15 +145,13 @@ DROP TABLE IF EXISTS `application`;
 CREATE TABLE `application` (
   `application_id` varchar(16) NOT NULL,
   `applicant_id` varchar(16) NOT NULL,
-  `company_id` varchar(16) DEFAULT NULL,
   `job_id` varchar(16) NOT NULL,
-  `date` date DEFAULT NULL,
-  `time` time DEFAULT NULL,
-  `place` varchar(150) DEFAULT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `place` varchar(150) NOT NULL,
   `notes` varchar(150) DEFAULT NULL,
   `decision` int(11) DEFAULT NULL,
   `decision_message` varchar(150) DEFAULT NULL,
-  `is_interviewed` int(1) DEFAULT '0',
   PRIMARY KEY (`application_id`),
   UNIQUE KEY `Appointment_ID_UNIQUE` (`application_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -167,7 +163,6 @@ CREATE TABLE `application` (
 
 LOCK TABLES `application` WRITE;
 /*!40000 ALTER TABLE `application` DISABLE KEYS */;
-INSERT INTO `application` VALUES ('10001','10002','10001','10001','2015-04-22','08:00:00',NULL,NULL,NULL,'hehe',0),('10002','10001','10003','10003','2015-04-11','08:00:00',NULL,NULL,NULL,NULL,1),('10003','10001','10001','10001','2015-04-16','18:00:00',NULL,NULL,NULL,'None yet',0),('10004','10003','10003','10003','2015-04-17','13:00:00',NULL,NULL,NULL,NULL,1),('10005','10002','10002','10002','2015-04-25','08:00:00',NULL,NULL,NULL,NULL,0),('10006','10003','10002','10002','2015-04-07','08:00:00',NULL,NULL,NULL,NULL,1),('10007','10003','10001','10001','2015-04-07','10:00:00',NULL,NULL,NULL,'Sssup',1);
 /*!40000 ALTER TABLE `application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,10 +179,9 @@ CREATE TABLE `certificate` (
   `applicant_id` int(11) NOT NULL,
   `competency` int(11) NOT NULL,
   `is_valid` int(11) NOT NULL DEFAULT '0',
-  `date_completed` date DEFAULT NULL,
   PRIMARY KEY (`certificate_id`),
   UNIQUE KEY `certificate_id_UNIQUE` (`certificate_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,33 +190,7 @@ CREATE TABLE `certificate` (
 
 LOCK TABLES `certificate` WRITE;
 /*!40000 ALTER TABLE `certificate` DISABLE KEYS */;
-INSERT INTO `certificate` VALUES (10001,'CCNA',10001,1,1,'2015-04-10'),(10002,'CCNP',10001,0,1,'2015-03-21'),(10003,'CCNP',10002,0,1,'2014-02-15'),(10004,'CCIE',10002,1,1,'2014-08-21'),(10005,'CCNA',10003,1,1,'2013-07-10'),(10006,'CCIE',10003,1,1,'2014-08-09');
 /*!40000 ALTER TABLE `certificate` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `certjoblisting`
---
-
-DROP TABLE IF EXISTS `certjoblisting`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `certjoblisting` (
-  `certificate_id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL,
-  `complecency` int(11) NOT NULL,
-  PRIMARY KEY (`certificate_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `certjoblisting`
---
-
-LOCK TABLES `certjoblisting` WRITE;
-/*!40000 ALTER TABLE `certjoblisting` DISABLE KEYS */;
-/*!40000 ALTER TABLE `certjoblisting` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -254,7 +222,7 @@ CREATE TABLE `company` (
 
 LOCK TABLES `company` WRITE;
 /*!40000 ALTER TABLE `company` DISABLE KEYS */;
-INSERT INTO `company` VALUES ('10001','10003','OCCS DLSU','Malate, Manila','1234','OCCS ROCKS!','default.jpg',NULL,NULL),('10002','10004','Smart Communications','BGC, Makati','1234','Smart is better than globe','default.jpg',NULL,NULL),('10003','10005','Recruiter Box','Bengaluru, India','1234','recruiterbox.com','default.jpg',NULL,NULL),('10004','10008',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `company` VALUES ('1','3','OCCS DLSU','Malate, Manila','1234','OCCS THE BEST THERE IS','default.jpg',NULL,NULL);
 /*!40000 ALTER TABLE `company` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +235,6 @@ DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `feedback` (
   `feedback_id` varchar(16) NOT NULL,
-  `job_id` varchar(16) NOT NULL,
   `company_id` varchar(16) NOT NULL,
   `applicant_id` varchar(16) NOT NULL,
   `notes` varchar(150) DEFAULT NULL,
@@ -282,7 +249,6 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES ('1','10001','10001','10003','None',0),('2','10001','10001','10003','None',0);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -302,7 +268,6 @@ CREATE TABLE `joblisting` (
   `work_experience` varchar(300) NOT NULL,
   `salary` float DEFAULT NULL,
   `work_hours` varchar(150) NOT NULL,
-  `total_slots` int(11) NOT NULL,
   `slots_available` int(11) NOT NULL,
   `skill_tag` varchar(300) DEFAULT NULL,
   `course_tag` varchar(300) DEFAULT NULL,
@@ -318,7 +283,6 @@ CREATE TABLE `joblisting` (
 
 LOCK TABLES `joblisting` WRITE;
 /*!40000 ALTER TABLE `joblisting` DISABLE KEYS */;
-INSERT INTO `joblisting` VALUES ('10001','10001','Lead Developer','Blah blah','Malate, Manila','4',10000,'8',8,3,'Knowledgable in almost all programming languages, Can lead a team, Hardworking','Computer Science, Computer Engineering, Information Techonology','jlpdf_10001.pdf'),('10002','10002','Analyst','Excellent at creating UI\'s error free, and can code in PHP not only in JS','BGC, Makati','2',80000,'8',5,2,'Knowledgable in PHP, Java, CSS, bootstrap','Computer Science, Information Technology','jlpdf_10002.pdf'),('10003','10003','UI/UX Engineer','Good at creating UX/UI for any software/mobile application','Ortigas','3',90000,'8',2,2,'Knows how to code in any language, Skills in photoshop is a plus','Computer Science, Animation, Any certification','jlpdf_10003.pdf');
 /*!40000 ALTER TABLE `joblisting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,7 +299,7 @@ CREATE TABLE `skill` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`skill_id`),
   UNIQUE KEY `skill_id_UNIQUE` (`skill_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,7 +326,7 @@ CREATE TABLE `work_experience` (
   `company_name` varchar(150) NOT NULL,
   PRIMARY KEY (`work_experience_id`),
   UNIQUE KEY `work_experience_id_UNIQUE` (`work_experience_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10007 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -371,33 +335,7 @@ CREATE TABLE `work_experience` (
 
 LOCK TABLES `work_experience` WRITE;
 /*!40000 ALTER TABLE `work_experience` DISABLE KEYS */;
-INSERT INTO `work_experience` VALUES (10001,'10001','Software Engineer','5','Smart Communications Inc.'),(10002,'10001','Product Tester','2','Globe '),(10003,'10002','Developer','3','ITS-DLSU'),(10004,'10002','UI/UX Engineer','4','Amazon'),(10005,'10003','Java Developer','3','Facebook'),(10006,'10003','UI Designer','1','Google');
 /*!40000 ALTER TABLE `work_experience` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `workexpjoblisting`
---
-
-DROP TABLE IF EXISTS `workexpjoblisting`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `workexpjoblisting` (
-  `work_experience_id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_id` int(11) NOT NULL,
-  `title` varchar(150) NOT NULL,
-  `years` int(11) NOT NULL,
-  PRIMARY KEY (`work_experience_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `workexpjoblisting`
---
-
-LOCK TABLES `workexpjoblisting` WRITE;
-/*!40000 ALTER TABLE `workexpjoblisting` DISABLE KEYS */;
-/*!40000 ALTER TABLE `workexpjoblisting` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -409,4 +347,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-20 16:21:51
+-- Dump completed on 2015-04-10 22:37:37

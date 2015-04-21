@@ -77,6 +77,7 @@
             {
               $_SESSION["account_id"] = $account->get_accid();
               $_SESSION['logintype_purpose'] = null;
+              if(isActive($_SESSION["account_id"] )){
               if(isSuperAdmin($account->get_accid()))
               {
                 header("Location: superAdminHomePage.php");
@@ -88,8 +89,10 @@
                 header("Location: adminHomePage.php");
                 $_SESSION["super"] = false;
               }
+            } else {
+               $reply = " Either account does not exist, is not an admin, or is deactivated<br><br>";
+               session_destroy(); }
 
-              exit;
             } else 
             {
                 $reply = " Either account does not exist, is not an admin, or is deactivated<br><br>";

@@ -61,12 +61,11 @@
 <script>
 
     function hireReject(index, aonid, aid, jid, hr){
-    			alert(index + " " + aid + " " + jid + " " + hr + " " + aonid);
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function(){
                     if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
                             var i = index+"_result";
-                    		$( "#"+i ).remove();
+                    		$( "#"+i).remove();
                     }
                 }
 
