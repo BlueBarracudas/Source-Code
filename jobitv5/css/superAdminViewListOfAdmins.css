@@ -1,0 +1,46 @@
+.admin-row{
+    border: 2px solid black;
+    margin: 3px 0px;
+    height: 30%;
+    padding: 15px;
+}
+
+#adminListPanelTitle{
+    background-color: rgb(255,82,0);
+    background-image: none;
+}
+
+#adminListHeader{
+    color: white;
+}
+
+/*#deactivate1{
+	display: none;
+}*/
+
+#activate1{
+	display: inline;
+}
+
+#deactivate1{
+    display: none;
+}
+
+#activate2{
+    display: none;
+}
+
+#deactivate2{
+    display: inline;
+}
+    
+p{
+    display: inline-block;
+}
+
+
+/*.btn{
+		margin-top: 8px;
+		margin-bottom: 8px;
+}*/
+

@@ -1,0 +1,42 @@
+.navbar-custom{
+			background-color: rgb(231,231,231);
+			color: black;
+		}
+		.navbar-custom li a{
+			color: black;
+		}
+		.nav li a:hover {
+		    background-color: rgba(100, 100, 100, 0.5) !important; /*Changinh values will make this not work :(*/
+			color: white;
+		}
+        
+		.active > a {
+            background-color: rgb(108,122,137) !important;
+            color: white !important;
+        }
+        
+		.navbar-brand:hover{
+			color: white;
+		}
+		.posfixed{
+			position: fixed;
+			bottom:1px;
+			right: 1px;
+		}
+		#snoop{
+			display: none;
+		}
+		.navbar-brand{
+			font-size: 26px !important;
+			color: white;
+		}
+
+		#dropdownComponent:hover {
+				 background-color: rgb(108,122,137) !important;
+		}
+
+		#dropdownComponent:focus{
+			    background-color: none;
+		}
+
+		@import url("//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-glyphicons.css");

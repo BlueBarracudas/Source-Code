@@ -1,0 +1,123 @@
+#mainContainer{
+	margin-top: 10px;
+	/*background-color: red;*/
+
+	
+}
+
+#companyProfilePicImg{
+	width: 200px;
+	height: 200px;
+	border-width: 1px;
+	border-style: solid;
+	margin-bottom: 10px;
+
+
+}
+
+
+#uploadCompanyLogoButtonDiv{
+	margin: auto;
+     
+	/*background-color: blue;*/
+
+padding-left: 12%;
+}
+
+#uploadCompanyLogoButton{
+margin-left: auto;
+width: 150px;
+
+}
+
+#companySetupProfileForm{
+
+	padding-top: 55px;
+}
+
+#companyLogoFile{
+	display: none;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: auto;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+
+#companySetupProfileForm_Description{
+	margin-top: 20px;
+}
+
+
+    
+#setupElements{
+	text-align: center;
+        width: 55%;
+	padding-top: 4%;
+
+    
+    
+}
+    
+
+#buttonGroup{
+
+text-align: center;
+    padding-left: 20%;
+}
+
+#buttonGroup button{
+	margin: 5px 10px;
+
+}
+
+.form-horizontal .control-label{
+/* text-align:right; */
+text-align:left;
+}
+
+
+#temp{
+	/*background-color: green;*/
+}
+
+#profilePicCol{
+	margin-top: 30px;
+	/*background-color: red;*/
+
+	
+}
+
+#companySetupProfileForm{
+	/*background-color: blue;*/
+	margin: 0px;
+	/*padding-right:  20px;*/
+}
+
+.wrapper{
+	/*width: 1140px;*/
+	/*background-color: blue;*/
+	margin: 0 auto;
+}
+
+#uploadCompanyLogoButtonDiv{
+	margin-bottom: 10px;
+        width: 150px;
+	margin-right: auto;
+}

@@ -1,0 +1,51 @@
+body{
+	/*background-color: blue !important;*/
+	height: 100%;
+	width: 100%;
+}
+
+#buttonGroup{
+padding-right: 10%;
+}
+
+#buttonGroup button{
+    margin: 0px 10px;
+    width: 100px;
+	/*width: 200px;*/
+}
+
+#companyRegisterContainer{
+padding-top: 7%;
+}
+
+#companyReginstrationPanelTitle {
+    background-image: none !important;
+    color: white;
+    background-color: #ff5200 !important;
+}
+
+.formBoxBorder{
+	border-width: 2px;
+	border-style: solid;
+/*	border-radius: 10px;*/
+	text-align: center;
+	padding-top: 12px;
+	/*background-color: red;*/
+}
+
+#mainContainer{
+	/*background-color: red;*/
+	margin-top: 100px;
+
+}
+
+.form-group {
+	text-align: left;
+}
+
+.form-horizontal .control-label{
+/* text-align:right; */
+text-align:left;
+}
+
+

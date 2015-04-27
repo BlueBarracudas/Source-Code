@@ -1,0 +1,62 @@
+.container{
+	/*background-color: blue;*/
+	margin: 0 auto;
+}
+
+#loginPanel{
+	/*background-color: red;*/
+	/*width: 490px;*/
+}
+
+#row1{
+	border-radius: 0px !important;
+}
+
+/*.panel-heading{
+	background-color: rgb(255,82,0) !important;
+}*/
+
+/*.panel-heading {background-color: red!important}*/
+
+#loginInnerContainer{
+/*background-color: red;*/
+/*margin: 0 auto;*/
+}
+
+
+
+.panel-default>.panel-heading{
+	background-color: rgb(255,82,0) !important;
+	background-image: none !important; 
+	background-color: rgb(255,82,0) !important;
+}
+
+.panel-default>.panel-heading>.panel-title{
+	color:white;
+}
+
+.panel-default{
+	border-color: grey !important;
+}
+
+#forgotPassword, #dontHaveAnAccountYet{
+	vertical-align: middle !important;
+}
+
+#pop{
+	/*background-color: red !important;*/
+
+}
+
+.loginElements{
+	text-align: center;
+}
+
+#loginBtnRow button{
+	width: 150px;
+}
+
+.panel-body{
+	padding: 20px !important;
+
+}
